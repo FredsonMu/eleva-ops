@@ -1,0 +1,323 @@
+'use client';
+import { motion, AnimatePresence } from 'motion/react';
+import Image from 'next/image';
+import { Play, Pause, X, MousePointer2, RotateCcw } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n';
+import { useRef, useState } from 'react';
+
+interface Project {
+  id: string;
+  title: string;
+  category: string;
+  tag?: string;
+  img: string;
+  video?: string;
+  link?: string;
+}
+
+function ProjectCard({ 
+  p, 
+  i, 
+  isHovered, 
+  setIsHovered, 
+  isAnyHovered 
+}: { 
+  p: Project; 
+  i: number; 
+  isHovered: boolean;
+  setIsHovered: (h: boolean) => void;
+  isAnyHovered: boolean;
+}) {
+  const { t } = useLanguage();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasPlayed, setHasPlayed] = useState(false);
+  const [isInteracting, setIsInteracting] = useState(false);
+
+  const togglePlay = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        setHasPlayed(true);
+        videoRef.current.play().catch(err => console.log("Video play interrupted", err));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const restartVideo = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(err => console.log(err));
+      setIsPlaying(true);
+      setHasPlayed(true);
+    }
+  };
+
+  const startInteraction = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsInteracting(true);
+  };
+
+  const stopInteraction = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsInteracting(false);
+  };
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 1.2, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+      className={`group cursor-pointer ${i === 0 ? 'md:col-span-2 hidden md:block' : ''} ${
+        isAnyHovered && !isHovered ? 'opacity-40 blur-[2px]' : 'opacity-100 blur-0'
+      } transition-all duration-700 ease-out`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <motion.div 
+        whileHover={{ y: -10 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        className={`relative overflow-hidden rounded-[2.5rem] bg-black/5 cursor-pointer shadow-sm hover:shadow-2xl transition-shadow duration-700 ${
+          i === 0 
+            ? 'aspect-video md:aspect-[16/10]' 
+            : 'aspect-video'
+        }`}
+        onClick={p.video ? togglePlay : (p.link && i === 0 && !isInteracting ? startInteraction : undefined)}
+      >
+        {/* Interactive Iframe for Project 01 on Desktop */}
+        {i === 0 && p.link ? (
+          <>
+            <div className="hidden md:block w-full h-full relative group/iframe">
+              <iframe 
+                src={p.link} 
+                className={`w-full h-full border-none transition-all duration-1000 ${isInteracting ? 'opacity-100 pointer-events-auto scale-100' : 'opacity-30 pointer-events-none scale-105'}`}
+                title={p.title}
+              />
+              
+              <AnimatePresence>
+                {!isInteracting ? (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 flex flex-col items-center justify-center bg-black/5 group-hover:bg-black/10 transition-colors duration-500"
+                    onClick={startInteraction}
+                  >
+                    <motion.div
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="bg-white text-black px-10 py-5 rounded-full text-sm font-bold shadow-2xl flex items-center gap-3"
+                    >
+                      <MousePointer2 size={18} />
+                      {t('proj.explore' as any)}
+                    </motion.div>
+                    <p className="text-white/60 text-xs mt-6 uppercase tracking-widest font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      Click to activate website
+                    </p>
+                  </motion.div>
+                ) : (
+                  <motion.button
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    onClick={stopInteraction}
+                    className="absolute top-8 right-8 z-50 bg-black/80 backdrop-blur-xl text-white p-4 rounded-full hover:bg-white hover:text-black transition-all duration-300 shadow-2xl"
+                  >
+                    <X size={24} />
+                  </motion.button>
+                )}
+              </AnimatePresence>
+            </div>
+            
+            {/* Mobile/Fallback view for Project 01 */}
+            <div className="md:hidden w-full h-full">
+              <Image 
+                src={p.img} 
+                fill 
+                className="object-cover transition-all duration-1000" 
+                alt={p.title} 
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            {p.video ? (
+              <video 
+                ref={videoRef}
+                src={`${p.video}#t=0.001`}
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <Image 
+                src={p.img} 
+                fill 
+                className="object-cover transition-all duration-1000" 
+                alt={p.title} 
+                referrerPolicy="no-referrer"
+              />
+            )}
+            
+            {/* Play Button for Videos (Only shows when paused) */}
+            <AnimatePresence>
+              {p.video && !isPlaying && (
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 flex items-center justify-center transition-all duration-500 bg-black/20"
+                >
+                  <motion.button 
+                    whileHover={{ scale: 1.15, rotate: 5 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={togglePlay}
+                    className="w-24 h-24 rounded-full bg-white/95 backdrop-blur-2xl flex items-center justify-center shadow-2xl transition-all duration-300"
+                  >
+                    <Play size={36} fill="black" className="text-black ml-2" />
+                  </motion.button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            
+            {/* Minimal Restart Button */}
+            <AnimatePresence>
+              {p.video && hasPlayed && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  whileHover={{ scale: 1.1, rotate: -15 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={restartVideo}
+                  className={`absolute bottom-6 right-6 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 z-10 ${isPlaying ? 'bg-black/30 backdrop-blur-md text-white hover:bg-white hover:text-black' : 'bg-white/90 text-black hover:bg-black hover:text-white'}`}
+                  title="Reiniciar Vídeo"
+                >
+                  <RotateCcw size={16} strokeWidth={2.5} />
+                </motion.button>
+              )}
+            </AnimatePresence>
+          </>
+        )}
+      </motion.div>
+      
+      <div className="pt-10 flex flex-col md:flex-row md:justify-between md:items-start gap-6">
+        <div>
+          <motion.h3 
+            className="text-3xl md:text-4xl font-sans font-medium tracking-tight text-black mb-3"
+            animate={{ x: isHovered ? 10 : 0 }}
+            transition={{ type: "spring", stiffness: 100 }}
+          >
+            {p.title}
+          </motion.h3>
+          <div className="flex items-center gap-3">
+            <span className="w-8 h-[1px] bg-black/20" />
+            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-[#888888]">
+              {p.id} — {p.category}
+            </span>
+          </div>
+        </div>
+        {p.tag && (
+          <span className="px-5 py-2 rounded-full border border-black/5 text-[10px] font-bold uppercase tracking-widest text-black/40">
+            {p.tag}
+          </span>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+export function Projects() {
+  const { t } = useLanguage();
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const projects: Project[] = [
+    { 
+      id: "01", 
+      title: t('proj.1.title' as any), 
+      category: t('proj.1.cat' as any), 
+      tag: t('proj.1.tag' as any),
+      img: "https://picsum.photos/seed/Botanica/1600/1200",
+      link: "https://botanica-tau.vercel.app/",
+    },
+    { 
+      id: "02", 
+      title: t('proj.2.title' as any), 
+      category: t('proj.2.cat' as any), 
+      video: "/video/ec_group.mp4",
+      img: "", 
+    },
+    { 
+      id: "03", 
+      title: t('proj.3.title' as any), 
+      category: t('proj.3.cat' as any), 
+      video: "/video/casa_norte.mp4",
+      img: "", 
+    },
+  ];
+
+  return (
+    <section id="trabalho" className="py-32 md:py-52 bg-[#FAFAFA] overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+        <header className="flex flex-col md:flex-row justify-between items-end mb-24 md:mb-40 gap-12">
+          <div className="max-w-2xl">
+            <motion.span 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="text-xs font-bold uppercase tracking-[0.4em] text-black/30 mb-8 block"
+            >
+              {t('proj.label' as any)}
+            </motion.span>
+            <h2 className="font-sans text-5xl md:text-8xl font-medium tracking-tight text-[#111111] leading-[0.9] mb-10">
+              {t('proj.title1' as any)} <br />
+              <span className="text-black/20 pr-4">{t('proj.title2' as any)}</span>
+            </h2>
+            <p className="text-xl md:text-2xl text-[#666666] leading-relaxed max-w-xl font-light">
+              {t('proj.subtitle' as any)}
+            </p>
+          </div>
+          
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            className="hidden md:flex flex-col items-center gap-4"
+          >
+            <div className="w-16 h-16 rounded-full border border-black/10 flex items-center justify-center animate-bounce">
+              <div className="w-[1px] h-8 bg-black/20" />
+            </div>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-black/20 vertical-text">Scroll</span>
+          </motion.div>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-32">
+          {projects.map((p, i) => (
+            <ProjectCard 
+              key={p.id} 
+              p={p} 
+              i={i} 
+              isHovered={hoveredIndex === i}
+              setIsHovered={(h) => setHoveredIndex(h ? i : null)}
+              isAnyHovered={hoveredIndex !== null}
+            />
+          ))}
+        </div>
+      </div>
+      
+      <style jsx>{`
+        .vertical-text {
+          writing-mode: vertical-rl;
+        }
+      `}</style>
+    </section>
+  );
+}
