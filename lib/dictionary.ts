@@ -134,5 +134,5 @@ export const dict = {
   'footer.contact': { pt: 'Contacte-nos', en: 'Contact us' },
   'footer.avail': { pt: 'Agência Disponível', en: 'Agency Available' },
   'footer.desc': { pt: 'Aceitamos apenas um número restrito de projetos por mês para garantir o mais alto nível qualitativo e foco.', en: 'We accept only a limited number of projects per month to guarantee the highest level of detail and focus.' },
-  'footer.rights': { pt: '2026 © ELEVA Studio. Todos os Direitos Reservados.', en: '2026 © ELEVA Studio. All Rights Reserved.' },
+  'footer.rights': { pt: '2026 © ELEVA Ops. Todos os Direitos Reservados.', en: '2026 © ELEVA Ops. All Rights Reserved.' },
 } as const;

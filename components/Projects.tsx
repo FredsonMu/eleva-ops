@@ -19,14 +19,12 @@ function ProjectCard({
   p, 
   i, 
   isHovered, 
-  setIsHovered, 
-  isAnyHovered 
+  setIsHovered 
 }: { 
   p: Project; 
   i: number; 
   isHovered: boolean;
   setIsHovered: (h: boolean) => void;
-  isAnyHovered: boolean;
 }) {
   const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -73,9 +71,7 @@ function ProjectCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 1.2, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
-      className={`group cursor-pointer ${i === 0 ? 'md:col-span-2 hidden md:block' : ''} ${
-        isAnyHovered && !isHovered ? 'opacity-40 blur-[2px]' : 'opacity-100 blur-0'
-      } transition-all duration-700 ease-out`}
+      className={`group cursor-pointer ${i === 0 ? 'md:col-span-2 hidden md:block' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -307,7 +303,6 @@ export function Projects() {
               i={i} 
               isHovered={hoveredIndex === i}
               setIsHovered={(h) => setHoveredIndex(h ? i : null)}
-              isAnyHovered={hoveredIndex !== null}
             />
           ))}
         </div>

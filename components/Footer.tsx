@@ -31,7 +31,7 @@ export function Footer() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 py-8 border-t border-black/10 items-end">
           <div className="flex flex-col gap-6">
-            <span className="font-bold text-2xl tracking-tighter">ELEVA STUDIO.</span>
+            <span className="font-bold text-2xl tracking-tighter">ELEVA OPS.</span>
             <p className="text-xs text-[#666666] max-w-xs">
               {t('footer.desc')}
             </p>
