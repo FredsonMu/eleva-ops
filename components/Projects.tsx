@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
 import { Play, Pause, X, MousePointer2, RotateCcw } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 
 interface Project {
   id: string;
@@ -19,12 +19,18 @@ function ProjectCard({
   p, 
   i, 
   isHovered, 
-  setIsHovered 
+  setIsHovered,
+  isActiveVideo,
+  onVideoPlay,
+  onVideoStop 
 }: { 
   p: Project; 
   i: number; 
   isHovered: boolean;
   setIsHovered: (h: boolean) => void;
+  isActiveVideo: boolean;
+  onVideoPlay: (id: string) => void;
+  onVideoStop: (id: string) => void;
 }) {
   const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -32,13 +38,23 @@ function ProjectCard({
   const [hasPlayed, setHasPlayed] = useState(false);
   const [isInteracting, setIsInteracting] = useState(false);
 
+  // Pause this video when another video becomes active
+  useEffect(() => {
+    if (!isActiveVideo && isPlaying && videoRef.current) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [isActiveVideo]);
+
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
+        onVideoStop(p.id);
       } else {
         setHasPlayed(true);
+        onVideoPlay(p.id);
         videoRef.current.play().catch(err => console.log("Video play interrupted", err));
       }
       setIsPlaying(!isPlaying);
@@ -49,6 +65,7 @@ function ProjectCard({
     e.stopPropagation();
     if (videoRef.current) {
       videoRef.current.currentTime = 0;
+      onVideoPlay(p.id);
       videoRef.current.play().catch(err => console.log(err));
       setIsPlaying(true);
       setHasPlayed(true);
@@ -236,6 +253,15 @@ function ProjectCard({
 export function Projects() {
   const { t } = useLanguage();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
+
+  const handleVideoPlay = useCallback((id: string) => {
+    setActiveVideoId(id);
+  }, []);
+
+  const handleVideoStop = useCallback((id: string) => {
+    setActiveVideoId(prev => prev === id ? null : prev);
+  }, []);
 
   const projects: Project[] = [
     { 
@@ -303,6 +329,9 @@ export function Projects() {
               i={i} 
               isHovered={hoveredIndex === i}
               setIsHovered={(h) => setHoveredIndex(h ? i : null)}
+              isActiveVideo={activeVideoId === p.id}
+              onVideoPlay={handleVideoPlay}
+              onVideoStop={handleVideoStop}
             />
           ))}
         </div>
