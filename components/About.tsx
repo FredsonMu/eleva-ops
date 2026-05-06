@@ -26,7 +26,7 @@ export function About() {
             <p className="font-sans text-base md:text-lg text-[#666666] leading-relaxed">
               {t('about.p2')}
             </p>
-            
+
             <div className="grid grid-cols-2 gap-y-8 gap-x-4 pt-8 border-t border-black/5 mt-4">
               {[
                 { n: t('about.vision'), t: t('about.editorial'), icon: <Eye className="w-5 h-5 text-[#007AFF] mb-2" strokeWidth={1.5} /> },
@@ -44,18 +44,18 @@ export function About() {
           </div>
 
           <div className="relative">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true }}
               className="relative aspect-square md:aspect-[4/5] overflow-hidden rounded-3xl bg-[#f5f5f7] shadow-2xl shadow-black/5"
             >
-              <Image 
-                src="/seccao imagem.png" 
-                fill 
-                className="object-cover opacity-90" 
-                alt="Minimalist Architecture" 
+              <Image
+                src="/seccao imagem.jpeg"
+                fill
+                className="object-cover opacity-90"
+                alt="Minimalist Architecture"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent mix-blend-overlay"></div>
             </motion.div>

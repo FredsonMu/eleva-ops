@@ -6,7 +6,7 @@ import { useLanguage } from '@/lib/i18n';
 
 export function Origin() {
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
@@ -20,7 +20,7 @@ export function Origin() {
         <div className="flex flex-col items-center text-center mb-24 md:mb-40">
           <span className="font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-black/40 block mb-6">{t('origin.label')}</span>
           <h2 className="font-sans text-[clamp(2.5rem,7vw,7rem)] font-medium tracking-tight leading-[0.9] text-[#111111] text-balance">
-            {t('origin.title1')} <br className="hidden md:block"/>
+            {t('origin.title1')} <br className="hidden md:block" />
             <span className="text-black/30">{t('origin.title2')}</span>
           </h2>
         </div>
@@ -30,25 +30,25 @@ export function Origin() {
             <h3 className="text-3xl md:text-4xl lg:text-5xl font-sans font-medium tracking-tight text-[#111111] leading-[1.05] text-balance">
               {t('origin.hero')}
             </h3>
-            
+
             <p className="text-lg md:text-xl text-[#666666] leading-relaxed font-light">
               {t('origin.p1')}
             </p>
-            
+
             <div className="mt-4 relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-black/5">
-               <motion.div style={{ y: imgY }} className="absolute inset-[-15%] w-[130%] h-[130%]">
-                 <Image src="/imagem manifesto.png" fill className="object-cover opacity-[0.85] transition-transform duration-1000 saturate-50 hover:saturate-100" alt="Manifesto" />
-               </motion.div>
+              <motion.div style={{ y: imgY }} className="absolute inset-[-15%] w-[130%] h-[130%]">
+                <Image src="/imagem manifesto.jpeg" fill className="object-cover opacity-[0.85] transition-transform duration-1000 saturate-50 hover:saturate-100" alt="Manifesto" />
+              </motion.div>
             </div>
           </div>
 
           <div className="lg:col-span-7 flex flex-col gap-8 md:gap-12 lg:pt-32">
-            <motion.div 
-               initial={{ opacity: 0, y: 30 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true, margin: "-100px" }}
-               transition={{ duration: 0.8 }}
-               className="bg-white p-10 md:p-16 rounded-[2rem] md:rounded-[3rem] shadow-[0_2px_40px_rgba(0,0,0,0.02)] border border-black/[0.02]"
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8 }}
+              className="bg-white p-10 md:p-16 rounded-[2rem] md:rounded-[3rem] shadow-[0_2px_40px_rgba(0,0,0,0.02)] border border-black/[0.02]"
             >
               <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#007AFF] mb-6 block">{t('origin.o1.label')}</h4>
               <p className="text-xl md:text-3xl font-medium text-[#111111] mb-6 leading-tight">
@@ -59,12 +59,12 @@ export function Origin() {
               </p>
             </motion.div>
 
-            <motion.div 
-               initial={{ opacity: 0, y: 30 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true, margin: "-100px" }}
-               transition={{ duration: 0.8, delay: 0.1 }}
-               className="bg-white p-10 md:p-16 rounded-[2rem] md:rounded-[3rem] shadow-[0_2px_40px_rgba(0,0,0,0.02)] border border-black/[0.02]"
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="bg-white p-10 md:p-16 rounded-[2rem] md:rounded-[3rem] shadow-[0_2px_40px_rgba(0,0,0,0.02)] border border-black/[0.02]"
             >
               <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#007AFF] mb-6 block">{t('origin.o2.label')}</h4>
               <p className="text-xl md:text-3xl font-medium text-[#111111] mb-6 leading-tight">
@@ -78,12 +78,12 @@ export function Origin() {
           </div>
         </div>
 
-        <motion.div 
-           initial={{ opacity: 0, y: 40 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true, margin: "-100px" }}
-           transition={{ duration: 0.8 }}
-           className="w-full mt-12 md:mt-24 bg-[#111111] text-white p-10 md:p-16 lg:p-20 rounded-[2.5rem] md:rounded-[3rem] shadow-2xl flex flex-col lg:flex-row justify-between gap-12 lg:gap-16 relative overflow-hidden group border border-white/5"
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="w-full mt-12 md:mt-24 bg-[#111111] text-white p-10 md:p-16 lg:p-20 rounded-[2.5rem] md:rounded-[3rem] shadow-2xl flex flex-col lg:flex-row justify-between gap-12 lg:gap-16 relative overflow-hidden group border border-white/5"
         >
           {/* Decorative Background */}
           <div className="absolute top-1/2 right-0 -translate-y-1/2 w-full max-w-[600px] h-full bg-gradient-to-l from-[#007AFF]/20 to-transparent blur-[100px] rounded-full pointer-events-none opacity-40 group-hover:opacity-80 transition-opacity duration-1000"></div>
@@ -94,23 +94,23 @@ export function Origin() {
               {t('origin.o3.title')}
             </p>
           </div>
-          
+
           <div className="hidden lg:block w-px bg-gradient-to-b from-white/0 via-white/10 to-white/0 relative z-10"></div>
-          
+
           <div className="lg:w-6/12 relative z-10 flex flex-col justify-center border-t border-white/10 lg:border-none pt-10 lg:pt-0">
             <p className="text-3xl md:text-5xl font-sans font-medium text-white leading-tight tracking-tight mb-8">
-              {t('origin.o3.b1')}<span className="text-white/40">{t('origin.o3.b2')}</span><br/>
-              {t('origin.o3.b1')}<span className="text-white/40">{t('origin.o3.b3')}</span><br/>
+              {t('origin.o3.b1')}<span className="text-white/40">{t('origin.o3.b2')}</span><br />
+              {t('origin.o3.b1')}<span className="text-white/40">{t('origin.o3.b3')}</span><br />
               {t('origin.o3.b1')}<span className="text-[#007AFF]">{t('origin.o3.b4')}</span>
             </p>
             <p className="text-base md:text-lg text-white/50 leading-relaxed font-light mt-auto">
-               {t('origin.o3.desc')}
+              {t('origin.o3.desc')}
             </p>
           </div>
         </motion.div>
 
         {/* Footer Conclusion */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -119,7 +119,7 @@ export function Origin() {
         >
           <div className="w-px h-20 md:h-32 bg-gradient-to-b from-transparent to-black/20 mb-12"></div>
           <h2 className="text-3xl md:text-[clamp(3.5rem,6vw,6rem)] font-sans font-medium tracking-tight leading-[0.9] text-[#111111] text-balance mb-10 max-w-4xl">
-            {t('origin.footer.t1')}<br className="hidden md:block"/>
+            {t('origin.footer.t1')}<br className="hidden md:block" />
             <span className="text-black/30">{t('origin.footer.t2')}</span>
           </h2>
           <p className="text-[10px] md:text-xs text-[#007AFF] uppercase tracking-[0.4em] font-bold text-balance bg-[#007AFF]/[0.05] border border-[#007AFF]/10 px-6 py-3 rounded-full">
