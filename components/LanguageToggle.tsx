@@ -2,15 +2,19 @@
 
 import { useLanguage } from '@/lib/i18n';
 import { motion, AnimatePresence } from 'motion/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export function LanguageToggle() {
   const { language, toggleLanguage } = useLanguage();
   const [isTransitioning, setIsTransitioning] = useState(false);
+  // Capture the target language at transition start so the overlay text
+  // doesn't flip when the reactive `language` state changes mid-animation.
+  const targetLangRef = useRef<'pt' | 'en' | null>(null);
 
   // We want to block interactions and show a cool overlay while translating
   const handleToggle = () => {
     if (isTransitioning) return;
+    targetLangRef.current = language === 'pt' ? 'en' : 'pt';
     setIsTransitioning(true);
     
     // Switch language in the middle of the transition
@@ -20,6 +24,7 @@ export function LanguageToggle() {
 
     setTimeout(() => {
       setIsTransitioning(false);
+      targetLangRef.current = null;
     }, 1800); // Overlay goes away after 1.8s
   };
 
@@ -81,7 +86,7 @@ export function LanguageToggle() {
                  >
                     <div className="w-12 h-12 rounded-full border border-white/20 border-t-white animate-spin"></div>
                     <span className="text-white font-sans text-xl font-medium tracking-tight">
-                       {language === 'pt' ? 'Translating to English...' : 'Traduzindo para Português...'}
+                       {targetLangRef.current === 'en' ? 'Translating to English...' : 'Traduzindo para Português...'}
                     </span>
                  </motion.div>
               </div>
