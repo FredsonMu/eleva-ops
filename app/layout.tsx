@@ -27,22 +27,55 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://elevaops.com';
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://elevaops.com').replace(/\/$/, '');
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${siteUrl}/#organization`,
+    name: 'ElevaOps',
+    alternateName: ['Eleva Ops', 'ElevaOps Soluções Digitais'],
+    url: siteUrl,
+    logo: `${siteUrl}/icone-eleva.png`,
+    email: 'elevaopsinfo@gmail.com',
+    description:
+      'A ElevaOps cria soluções digitais à medida para empresas: websites profissionais, plataformas internas, automações e ferramentas com IA.',
+    areaServed: ['Portugal', 'Global'],
+    sameAs: ['https://github.com/FredsonMu/eleva-ops'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${siteUrl}/#website`,
+    name: 'ElevaOps',
+    alternateName: 'Eleva Ops',
+    url: siteUrl,
+    publisher: {
+      '@id': `${siteUrl}/#organization`,
+    },
+    inLanguage: ['pt-PT', 'en'],
+  },
+];
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Eleva Ops | Soluções Digitais à Medida',
-    template: '%s | Eleva Ops',
+    default: 'ElevaOps | Eleva Ops - Soluções Digitais à Medida',
+    template: '%s | ElevaOps',
   },
-  description: 'Criamos soluções digitais à medida para empresas que querem trabalhar melhor — websites, plataformas internas, automações e ferramentas com IA.',
-  applicationName: 'Eleva Ops',
-  authors: [{ name: 'Eleva Ops' }],
-  creator: 'Eleva Ops',
-  publisher: 'Eleva Ops',
+  description: 'ElevaOps cria soluções digitais à medida para empresas que querem trabalhar melhor: websites, plataformas internas, automações e ferramentas com IA.',
+  applicationName: 'ElevaOps',
+  authors: [{ name: 'ElevaOps' }],
+  creator: 'ElevaOps',
+  publisher: 'ElevaOps',
   category: 'Technology',
   keywords: [
+    'ElevaOps',
     'Eleva Ops',
+    'ElevaOps Portugal',
+    'Eleva Ops Portugal',
     'soluções digitais à medida',
     'websites profissionais',
     'plataformas internas',
@@ -51,6 +84,13 @@ export const metadata: Metadata = {
     'desenvolvimento web',
     'sistemas personalizados',
   ],
+  ...(googleSiteVerification
+    ? {
+        verification: {
+          google: googleSiteVerification,
+        },
+      }
+    : {}),
   alternates: {
     canonical: '/',
   },
@@ -79,8 +119,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'pt_PT',
     url: '/',
-    siteName: 'Eleva Ops',
-    title: 'Eleva Ops | Soluções Digitais à Medida',
+    siteName: 'ElevaOps',
+    title: 'ElevaOps | Eleva Ops - Soluções Digitais à Medida',
     description: 'Soluções digitais personalizadas para empresas que querem organizar, automatizar e modernizar processos.',
     images: [
       {
@@ -93,7 +133,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
-    title: 'Eleva Ops | Soluções Digitais à Medida',
+    title: 'ElevaOps | Eleva Ops - Soluções Digitais à Medida',
     description: 'Websites, plataformas internas, automações e ferramentas com IA para empresas que querem trabalhar melhor.',
     images: ['/icone-eleva.png'],
   },
@@ -103,6 +143,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt" className={`${inter.variable} ${playfair.variable} ${outfit.variable} ${jetbrainsMono.variable}`}>
       <body className="font-sans antialiased text-ink bg-paper" suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <LanguageProvider>
           {children}
         </LanguageProvider>

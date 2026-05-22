@@ -1,0 +1,35 @@
+<svg width="520" height="420" viewBox="0 0 520 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M106 304H414" stroke="white" stroke-opacity="0.16" stroke-width="3"/>
+    <path d="M174 134C174 123.507 182.507 115 193 115H326C336.493 115 345 123.507 345 134V233H174V134Z" stroke="white" stroke-width="8"/>
+    <path d="M151 269L174 233H345L369 269H151Z" stroke="white" stroke-width="8"/>
+    <path d="M219 250H300" stroke="white" stroke-opacity="0.72" stroke-width="7"/>
+    <path d="M220 144H300" stroke="white" stroke-opacity="0.38" stroke-width="6"/>
+    <path d="M220 166H272" stroke="white" stroke-opacity="0.26" stroke-width="6"/>
+    <rect x="214" y="185" width="48" height="29" rx="8" stroke="white" stroke-opacity="0.64" stroke-width="7"/>
+    <path d="M292 184L320 199L294 214L292 184Z" stroke="white" stroke-opacity="0.88" stroke-width="7"/>
+
+    <rect x="357" y="98" width="90" height="62" rx="14" stroke="white" stroke-opacity="0.82" stroke-width="7"/>
+    <path d="M376 119H392" stroke="white" stroke-opacity="0.36" stroke-width="7"/>
+    <path d="M409 119H426" stroke="white" stroke-opacity="0.36" stroke-width="7"/>
+    <path d="M376 141H413" stroke="white" stroke-opacity="0.36" stroke-width="7"/>
+    <path d="M421 141L432 128" stroke="#7AB8FF" stroke-width="7"/>
+    <path d="M412 135L421 141" stroke="#7AB8FF" stroke-width="7"/>
+
+    <rect x="98" y="245" width="66" height="48" rx="12" transform="rotate(-11 98 245)" stroke="white" stroke-opacity="0.72" stroke-width="7"/>
+    <path d="M118 262L137 272L151 253" stroke="#7AB8FF" stroke-width="7"/>
+    <path d="M118 280L151 274" stroke="white" stroke-opacity="0.28" stroke-width="6"/>
+
+    <path d="M380 238C397 230 421 239 428 260" stroke="white" stroke-opacity="0.42" stroke-width="7"/>
+    <path d="M381 247C392 242 409 249 414 264" stroke="white" stroke-opacity="0.7" stroke-width="7"/>
+    <path d="M391 269H437" stroke="white" stroke-opacity="0.82" stroke-width="7"/>
+    <path d="M399 269L405 303H426L434 269" stroke="white" stroke-opacity="0.82" stroke-width="7"/>
+
+    <path d="M142 105L164 83" stroke="#7AB8FF" stroke-width="8"/>
+    <path d="M164 83L185 105" stroke="#7AB8FF" stroke-width="8"/>
+    <path d="M164 84V151" stroke="#7AB8FF" stroke-width="8"/>
+    <path d="M87 171H131" stroke="white" stroke-opacity="0.42" stroke-width="7"/>
+    <path d="M103 190H131" stroke="white" stroke-opacity="0.28" stroke-width="7"/>
+    <path d="M373 315H417" stroke="white" stroke-opacity="0.42" stroke-width="7"/>
+  </g>
+</svg>

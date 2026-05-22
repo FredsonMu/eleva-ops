@@ -1,7 +1,7 @@
 {
-  "name": "Eleva Ops - Soluções Digitais à Medida",
-  "short_name": "Eleva Ops",
-  "description": "Soluções digitais à medida para empresas que querem trabalhar melhor.",
+  "name": "ElevaOps - Soluções Digitais à Medida",
+  "short_name": "ElevaOps",
+  "description": "ElevaOps cria soluções digitais à medida para empresas que querem trabalhar melhor.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

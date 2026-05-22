@@ -1,7 +1,6 @@
 'use client';
 import { motion, AnimatePresence } from 'motion/react';
-import Image from 'next/image';
-import { Play, Pause, X, MousePointer2, RotateCcw } from 'lucide-react';
+import { Play, RotateCcw } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { useRef, useState, useEffect, useCallback } from 'react';
 
@@ -10,9 +9,7 @@ interface Project {
   title: string;
   category: string;
   tag?: string;
-  img: string;
-  video?: string;
-  link?: string;
+  video: string;
 }
 
 function ProjectCard({ 
@@ -32,11 +29,9 @@ function ProjectCard({
   onVideoPlay: (id: string) => void;
   onVideoStop: (id: string) => void;
 }) {
-  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
-  const [isInteracting, setIsInteracting] = useState(false);
 
   // Pause this video when another video becomes active
   useEffect(() => {
@@ -44,7 +39,7 @@ function ProjectCard({
       videoRef.current.pause();
       setIsPlaying(false);
     }
-  }, [isActiveVideo]);
+  }, [isActiveVideo, isPlaying]);
 
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -72,156 +67,72 @@ function ProjectCard({
     }
   };
 
-  const startInteraction = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsInteracting(true);
-  };
-
-  const stopInteraction = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsInteracting(false);
-  };
-
   return (
     <motion.div 
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 1.2, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
-      className={`group cursor-pointer ${i === 0 ? 'md:col-span-2 hidden md:block' : ''}`}
+      className={`group cursor-pointer ${i === 0 ? 'md:col-span-2 lg:w-[calc((100%_-_8rem)/2)] lg:mx-auto' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div 
         whileHover={{ y: -10 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className={`relative overflow-hidden rounded-[2.5rem] bg-black/5 cursor-pointer shadow-sm hover:shadow-2xl transition-shadow duration-700 ${
-          i === 0 
-            ? 'aspect-video md:aspect-[16/10]' 
-            : 'aspect-video'
-        }`}
-        onClick={p.video ? togglePlay : (p.link && i === 0 && !isInteracting ? startInteraction : undefined)}
+        className="relative overflow-hidden rounded-[2.5rem] bg-black/5 cursor-pointer shadow-sm hover:shadow-2xl transition-shadow duration-700 aspect-video"
+        onClick={togglePlay}
       >
-        {/* Interactive Iframe for Project 01 on Desktop */}
-        {i === 0 && p.link ? (
-          <>
-            <div className="hidden md:block w-full h-full relative group/iframe">
-              <iframe 
-                src={p.link} 
-                className={`w-full h-full border-none transition-all duration-1000 ${isInteracting ? 'opacity-100 pointer-events-auto scale-100' : 'opacity-30 pointer-events-none scale-105'}`}
-                title={p.title}
-              />
-              
-              <AnimatePresence>
-                {!isInteracting ? (
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 flex flex-col items-center justify-center bg-black/5 group-hover:bg-black/10 transition-colors duration-500"
-                    onClick={startInteraction}
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="bg-white text-black px-10 py-5 rounded-full text-sm font-bold shadow-2xl flex items-center gap-3"
-                    >
-                      <MousePointer2 size={18} />
-                      {t('proj.explore' as any)}
-                    </motion.div>
-                    <p className="text-white/60 text-xs mt-6 uppercase tracking-widest font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      Click to activate website
-                    </p>
-                  </motion.div>
-                ) : (
-                  <motion.button
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    onClick={stopInteraction}
-                    className="absolute top-8 right-8 z-50 bg-black/80 backdrop-blur-xl text-white p-4 rounded-full hover:bg-white hover:text-black transition-all duration-300 shadow-2xl"
-                  >
-                    <X size={24} />
-                  </motion.button>
-                )}
-              </AnimatePresence>
-            </div>
+        <video 
+          ref={videoRef}
+          src={`${p.video}#t=0.001`}
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          className="w-full h-full object-cover"
+        />
             
-            {/* Mobile/Fallback view for Project 01 */}
-            <div className="md:hidden w-full h-full">
-              <Image 
-                src={p.img} 
-                fill 
-                className="object-cover transition-all duration-1000" 
-                alt={p.title} 
-                referrerPolicy="no-referrer"
-              />
-            </div>
-          </>
-        ) : (
-          <>
-            {p.video ? (
-              <video 
-                ref={videoRef}
-                src={`${p.video}#t=0.001`}
-                loop
-                muted
-                playsInline
-                preload="metadata"
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <Image 
-                src={p.img} 
-                fill 
-                className="object-cover transition-all duration-1000" 
-                alt={p.title} 
-                referrerPolicy="no-referrer"
-              />
-            )}
-            
-            {/* Play Button for Videos (Only shows when paused) */}
-            <AnimatePresence>
-              {p.video && !isPlaying && (
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute inset-0 flex items-center justify-center transition-all duration-500 bg-black/20"
-                >
-                  <motion.button 
-                    whileHover={{ scale: 1.15, rotate: 5 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={togglePlay}
-                    className="w-24 h-24 rounded-full bg-white/95 backdrop-blur-2xl flex items-center justify-center shadow-2xl transition-all duration-300"
-                  >
-                    <Play size={36} fill="black" className="text-black ml-2" />
-                  </motion.button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-            
-            {/* Minimal Restart Button */}
-            <AnimatePresence>
-              {p.video && hasPlayed && (
-                <motion.button
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  whileHover={{ scale: 1.1, rotate: -15 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={restartVideo}
-                  className={`absolute bottom-6 right-6 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 z-10 ${isPlaying ? 'bg-black/30 backdrop-blur-md text-white hover:bg-white hover:text-black' : 'bg-white/90 text-black hover:bg-black hover:text-white'}`}
-                  title="Reiniciar Vídeo"
-                >
-                  <RotateCcw size={16} strokeWidth={2.5} />
-                </motion.button>
-              )}
-            </AnimatePresence>
-          </>
-        )}
+        {/* Play Button for Videos (Only shows when paused) */}
+        <AnimatePresence>
+          {!isPlaying && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 flex items-center justify-center transition-all duration-500 bg-black/20"
+            >
+              <motion.button 
+                whileHover={{ scale: 1.15, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={togglePlay}
+                className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/95 backdrop-blur-2xl flex items-center justify-center shadow-2xl transition-all duration-300"
+              >
+                <Play size={36} fill="black" className="text-black ml-2" />
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
+        {/* Minimal Restart Button */}
+        <AnimatePresence>
+          {hasPlayed && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              whileHover={{ scale: 1.1, rotate: -15 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={restartVideo}
+              className={`absolute bottom-6 right-6 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 z-10 ${isPlaying ? 'bg-black/30 backdrop-blur-md text-white hover:bg-white hover:text-black' : 'bg-white/90 text-black hover:bg-black hover:text-white'}`}
+              title="Reiniciar Vídeo"
+            >
+              <RotateCcw size={16} strokeWidth={2.5} />
+            </motion.button>
+          )}
+        </AnimatePresence>
       </motion.div>
       
       <div className="pt-10 flex flex-col md:flex-row md:justify-between md:items-start gap-6">
@@ -266,25 +177,22 @@ export function Projects() {
   const projects: Project[] = [
     { 
       id: "01", 
-      title: t('proj.1.title' as any), 
-      category: t('proj.1.cat' as any), 
-      tag: t('proj.1.tag' as any),
-      img: "https://picsum.photos/seed/Botanica/1600/1200",
-      link: "https://botanica-tau.vercel.app/",
+      title: t('proj.1.title'), 
+      category: t('proj.1.cat'), 
+      tag: t('proj.1.tag'),
+      video: "/video/botanica.mp4",
     },
     { 
       id: "02", 
-      title: t('proj.2.title' as any), 
-      category: t('proj.2.cat' as any), 
+      title: t('proj.2.title'), 
+      category: t('proj.2.cat'), 
       video: "/video/ec_group.mp4",
-      img: "", 
     },
     { 
       id: "03", 
-      title: t('proj.3.title' as any), 
-      category: t('proj.3.cat' as any), 
+      title: t('proj.3.title'), 
+      category: t('proj.3.cat'), 
       video: "/video/casa_norte.mp4",
-      img: "", 
     },
   ];
 
@@ -298,14 +206,14 @@ export function Projects() {
               whileInView={{ opacity: 1, x: 0 }}
               className="text-xs font-bold uppercase tracking-[0.4em] text-black/30 mb-8 block"
             >
-              {t('proj.label' as any)}
+              {t('proj.label')}
             </motion.span>
             <h2 className="font-sans text-5xl md:text-8xl font-medium tracking-tight text-[#111111] leading-[0.9] mb-10">
-              {t('proj.title1' as any)} <br />
-              <span className="text-black/20 pr-4">{t('proj.title2' as any)}</span>
+              {t('proj.title1')} <br />
+              <span className="text-black/20 pr-4">{t('proj.title2')}</span>
             </h2>
             <p className="text-xl md:text-2xl text-[#666666] leading-relaxed max-w-xl font-light">
-              {t('proj.subtitle' as any)}
+              {t('proj.subtitle')}
             </p>
           </div>
           

@@ -22,7 +22,9 @@ export function Services() {
       descText: "text-white/60",
       border: "border-white/10",
       gradient: "from-white/10 to-transparent",
-      image: "/designer-desk.svg"
+      image: "/platforms-websites.svg",
+      imageClass: "p-0 md:p-0 opacity-95 group-hover:opacity-100",
+      glow: false
     },
     {
       id: "02",
@@ -33,7 +35,9 @@ export function Services() {
       descText: "text-[#666666]",
       border: "border-black/5",
       gradient: "from-[#007AFF]/5 to-transparent",
-      image: "/business-presentation.svg"
+      image: "/business-presentation.svg",
+      imageClass: "p-4 md:p-8 brightness-150 contrast-125 opacity-80 group-hover:opacity-100",
+      glow: true
     },
     {
       id: "03",
@@ -44,7 +48,9 @@ export function Services() {
       descText: "text-[#666666]",
       border: "border-black/5",
       gradient: "from-[#FF2D55]/5 to-transparent",
-      image: "/wireframe.svg"
+      image: "/wireframe.svg",
+      imageClass: "p-4 md:p-8 brightness-150 contrast-125 opacity-80 group-hover:opacity-100",
+      glow: true
     },
     {
       id: "04",
@@ -55,7 +61,9 @@ export function Services() {
       descText: "text-white/80",
       border: "border-white/10",
       gradient: "from-black/10 to-transparent",
-      image: "/business-deal.svg"
+      image: "/business-deal.svg",
+      imageClass: "p-4 md:p-8 brightness-150 contrast-125 opacity-80 group-hover:opacity-100",
+      glow: true
     }
   ];
 
@@ -172,13 +180,15 @@ export function Services() {
               {/* Visual / SVG Side */}
               <div className="relative z-10 w-full md:w-[50%] h-[300px] md:h-full flex items-center justify-center">
                 <div className="relative w-full h-full rounded-[2rem] flex items-center justify-center pointer-events-none">
-                    <div className="absolute inset-10 bg-white/10 rounded-[2rem] blur-2xl group-hover:bg-white/20 transition-colors duration-1000"></div>
+                    {item.glow && (
+                      <div className="absolute inset-10 bg-white/10 rounded-[2rem] blur-2xl group-hover:bg-white/20 transition-colors duration-1000"></div>
+                    )}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <Image 
                         src={item.image} 
                         alt={item.title.replace('\n', ' ')} 
                         fill 
-                        className="service-icon-pulse object-contain p-4 md:p-8 drop-shadow-2xl brightness-150 contrast-125 opacity-80 group-hover:opacity-100 transition-opacity duration-700" 
+                        className={`service-icon-pulse object-contain drop-shadow-2xl transition-opacity duration-700 ${item.imageClass}`}
                       />
                     </div>
                 </div>
