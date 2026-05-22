@@ -62,7 +62,7 @@ const structuredData = [
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'ElevaOps | Eleva Ops - Soluções Digitais à Medida',
+    default: 'ElevaOps',
     template: '%s | ElevaOps',
   },
   description: 'ElevaOps cria soluções digitais à medida para empresas que querem trabalhar melhor: websites, plataformas internas, automações e ferramentas com IA.',
@@ -120,7 +120,7 @@ export const metadata: Metadata = {
     locale: 'pt_PT',
     url: '/',
     siteName: 'ElevaOps',
-    title: 'ElevaOps | Eleva Ops - Soluções Digitais à Medida',
+    title: 'ElevaOps',
     description: 'Soluções digitais personalizadas para empresas que querem organizar, automatizar e modernizar processos.',
     images: [
       {
@@ -133,7 +133,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
-    title: 'ElevaOps | Eleva Ops - Soluções Digitais à Medida',
+    title: 'ElevaOps',
     description: 'Websites, plataformas internas, automações e ferramentas com IA para empresas que querem trabalhar melhor.',
     images: ['/icone-eleva.png'],
   },
