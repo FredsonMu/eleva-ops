@@ -27,9 +27,76 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://elevaops.com';
+
 export const metadata: Metadata = {
-  title: 'Eleva Ops | Soluções Digitais à Medida',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Eleva Ops | Soluções Digitais à Medida',
+    template: '%s | Eleva Ops',
+  },
   description: 'Criamos soluções digitais à medida para empresas que querem trabalhar melhor — websites, plataformas internas, automações e ferramentas com IA.',
+  applicationName: 'Eleva Ops',
+  authors: [{ name: 'Eleva Ops' }],
+  creator: 'Eleva Ops',
+  publisher: 'Eleva Ops',
+  category: 'Technology',
+  keywords: [
+    'Eleva Ops',
+    'soluções digitais à medida',
+    'websites profissionais',
+    'plataformas internas',
+    'automação de processos',
+    'ferramentas com IA',
+    'desenvolvimento web',
+    'sistemas personalizados',
+  ],
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: '/favicon-48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/favicon-96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+    ],
+    shortcut: '/favicon-48.png',
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
+  manifest: '/site.webmanifest',
+  openGraph: {
+    type: 'website',
+    locale: 'pt_PT',
+    url: '/',
+    siteName: 'Eleva Ops',
+    title: 'Eleva Ops | Soluções Digitais à Medida',
+    description: 'Soluções digitais personalizadas para empresas que querem organizar, automatizar e modernizar processos.',
+    images: [
+      {
+        url: '/icone-eleva.png',
+        width: 512,
+        height: 512,
+        alt: 'Ícone Eleva Ops',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Eleva Ops | Soluções Digitais à Medida',
+    description: 'Websites, plataformas internas, automações e ferramentas com IA para empresas que querem trabalhar melhor.',
+    images: ['/icone-eleva.png'],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

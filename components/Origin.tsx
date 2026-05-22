@@ -27,10 +27,6 @@ export function Origin() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-24 items-start">
           <div className="lg:col-span-5 lg:sticky lg:top-40 flex flex-col gap-10">
-            <h3 className="text-3xl md:text-4xl lg:text-5xl font-sans font-medium tracking-tight text-[#111111] leading-[1.05] text-balance">
-              {t('origin.hero')}
-            </h3>
-
             <p className="text-lg md:text-xl text-[#666666] leading-relaxed font-light">
               {t('origin.p1')}
             </p>

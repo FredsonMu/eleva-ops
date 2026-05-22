@@ -77,7 +77,6 @@ export const dict = {
   'origin.label': { pt: 'A Nossa Origem', en: 'Our Origin' },
   'origin.title1': { pt: 'Nascemos com um', en: 'We were born with a' },
   'origin.title2': { pt: 'propósito claro.', en: 'clear purpose.' },
-  'origin.hero': { pt: 'Somos um grupo de estudantes, mas este projeto nasceu de algo maior do que apenas uma ideia.', en: 'We are a group of students, but this project was born from something bigger than just an idea.' },
   'origin.p1': { pt: 'Vivemos numa era em que quase tudo passa pelo digital. No entanto, continuamos a ver negócios incríveis — de todos os tipos e áreas — que simplesmente não têm as soluções digitais que merecem.', en: 'We live in an era where almost everything runs through digital. Yet we keep seeing incredible businesses — of all kinds and sectors — that simply lack the digital solutions they deserve.' },
   'origin.o1.label': { pt: '01 / A Oportunidade', en: '01 / The Opportunity' },
   'origin.o1.title': { pt: 'Empresas incríveis perdem tempo e dinheiro com processos manuais, informação espalhada e ferramentas que não falam entre si.', en: 'Incredible companies waste time and money on manual processes, scattered information, and tools that don\'t talk to each other.' },
