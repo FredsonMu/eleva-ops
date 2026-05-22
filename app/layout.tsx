@@ -28,8 +28,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Eleva Ops | Design de Alta Performance',
-  description: 'Estúdio boutique de design e engenharia digital focado em produtos de alta performance.',
+  title: 'Eleva Ops | Soluções Digitais à Medida',
+  description: 'Criamos soluções digitais à medida para empresas que querem trabalhar melhor — websites, plataformas internas, automações e ferramentas com IA.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

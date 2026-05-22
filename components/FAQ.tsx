@@ -44,7 +44,8 @@ export function FAQ() {
     { question: t('faq.2.q'), answer: t('faq.2.a') },
     { question: t('faq.3.q'), answer: t('faq.3.a') },
     { question: t('faq.4.q'), answer: t('faq.4.a') },
-    { question: t('faq.5.q'), answer: t('faq.5.a') }
+    { question: t('faq.5.q'), answer: t('faq.5.a') },
+    { question: t('faq.6.q'), answer: t('faq.6.a') }
   ];
 
   return (
