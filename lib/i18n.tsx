@@ -13,20 +13,20 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>('pt');
+  const [language, setLanguage] = useState<Language>('en');
   
   const toggleLanguage = () => {
     setLanguage(prev => {
-      const newLang = prev === 'pt' ? 'en' : 'pt';
+      const newLang = prev === 'en' ? 'pt' : 'en';
       document.cookie = `lang=${newLang}; path=/`;
       return newLang;
     });
   };
 
   useEffect(() => {
-    if (document.cookie.includes('lang=en')) {
+    if (document.cookie.includes('lang=pt')) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setLanguage('en');
+      setLanguage('pt');
     }
   }, []);
 

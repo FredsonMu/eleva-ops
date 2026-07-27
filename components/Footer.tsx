@@ -10,7 +10,7 @@ export function Footer() {
         <div className="flex flex-col mb-40 md:mb-60">
            <span className="font-sans text-[10px] font-bold uppercase tracking-[0.4em] text-black/40 block mb-12">{t('footer.label')}</span>
            <a 
-             href="mailto:elevaopsinfo@gmail.com" 
+             href="mailto:contact@elevaops.com" 
              className="group inline-block"
            >
              <h2 className="font-sans text-[clamp(2.5rem,8vw,8rem)] font-medium leading-[0.9] tracking-tight text-[#111111] transition-all duration-700">
@@ -19,11 +19,11 @@ export function Footer() {
              </h2>
            </a>
            <div className="mt-12 flex flex-col sm:flex-row gap-6">
-             <a href="mailto:elevaopsinfo@gmail.com" className="flex justify-center items-center gap-2 bg-black text-white px-8 py-4 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-black/80 transition-colors w-fit">
+             <a href="mailto:contact@elevaops.com" className="flex justify-center items-center gap-2 bg-black text-white px-8 py-4 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-black/80 transition-colors w-fit">
                {t('footer.contact')} <ArrowUpRight size={14} />
              </a>
              <div className="flex flex-col justify-center">
-               <span className="text-sm font-semibold text-black">elevaopsinfo@gmail.com</span>
+               <span className="text-sm font-semibold text-black">contact@elevaops.com</span>
                <span className="text-xs text-[#666666]">{t('footer.avail')}</span>
              </div>
            </div>

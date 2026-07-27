@@ -65,7 +65,7 @@ export function FAQ() {
               
               <div className="flex flex-col gap-4">
                 <span className="text-sm font-semibold">{t('faq.notFound')}</span>
-                <a href="mailto:elevaopsinfo@gmail.com" className="inline-flex items-center justify-center bg-black text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-black/80 transition-colors w-fit">
+                <a href="mailto:contact@elevaops.com" className="inline-flex items-center justify-center bg-black text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-black/80 transition-colors w-fit">
                   {t('faq.contact')}
                 </a>
               </div>

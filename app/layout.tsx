@@ -39,7 +39,7 @@ const structuredData = [
     alternateName: ['Eleva Ops', 'ElevaOps Soluções Digitais'],
     url: siteUrl,
     logo: `${siteUrl}/icone-eleva.png`,
-    email: 'elevaopsinfo@gmail.com',
+    email: 'contact@elevaops.com',
     description:
       'A ElevaOps cria soluções digitais à medida para empresas: websites profissionais, plataformas internas, automações e ferramentas com IA.',
     areaServed: ['Portugal', 'Global'],
@@ -141,7 +141,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt" className={`${inter.variable} ${playfair.variable} ${outfit.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${playfair.variable} ${outfit.variable} ${jetbrainsMono.variable}`}>
       <body className="font-sans antialiased text-ink bg-paper" suppressHydrationWarning>
         <script
           type="application/ld+json"

@@ -51,7 +51,7 @@ export function Navbar() {
         <div className="flex items-center gap-2 lg:gap-4 shrink-0">
           <LanguageToggle />
           <a 
-            href="mailto:elevaopsinfo@gmail.com" 
+            href="mailto:contact@elevaops.com" 
             className="bg-black text-white px-3 lg:px-6 py-2 lg:py-3 rounded-full text-[8px] lg:text-[10px] font-bold uppercase tracking-widest hover:bg-black/80 transition-all font-sans hidden md:block"
           >
             {t('nav.contact')}
