@@ -1,15 +1,10 @@
 'use client';
 import { useRef } from 'react';
 import Image from 'next/image';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { useLanguage } from '@/lib/i18n';
 
-gsap.registerPlugin(ScrollTrigger);
-
 export function Services() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
 
   const specialties = [
@@ -17,185 +12,139 @@ export function Services() {
       id: "01",
       title: t('serv.1.title'),
       desc: t('serv.1.desc'),
-      bg: "bg-[#111111]",
-      text: "text-white",
-      descText: "text-white/60",
-      border: "border-white/10",
-      gradient: "from-white/10 to-transparent",
       image: "/platforms-websites.svg",
-      imageClass: "p-0 md:p-0 opacity-95 group-hover:opacity-100",
-      glow: false
+      bg: "bg-[#E0F7FA]",
+      textColor: "text-[#006064]",
+      rotation: -2
     },
     {
       id: "02",
       title: t('serv.2.title'),
       desc: t('serv.2.desc'),
-      bg: "bg-white",
-      text: "text-[#111111]",
-      descText: "text-[#666666]",
-      border: "border-black/5",
-      gradient: "from-[#007AFF]/5 to-transparent",
       image: "/business-presentation.svg",
-      imageClass: "p-4 md:p-8 brightness-150 contrast-125 opacity-80 group-hover:opacity-100",
-      glow: true
+      bg: "bg-[#F3E5F5]",
+      textColor: "text-[#4A148C]",
+      rotation: 1
     },
     {
       id: "03",
       title: t('serv.3.title'),
       desc: t('serv.3.desc'),
-      bg: "bg-[#f5f5f7]",
-      text: "text-[#111111]",
-      descText: "text-[#666666]",
-      border: "border-black/5",
-      gradient: "from-[#FF2D55]/5 to-transparent",
       image: "/wireframe.svg",
-      imageClass: "p-4 md:p-8 brightness-150 contrast-125 opacity-80 group-hover:opacity-100",
-      glow: true
+      bg: "bg-[#FFF9C4]",
+      textColor: "text-[#F57F17]",
+      rotation: -1
     },
     {
       id: "04",
       title: t('serv.4.title'),
       desc: t('serv.4.desc'),
-      bg: "bg-[#007AFF]",
-      text: "text-white",
-      descText: "text-white/80",
-      border: "border-white/10",
-      gradient: "from-black/10 to-transparent",
       image: "/business-deal.svg",
-      imageClass: "p-4 md:p-8 brightness-150 contrast-125 opacity-80 group-hover:opacity-100",
-      glow: true
+      bg: "bg-[#FBE9E7]",
+      textColor: "text-[#BF360C]",
+      rotation: 2
     }
   ];
 
-  useGSAP(() => {
-    // 1. Header Entrance
-    gsap.fromTo(".serv-header-elem", 
-      { opacity: 0, y: 30 },
-      { 
-        y: 0, 
-        opacity: 1, 
-        stagger: 0.1,
-        duration: 1, 
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".serv-header",
-          start: "top 85%",
-        }
-      }
-    );
+  const targetRef = useRef<HTMLDivElement | null>(null);
+  
+  // Track scroll progress for the 400vh container
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+  });
 
-    let mm = gsap.matchMedia();
-
-    mm.add("(min-width: 768px)", () => {
-      // 2. Horizontal Scroll Magic for Desktop
-      const scrollSection = containerRef.current?.querySelector('.serv-horiz-section');
-      const scrollContent = containerRef.current?.querySelector('.serv-horiz-content');
-
-      if (scrollSection && scrollContent) {
-        gsap.to(scrollContent, {
-          x: () => -(scrollContent.scrollWidth - window.innerWidth),
-          ease: "none",
-          scrollTrigger: {
-            trigger: scrollSection,
-            start: "top top", 
-            end: () => `+=${scrollContent.scrollWidth}`, 
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-            anticipatePin: 1
-          }
-        });
-      }
-    });
-
-    mm.add("(max-width: 767px)", () => {
-      // 2. Normal fade up for Mobile (no sticky overlapping)
-      const cards = gsap.utils.toArray('.serv-horiz-card') as HTMLElement[];
-      cards.forEach(card => {
-        gsap.fromTo(card, 
-          { opacity: 0, y: 50 }, 
-          { 
-            opacity: 1, 
-            y: 0, 
-            duration: 1, 
-            ease: "power3.out",
-            scrollTrigger: { 
-              trigger: card, 
-              start: "top 85%" 
-            } 
-          }
-        );
-      });
-    });
-
-    // 3. Subtle pulse for the icons
-    gsap.to(".service-icon-pulse", {
-      scale: 1.06,
-      rotate: 2,
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
-    });
-
-  }, { scope: containerRef });
+  // Move the entire track left based on scroll.
+  // Using -75% ensures we scroll past all items.
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
   return (
-    <section id="servicos" ref={containerRef} className="bg-[#fbfbfb] relative z-10 py-24 md:py-32 selection:bg-black/10 selection:text-black overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-[50vh] bg-gradient-to-b from-white to-transparent pointer-events-none"></div>
+    <section ref={targetRef} id="servicos" className="relative h-[400vh] bg-[#FAFAFA] z-10">
+      
+      {/* Sticky Container - Pins to screen for horizontal scroll */}
+      <div className="sticky top-0 flex items-center h-screen overflow-hidden">
+        
+        {/* Playful background pattern (dots) */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
 
-      <div className="serv-header pt-10 pb-10 max-w-[1200px] mx-auto px-6 md:px-12 relative z-10 flex flex-col items-start md:items-center md:text-center">
-         <span className="serv-header-elem text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-black/40 block mb-6">{t('serv.label')}</span>
-         <div className="overflow-hidden pb-4">
-            <h2 className="serv-header-elem font-sans text-4xl md:text-[clamp(3.5rem,6vw,6rem)] leading-[0.9] font-medium tracking-tight text-[#111111] max-w-4xl">
-               {t('serv.title1')} <br className="hidden md:block"/>
-               <span className="text-black/30">{t('serv.title2')}</span>
+        {/* The Moving Horizontal Track */}
+        <motion.div style={{ x }} className="flex items-center gap-12 md:gap-24 px-6 md:px-24 w-max relative z-10 h-full py-20">
+          
+          {/* Slide 1: The Intro Text */}
+          <div className="flex flex-col justify-center w-[85vw] md:w-[600px] flex-shrink-0 pl-4 md:pl-12">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-8"
+            >
+              <span className="font-handwritten text-2xl md:text-3xl text-[#007AFF] font-bold inline-block px-6 py-2 border-2 border-[#007AFF] rounded-[2rem] bg-[#007AFF]/5 transform -rotate-2">
+                {t('serv.label')}
+              </span>
+            </motion.div>
+            
+            <h2 className="font-sans text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.05] tracking-tight font-black text-[#111111] text-balance">
+              {t('serv.title1')} <br />
+              <span className="relative inline-block mt-2">
+                <span className="relative z-10">{t('serv.title2')}</span>
+                {/* Massive playful underline */}
+                <svg className="absolute -bottom-3 left-0 w-full h-6 text-[#FFD500] -z-10" viewBox="0 0 200 30" preserveAspectRatio="none">
+                  <path d="M0,15 Q100,30 200,10" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
+                </svg>
+              </span>
             </h2>
-         </div>
-      </div>
+            
+            <p className="mt-8 text-xl text-[#555] font-medium max-w-md">
+              Keep scrolling down to explore our approach.
+            </p>
+          </div>
 
-      <div className="serv-horiz-section md:h-screen w-full flex items-center relative z-10 mt-10 md:mt-20">
-        <div className="serv-horiz-content flex flex-col md:flex-row gap-12 md:gap-16 px-6 md:px-[10vw] md:w-max items-center md:h-[80vh]">
+          {/* Slides 2-5: The Cards */}
           {specialties.map((item, i) => (
             <div 
-              key={i} 
-              className={`serv-horiz-card relative w-full md:w-[65vw] max-w-[1000px] h-auto md:h-full shrink-0 rounded-[2.5rem] md:rounded-[4rem] px-8 py-12 md:px-16 md:py-20 shadow-[0_-10px_40px_rgba(0,0,0,0.04)] border ${item.border} ${item.bg} flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden group`}
+              key={item.id}
+              className={`group relative rounded-[2.5rem] border-[8px] border-white ${item.bg} p-6 md:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between w-[85vw] md:w-[500px] flex-shrink-0 h-[60vh] min-h-[320px] max-h-[600px]`}
+              style={{ transform: `rotate(${item.rotation}deg)` }}
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-50 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none`}></div>
-
-              {/* Content Side */}
-              <div className="flex flex-col justify-center gap-8 md:gap-16 relative z-10 w-full md:w-[45%] h-full">
-                <div className="flex flex-col gap-6">
-                  <span className={`font-mono text-sm md:text-lg font-semibold tracking-widest ${item.descText}`}>{"//"} {item.id}</span>
-                  <h3 className={`text-4xl md:text-[clamp(3rem,4vw,4.5rem)] font-sans font-medium tracking-tight leading-[0.9] whitespace-pre-line ${item.text}`}>
-                    {item.title}
-                  </h3>
-                </div>
-
-                <p className={`text-lg md:text-[clamp(1.1rem,1.5vw,1.4rem)] leading-relaxed font-light text-balance ${item.descText}`}>
+              
+              <div className="flex justify-between items-start z-10 relative">
+                <span className={`font-mono text-4xl font-black ${item.textColor} bg-white/80 backdrop-blur-md px-6 py-3 rounded-2xl shadow-sm border border-white/50 transform -rotate-3`}>
+                  {item.id}
+                </span>
+              </div>
+              
+              {/* Card Content (Bottom) */}
+              <div className="relative z-10 mt-auto bg-white/90 backdrop-blur-xl border border-white/50 rounded-[2rem] p-6 shadow-lg">
+                <h3 className="text-2xl md:text-3xl font-sans font-black tracking-tight text-[#111111] mb-3">
+                  {item.title}
+                </h3>
+                <p className="text-[#555555] font-medium leading-relaxed text-sm md:text-base">
                   {item.desc}
                 </p>
               </div>
 
-              {/* Visual / SVG Side */}
-              <div className="relative z-10 w-full md:w-[50%] h-[300px] md:h-full flex items-center justify-center">
-                <div className="relative w-full h-full rounded-[2rem] flex items-center justify-center pointer-events-none">
-                    {item.glow && (
-                      <div className="absolute inset-10 bg-white/10 rounded-[2rem] blur-2xl group-hover:bg-white/20 transition-colors duration-1000"></div>
-                    )}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Image 
-                        src={item.image} 
-                        alt={item.title.replace('\n', ' ')} 
-                        fill 
-                        className={`service-icon-pulse object-contain drop-shadow-2xl transition-opacity duration-700 ${item.imageClass}`}
-                      />
-                    </div>
+              {/* Overflowing SVG Image */}
+              <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-[2rem]">
+                <div className="absolute top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] group-hover:scale-105 group-hover:rotate-2 transition-transform duration-700 ease-out opacity-90">
+                  <Image src={item.image} alt={item.title} fill className="object-cover md:object-contain drop-shadow-xl" />
                 </div>
               </div>
+              
             </div>
           ))}
+          
+          {/* Final padding slide to ensure the last card is fully visible before un-sticking */}
+          <div className="w-[40vw] md:w-[15vw] flex-shrink-0"></div>
+
+        </motion.div>
+
+        {/* Global Progress Bar for the Section */}
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-64 h-2 bg-black/10 rounded-full overflow-hidden">
+          <motion.div 
+            className="h-full bg-[#111111]"
+            style={{ width: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
+          />
         </div>
+
       </div>
     </section>
   );

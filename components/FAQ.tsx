@@ -11,9 +11,9 @@ function FAQItem({ question, answer, isOpen, onClick }: { question: string, answ
         onClick={onClick}
         className="w-full flex items-center justify-between py-6 md:py-8 text-left group"
       >
-        <h3 className="font-sans text-lg md:text-xl font-medium tracking-tight pr-8">{question}</h3>
-        <div className="flex-shrink-0 w-8 h-8 rounded-full border border-black/20 flex items-center justify-center group-hover:border-black group-hover:text-black transition-colors">
-          {isOpen ? <Minus size={14} strokeWidth={2} /> : <Plus size={14} strokeWidth={2} />}
+        <h3 className="font-sans text-xl md:text-2xl font-black tracking-tight pr-8 text-[#111111] group-hover:text-[#007AFF] transition-colors duration-300">{question}</h3>
+        <div className="flex-shrink-0 w-10 h-10 rounded-full border border-black/20 flex items-center justify-center group-hover:border-[#007AFF] group-hover:bg-[#007AFF] group-hover:text-white transition-colors duration-300 text-[#111111]">
+          {isOpen ? <Minus size={16} strokeWidth={2.5} /> : <Plus size={16} strokeWidth={2.5} />}
         </div>
       </button>
       <AnimatePresence>
@@ -25,7 +25,7 @@ function FAQItem({ question, answer, isOpen, onClick }: { question: string, answ
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <p className="font-sans pb-8 pt-2 text-base md:text-lg text-[#666666] leading-relaxed max-w-4xl">
+            <p className="font-sans pb-10 pt-2 text-lg md:text-xl text-[#555555] font-medium leading-relaxed max-w-4xl">
               {answer}
             </p>
           </motion.div>
@@ -49,29 +49,39 @@ export function FAQ() {
   ];
 
   return (
-    <section id="faq" className="py-24 md:py-40 bg-[#fbfbfb]">
+    <section id="faq" className="py-24 md:py-40 bg-[#FAFAFA]">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-20 items-start">
+          
           <div className="lg:col-span-5 relative">
-            <div className="sticky top-32">
-              <span className="font-sans text-[10px] font-bold uppercase tracking-[0.4em] text-black/40 block mb-6">{t('faq.transparency')}</span>
-              <h2 className="font-sans text-4xl md:text-6xl font-medium tracking-tight leading-[0.9] text-[#111111] text-balance mb-8">
+            <div className="sticky top-40">
+              <span className="inline-block font-handwritten text-2xl md:text-3xl font-bold text-[#007AFF] transform -rotate-2 mb-6">{t('faq.transparency')}</span>
+              
+              <h2 className="font-sans text-4xl md:text-5xl font-black tracking-tight leading-[1.1] text-[#111111] text-balance mb-8">
                 {t('faq.title1')} <br />
-                <span className="text-black/30">{t('faq.title2')}</span>
+                <span className="relative inline-block mt-1 md:mt-2">
+                  <span className="relative z-10 text-[#111111]">{t('faq.title2')}</span>
+                  {/* Subtle yellow underline */}
+                  <svg className="absolute -bottom-1 md:-bottom-2 left-0 w-full h-3 md:h-4 text-[#FFD500] -z-10 opacity-70" viewBox="0 0 200 30" preserveAspectRatio="none">
+                    <path d="M0,15 C50,30 150,10 200,20" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+                  </svg>
+                </span>
               </h2>
-              <p className="text-[#666666] leading-relaxed mb-10 max-w-sm">
+              
+              <p className="text-lg md:text-xl text-[#555555] font-medium leading-relaxed mb-12 max-w-sm">
                 {t('faq.desc')}
               </p>
               
-              <div className="flex flex-col gap-4">
-                <span className="text-sm font-semibold">{t('faq.notFound')}</span>
-                <a href="mailto:contact@elevaops.com" className="inline-flex items-center justify-center bg-black text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-black/80 transition-colors w-fit">
+              <div className="flex flex-col gap-5">
+                <span className="text-sm font-bold uppercase tracking-widest text-[#111111]">{t('faq.notFound')}</span>
+                <a href="mailto:contact@elevaops.com" className="inline-flex items-center justify-center bg-black text-white px-8 py-4 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-[#007AFF] transition-colors duration-300 w-fit">
                   {t('faq.contact')}
                 </a>
               </div>
             </div>
           </div>
-          <div className="lg:col-span-7 flex flex-col">
+          
+          <div className="lg:col-span-7 flex flex-col border-t border-black/10">
             {faqs.map((faq, index) => (
               <FAQItem 
                 key={index}
@@ -82,6 +92,7 @@ export function FAQ() {
               />
             ))}
           </div>
+          
         </div>
       </div>
     </section>

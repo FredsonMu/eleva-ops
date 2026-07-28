@@ -19,10 +19,13 @@ export const dict = {
   'hero.brand_web': { pt: 'Soluções à Medida', en: 'Custom Solutions' },
   'hero.location': { pt: 'Localização', en: 'Location' },
   'hero.global': { pt: 'Global', en: 'Global' },
+  'hero.byYourSide': { pt: 'ao seu lado', en: 'by your side' },
+  'hero.sticker': { pt: 'Estúdio Digital', en: 'Digital Studio' },
 
   // About
   'about.manifesto': { pt: 'O Problema', en: 'The Problem' },
-  'about.title': { pt: 'As empresas morrem de indigestão, não de fome.', en: 'Companies die from indigestion, not starvation.' },
+  'about.title1': { pt: 'O seu maior gargalo', en: 'Your biggest bottleneck' },
+  'about.title2': { pt: 'é a sua própria operação.', en: 'is your own operation.' },
   'about.p1': { pt: 'Demasiadas ferramentas que não comunicam entre si. Informação perdida em intermináveis threads de WhatsApp. Tarefas manuais que sugam a energia da sua melhor equipa. O seu negócio está a ser estrangulado pela sua própria operação.', en: 'Too many tools that don\'t talk to each other. Information lost in endless WhatsApp threads. Manual tasks draining your best team\'s energy. Your business is being choked by its own operation.' },
   'about.p2': { pt: 'A Eleva Ops existe para cortar o ruído. Não vendemos apenas "websites" ou "software". Desenhamos a arquitetura invisível que permite à sua empresa escalar. Substituímos o caos por sistemas focados em organização, clareza e conversão.', en: 'Eleva Ops exists to cut the noise. We don\'t just sell "websites" or "software". We design the invisible architecture that allows your company to scale. We replace chaos with systems focused on organization, clarity, and conversion.' },
   'about.vision': { pt: 'Caos', en: 'Chaos' },
@@ -55,7 +58,7 @@ export const dict = {
   
   // Team
   'team.label': { pt: 'A Realidade', en: 'The Reality' },
-  'team.quote': { pt: '"Antes da Eleva Ops, perdíamos horas em tarefas operacionais. Agora, o sistema faz o trabalho pesado. O resultado? Mais tempo para os clientes, zero erros e o dobro da conversão online."', en: '"Before Eleva Ops, we wasted hours on operational tasks. Now, the system does the heavy lifting. The result? More time for clients, zero errors, and twice the online conversion."' },
+  'team.quote': { pt: '"Antes da Eleva Ops, perdíamos horas em tarefas operacionais. Agora, o sistema faz o trabalho pesado. O resultado? Mais tempo para os clientes e o dobro da conversão online."', en: '"Before Eleva Ops, we wasted hours on operational tasks. Now, the system does the heavy lifting. The result? More time for clients and twice the online conversion."' },
   'team.who': { pt: 'A nossa ', en: 'Our ' },
   'team.are': { pt: 'Missão.', en: 'Mission.' },
   'team.desc': { pt: 'Víamos líderes brilhantes a trabalhar como robôs para manter as empresas de pé. Decidimos construir os sistemas e os robôs, para que esses líderes pudessem voltar a liderar. Essa é a essência da nossa equipa.', en: 'We saw brilliant leaders working like robots to keep their companies afloat. We decided to build the systems and the robots, so those leaders could go back to leading. That is the essence of our team.' },
@@ -95,6 +98,11 @@ export const dict = {
   'origin.footer.t2': { pt: 'no passado.', en: 'in the past.' },
   'origin.footer.pill': { pt: 'A sua equipa merece mais do que ferramentas que não funcionam.', en: 'Your team deserves better than broken tools.' },
 
+  'origin.fewer': { pt: 'Menos Ferramentas', en: 'Fewer Tools' },
+  'origin.more': { pt: 'Mais Estratégia', en: 'More Strategy' },
+  'origin.total': { pt: 'Total', en: 'Total' },
+  'origin.integration': { pt: 'Integração', en: 'Integration' },
+  'origin.period': { pt: 'Ponto Final', en: 'Period' },
   // Methodology
   'meth.label': { pt: 'O Caminho', en: 'The Path' },
   'meth.title1': { pt: 'Do Caos à Clareza.', en: 'From Chaos to Clarity.' },
@@ -116,7 +124,7 @@ export const dict = {
   'faq.notFound': { pt: 'Tem um problema específico para resolver?', en: 'Have a specific problem to solve?' },
   'faq.contact': { pt: 'Agendar um Diagnóstico Gratuito', en: 'Book a Free Diagnosis' },
   'faq.1.q': { pt: 'Por que não posso usar ferramentas prontas (SaaS)?', en: 'Why can\'t I just use off-the-shelf tools (SaaS)?' },
-  'faq.1.a': { pt: 'Pode, e por vezes deve. Mas se está a adaptar os processos da sua empresa para caberem nas limitações de uma ferramenta, está a fazer ao contrário. Construímos sistemas que se adaptam exatamente à sua forma única de trabalhar, sem ter de pagar 10 subscrições diferentes que não comunicam.', en: 'You can, and sometimes you should. But if you are adapting your company\'s processes to fit a tool\'s limitations, you have it backward. We build systems that adapt exactly to your unique way of working, without having to pay for 10 different subscriptions that don\'t talk to each other.' },
+  'faq.1.a': { pt: 'Pode, e por vezes deve — aliás, nós próprios desenvolvemos produtos SaaS. Mas se está a adaptar os processos da sua empresa para caberem nas limitações de uma ferramenta, está a fazer o caminho inverso. Construímos sistemas que se adaptam exatamente à sua forma única de trabalhar, sem ter de pagar 10 subscrições diferentes que não comunicam.', en: 'You can, and sometimes you should — in fact, we build SaaS products ourselves. But if you are adapting your company\'s processes to fit a tool\'s limitations, you have it backward. We build systems that adapt exactly to your unique way of working, without having to pay for 10 different subscriptions that don\'t talk to each other.' },
   'faq.2.q': { pt: 'Tenho medo que a transição seja um pesadelo. Como gerem isso?', en: 'I am afraid the transition will be a nightmare. How do you handle that?' },
   'faq.2.a': { pt: 'Adoção é a métrica mais importante. Desenhamos interfaces limpas e intuitivas, inspiradas nas melhores ferramentas do mundo. Fazemos o setup de toda a infraestrutura em paralelo com o seu sistema atual, treinamos a equipa e só fazemos o switch quando todos se sentirem confortáveis.', en: 'Adoption is the most important metric. We design clean, intuitive interfaces inspired by the best tools in the world. We set up the entire infrastructure in parallel with your current system, train the team, and only flip the switch when everyone is comfortable.' },
   'faq.3.q': { pt: 'Não somos uma empresa "tecnológica". Isto é para nós?', en: 'We are not a "tech" company. Is this for us?' },

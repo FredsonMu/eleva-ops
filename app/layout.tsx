@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display, Outfit, JetBrains_Mono } from 'next/font/google';
+import { Inter, Caveat, Outfit, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { LanguageProvider } from '@/lib/i18n';
 
@@ -9,9 +9,9 @@ const inter = Inter({
   display: 'swap',
 });
 
-const playfair = Playfair_Display({
+const caveat = Caveat({
   subsets: ['latin'],
-  variable: '--font-serif',
+  variable: '--font-handwritten',
   display: 'swap',
 });
 
@@ -141,7 +141,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} ${outfit.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${caveat.variable} ${outfit.variable} ${jetbrainsMono.variable}`}>
       <body className="font-sans antialiased text-ink bg-paper" suppressHydrationWarning>
         <script
           type="application/ld+json"
