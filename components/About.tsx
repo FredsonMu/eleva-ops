@@ -45,7 +45,7 @@ export function About() {
           
           <h2 className="font-sans font-black text-[clamp(2.5rem,5vw,4.5rem)] tracking-tight leading-[1.05] text-[#111111] max-w-4xl text-balance mb-12 relative z-10">
             {t('about.title1')} <br className="hidden md:block"/>
-            <span className="text-[#007AFF] relative whitespace-nowrap inline-block mt-2">
+            <span className="text-[#007AFF] relative inline-block mt-2">
               {t('about.title2')}
               {/* Decorative scribble underline */}
               <svg className="absolute -bottom-4 left-0 w-full h-4 text-[#007AFF] overflow-visible" viewBox="0 0 200 10" preserveAspectRatio="none">
