@@ -5,7 +5,7 @@ import { X, Check, TrendingUp } from 'lucide-react';
 
 export function About() {
   const { t } = useLanguage();
-  const springConfig = { type: "spring", stiffness: 100, damping: 20 };
+  const springConfig = { type: "spring" as const, stiffness: 100, damping: 20 };
 
   return (
     <section id="about" className="py-24 md:py-32 relative z-10 overflow-hidden bg-white">

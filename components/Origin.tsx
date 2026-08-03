@@ -13,7 +13,7 @@ export function Origin() {
   const imgY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const { t } = useLanguage();
 
-  const springConfig = { type: "spring", stiffness: 100, damping: 20 };
+  const springConfig = { type: "spring" as const, stiffness: 100, damping: 20 };
 
   return (
     <section ref={containerRef} className="py-24 md:py-40 relative overflow-hidden bg-white">

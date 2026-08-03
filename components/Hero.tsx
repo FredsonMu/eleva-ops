@@ -9,7 +9,7 @@ import { useLanguage } from '@/lib/i18n';
 export function Hero() {
   const { t, language } = useLanguage();
 
-  const springConfig = { type: "spring", stiffness: 100, damping: 20 };
+  const springConfig = { type: "spring" as const, stiffness: 100, damping: 20 };
 
   return (
     <section className="relative min-h-screen flex flex-col pt-32 pb-24 overflow-hidden items-center justify-center bg-[#fcfcfd]">

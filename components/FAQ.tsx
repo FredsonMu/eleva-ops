@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Minus } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 
-const springConfig = { type: "spring", stiffness: 100, damping: 20 };
+const springConfig = { type: "spring" as const, stiffness: 100, damping: 20 };
 
 function FAQItem({ question, answer, isOpen, onClick }: { question: string, answer: string, isOpen: boolean, onClick: () => void }) {
   return (

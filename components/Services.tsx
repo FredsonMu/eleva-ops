@@ -7,7 +7,7 @@ import { Layers, Presentation, Compass, Briefcase } from 'lucide-react';
 
 export function Services() {
   const { t } = useLanguage();
-  const springConfig = { type: "spring", stiffness: 100, damping: 20 };
+  const springConfig = { type: "spring" as const, stiffness: 100, damping: 20 };
 
   const icons = [Layers, Presentation, Compass, Briefcase];
 
