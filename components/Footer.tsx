@@ -1,5 +1,5 @@
 'use client';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Instagram } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 
 export function Footer() {
@@ -44,7 +44,16 @@ export function Footer() {
             </span>
           </div>
 
-          <div className="flex flex-col md:items-end gap-8">
+          <div className="flex flex-col md:items-end justify-end gap-8 h-full pb-4">
+            <a 
+              href="https://www.instagram.com/elevaops/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-black/50 hover:text-[#007AFF] transition-colors duration-300"
+            >
+              <Instagram size={20} strokeWidth={2.5} />
+              <span className="text-xs font-bold uppercase tracking-widest">Instagram</span>
+            </a>
           </div>
         </div>
       </div>
