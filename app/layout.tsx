@@ -1,17 +1,11 @@
 import type { Metadata } from 'next';
-import { Inter, Caveat, Outfit, JetBrains_Mono } from 'next/font/google';
+import { Inter, Outfit, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { LanguageProvider } from '@/lib/i18n';
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
-  display: 'swap',
-});
-
-const caveat = Caveat({
-  subsets: ['latin'],
-  variable: '--font-handwritten',
   display: 'swap',
 });
 
@@ -141,8 +135,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${caveat.variable} ${outfit.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-sans antialiased text-ink bg-paper" suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable}`}>
+      <body className="font-sans antialiased text-ink bg-paper overflow-x-hidden w-full max-w-[100vw]" suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

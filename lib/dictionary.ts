@@ -14,7 +14,9 @@ export const dict = {
   'hero.typing4': { pt: 'Marcas.', en: 'Brands.' },
   'hero.typing5': { pt: 'Futuro.', en: 'Future.' },
   'hero.subtitle': { pt: 'Estúdio Digital', en: 'Digital Studio' },
-  'hero.desc': { pt: 'Criamos soluções digitais à medida para empresas que querem trabalhar melhor — desde websites profissionais até plataformas internas, automações e ferramentas com IA.', en: 'We build custom digital solutions for companies that want to work better — from professional websites to internal platforms, automations, and AI-powered tools.' },
+  'hero.desc1': { pt: 'Criamos soluções digitais à medida para empresas que querem trabalhar melhor — ', en: 'We build custom digital solutions for companies that want to work better — ' },
+  'hero.desc2': { pt: 'plataformas, automações e ferramentas com IA.', en: 'platforms, automations, and AI tools.' },
+  'hero.desc3': { pt: '', en: '' },
   'hero.spec': { pt: 'Especialidade', en: 'Specialty' },
   'hero.brand_web': { pt: 'Soluções à Medida', en: 'Custom Solutions' },
   'hero.location': { pt: 'Localização', en: 'Location' },
@@ -62,9 +64,9 @@ export const dict = {
   'team.who': { pt: 'A nossa ', en: 'Our ' },
   'team.are': { pt: 'Missão.', en: 'Mission.' },
   'team.desc': { pt: 'Víamos líderes brilhantes a trabalhar como robôs para manter as empresas de pé. Decidimos construir os sistemas e os robôs, para que esses líderes pudessem voltar a liderar. Essa é a essência da nossa equipa.', en: 'We saw brilliant leaders working like robots to keep their companies afloat. We decided to build the systems and the robots, so those leaders could go back to leading. That is the essence of our team.' },
-  'team.m1.role': { pt: 'Arquiteto de Soluções', en: 'Solutions Architect' },
-  'team.m2.role': { pt: 'Diretor Criativo', en: 'Creative Director' },
-  'team.m3.role': { pt: 'Engenheiro de Sistemas', en: 'Systems Engineer' },
+  'team.m1.role': { pt: 'Product Lead', en: 'Product Lead' },
+  'team.m2.role': { pt: 'Creative Lead', en: 'Creative Lead' },
+  'team.m3.role': { pt: 'Quality Lead', en: 'Quality Lead' },
 
   // Services (Specialties)
   'serv.1.title': { pt: 'Presença & \nConversão', en: 'Presence & \nConversion' },

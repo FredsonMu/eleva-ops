@@ -25,32 +25,48 @@ export function Team() {
   ];
 
   return (
-    <section id="equipa" className="pt-12 pb-24 md:pt-20 md:pb-40 bg-white overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+    <section id="equipa" className="pt-24 pb-32 md:pt-40 md:pb-48 bg-[#fbfbfd] overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
 
-        <div className="mb-32 md:mb-52 max-w-[1200px] mx-auto">
+        <div className="mb-32 md:mb-52 max-w-5xl mx-auto">
           <div className="flex flex-col items-center text-center">
             
-            <div className="mb-8 md:mb-10">
-              <span className="font-handwritten text-xl md:text-2xl text-[#007AFF] font-bold transform -rotate-2 inline-block">
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-8"
+            >
+              <span className="text-xs font-bold uppercase tracking-widest text-[#007AFF]">
                 {t('team.label')}
               </span>
-            </div>
+            </motion.div>
             
-            <h3 className="font-sans text-[clamp(2.5rem,5.5vw,5.5rem)] font-medium leading-[1.05] text-[#111111] tracking-tighter text-balance mb-16 mx-auto">
+            <motion.h3 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="font-sans text-[clamp(2.5rem,4.5vw,4.5rem)] font-semibold leading-[1.05] text-[#1d1d1f] tracking-tighter text-balance mb-16 mx-auto max-w-4xl"
+            >
               {t('team.quote')}
-            </h3>
+            </motion.h3>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10">
-              {/* Minimal Avatars */}
-              <div className="flex -space-x-3">
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-white bg-gray-100 relative z-10">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10"
+            >
+              <div className="flex -space-x-4">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] bg-gray-100 shadow-md relative z-10">
                   <Image src="/Property 1=68.png" alt="Avatar 1" width={64} height={64} className="w-full h-full object-cover" />
                 </div>
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-white bg-gray-200 relative z-20">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] bg-gray-200 shadow-md relative z-20">
                   <Image src="/Property 1=11.png" alt="Avatar 2" width={64} height={64} className="w-full h-full object-cover" />
                 </div>
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-white bg-gray-300 relative z-30">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] bg-gray-300 shadow-md relative z-30">
                   <Image src="/Property 1=06.png" alt="Avatar 3" width={64} height={64} className="w-full h-full object-cover" />
                 </div>
               </div>
@@ -58,70 +74,73 @@ export function Team() {
               <div className="hidden sm:block w-[1px] h-12 bg-black/10"></div>
               
               <div className="flex flex-col text-center sm:text-left">
-                <span className="font-sans font-bold text-[#111111] text-lg md:text-xl tracking-tight">Sarah Jenkins & Team</span>
-                <span className="text-xs md:text-sm font-semibold tracking-widest text-black/40 uppercase mt-1">VP of Operations, TechFlow</span>
+                <span className="font-sans font-semibold text-[#1d1d1f] text-lg md:text-xl tracking-tight">Sarah Jenkins & Team</span>
+                <span className="text-[10px] font-bold tracking-widest text-black/40 uppercase mt-1">VP of Operations, TechFlow</span>
               </div>
-            </div>
+            </motion.div>
             
           </div>
         </div>
 
-        {/* Mission & Team Scattered Cards */}
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-8 items-center mt-32 md:mt-48 pb-20">
+        {/* Completely New Immersive Team Layout */}
+        <div className="flex flex-col items-center mt-32 md:mt-48 pb-20">
           
-          {/* Left: Mission Text */}
-          <div className="w-full lg:w-5/12 text-left z-10">
-            <div className="mb-8">
-              <span className="font-handwritten text-2xl md:text-3xl text-[#007AFF] font-bold inline-block px-6 py-2 border-2 border-[#007AFF] rounded-[2rem] bg-[#007AFF]/5 transform rotate-2">
-                Our Mission.
-              </span>
+          <div className="flex flex-col lg:flex-row items-start justify-between w-full max-w-6xl mx-auto px-4 md:px-0 mb-16 md:mb-24 gap-8 lg:gap-24">
+            
+            {/* Left Side: Title */}
+            <div className="flex flex-col lg:w-1/2">
+              <div className="mb-6">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#007AFF]">
+                  Our Mission & Team
+                </span>
+              </div>
+              <h2 className="font-sans text-[clamp(2.5rem,4vw,4.5rem)] font-semibold tracking-tighter text-[#1d1d1f] leading-[1.05] text-balance">
+                We build the systems so leaders can go back to leading.
+              </h2>
             </div>
             
-            <h2 className="font-sans text-[clamp(2rem,4vw,3rem)] font-black tracking-tight text-[#111111] leading-[1.1] mb-8 text-balance">
-              We saw brilliant leaders working like robots to keep their companies afloat.
-            </h2>
-            <p className="text-xl md:text-2xl text-[#555555] font-medium leading-relaxed text-balance">
-              We decided to build the systems and the robots, so those leaders could go back to leading. That is the essence of our team.
-            </p>
+            {/* Right Side: Text */}
+            <div className="flex flex-col lg:w-1/2 lg:pt-14">
+              <p className="text-xl md:text-2xl text-black/50 font-medium leading-relaxed text-balance">
+                That is the essence of our team. We saw brilliant minds working like robots, so we decided to build the robots for them.
+              </p>
+            </div>
+
           </div>
 
-          {/* Right: Overlapping Polaroids */}
-          <div className="w-full lg:w-7/12 relative h-[550px] md:h-[700px] flex items-center justify-center mt-8 lg:mt-0">
-            
-            {/* Background Blob/Decoration */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#007AFF]/5 rounded-full blur-3xl -z-10" />
-            
-            {members.map((m, i) => {
-              // Pre-calculate rotations and positions for 3 cards
-              const rotations = ['-rotate-12', 'rotate-6', 'rotate-[16deg]'];
-              const translates = ['-translate-x-16 md:-translate-x-32 -translate-y-12', 'translate-x-0 z-10', 'translate-x-16 md:translate-x-36 translate-y-20 z-20'];
-              
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 100 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ delay: i * 0.15, duration: 0.8, type: "spring", bounce: 0.4 }}
-                  whileHover={{ scale: 1.15, zIndex: 50, rotate: 0, transition: { duration: 0.3 } }}
-                  className={`absolute w-[220px] md:w-[320px] bg-white p-4 md:p-5 pb-6 md:pb-8 rounded-xl md:rounded-2xl shadow-[0_20px_50px_-10px_rgba(0,0,0,0.15)] border border-black/5 cursor-pointer origin-bottom ${rotations[i]} ${translates[i]} group transition-all duration-300`}
-                >
-                  <div className="relative w-full aspect-[4/5] rounded-lg overflow-hidden mb-6 bg-gray-100 shadow-inner">
-                    <Image
-                      src={m.img}
-                      fill
-                      className={`object-cover transition-transform duration-700 group-hover:scale-110 ${m.name === 'Miguel' ? 'object-top' : 'object-center'}`}
-                      alt={m.name}
-                      referrerPolicy="no-referrer"
-                    />
+          {/* Symmetrical Immersive Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-6xl mx-auto px-4 md:px-0">
+            {members.map((member, i) => (
+              <div 
+                key={i} 
+                className="relative group rounded-[32px] md:rounded-[48px] overflow-hidden bg-gray-100 aspect-[3/4] md:aspect-[3/4] lg:aspect-[2/3] shadow-lg hover:shadow-2xl transition-all duration-700 ease-out transform hover:-translate-y-2"
+              >
+                {/* Image */}
+                <Image
+                  src={member.img}
+                  fill
+                  className="object-cover object-top transition-transform duration-1000 group-hover:scale-105"
+                  alt={member.name}
+                  referrerPolicy="no-referrer"
+                />
+                
+                {/* Dark Gradient Overlay for Text Readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
+
+                {/* Info Container (Floats at bottom) */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 flex flex-col items-center text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                  <div className="w-full flex justify-center mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                    <span className="w-8 h-1 bg-[#007AFF] rounded-full"></span>
                   </div>
-                  <div className="px-2 flex flex-col items-center text-center">
-                    <h3 className="font-sans font-black text-2xl md:text-3xl text-[#111111] leading-none mb-2">{m.name}</h3>
-                    <span className="font-handwritten text-xl text-[#007AFF] font-bold">{m.role}</span>
-                  </div>
-                </motion.div>
-              );
-            })}
+                  <h3 className="font-sans font-semibold text-3xl md:text-4xl text-white leading-none mb-3 tracking-tight">
+                    {member.name}
+                  </h3>
+                  <span className="inline-block px-4 py-2 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-[10px] md:text-xs font-bold uppercase tracking-widest text-white">
+                    {member.role}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
           
         </div>

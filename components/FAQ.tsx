@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Minus } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 
+const springConfig = { type: "spring", stiffness: 100, damping: 20 };
+
 function FAQItem({ question, answer, isOpen, onClick }: { question: string, answer: string, isOpen: boolean, onClick: () => void }) {
   return (
     <div className="border-b border-black/10">
@@ -11,9 +13,9 @@ function FAQItem({ question, answer, isOpen, onClick }: { question: string, answ
         onClick={onClick}
         className="w-full flex items-center justify-between py-6 md:py-8 text-left group"
       >
-        <h3 className="font-sans text-xl md:text-2xl font-black tracking-tight pr-8 text-[#111111] group-hover:text-[#007AFF] transition-colors duration-300">{question}</h3>
-        <div className="flex-shrink-0 w-10 h-10 rounded-full border border-black/20 flex items-center justify-center group-hover:border-[#007AFF] group-hover:bg-[#007AFF] group-hover:text-white transition-colors duration-300 text-[#111111]">
-          {isOpen ? <Minus size={16} strokeWidth={2.5} /> : <Plus size={16} strokeWidth={2.5} />}
+        <h3 className="font-sans text-xl md:text-2xl font-semibold tracking-tight pr-8 text-[#1d1d1f] group-hover:text-[#007AFF] transition-colors duration-300">{question}</h3>
+        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white border border-black/5 shadow-sm flex items-center justify-center group-hover:border-[#007AFF] group-hover:bg-[#007AFF] group-hover:text-white transition-colors duration-300 text-black/50">
+          {isOpen ? <Minus size={18} strokeWidth={2.5} /> : <Plus size={18} strokeWidth={2.5} />}
         </div>
       </button>
       <AnimatePresence>
@@ -25,7 +27,7 @@ function FAQItem({ question, answer, isOpen, onClick }: { question: string, answ
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <p className="font-sans pb-10 pt-2 text-lg md:text-xl text-[#555555] font-medium leading-relaxed max-w-4xl">
+            <p className="font-sans pb-10 pt-2 text-lg md:text-xl text-black/60 font-medium leading-relaxed max-w-4xl">
               {answer}
             </p>
           </motion.div>
@@ -49,35 +51,57 @@ export function FAQ() {
   ];
 
   return (
-    <section id="faq" className="py-24 md:py-40 bg-[#FAFAFA]">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-20 items-start">
+    <section id="faq" className="py-24 md:py-40 bg-[#fbfbfd]">
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24 items-start">
           
           <div className="lg:col-span-5 relative">
-            <div className="sticky top-40">
-              <span className="inline-block font-handwritten text-2xl md:text-3xl font-bold text-[#007AFF] transform -rotate-2 mb-6">{t('faq.transparency')}</span>
+            <div className="sticky top-40 flex flex-col items-center text-center lg:items-start lg:text-left">
+              <motion.span 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={springConfig}
+                className="text-xs font-bold uppercase tracking-widest text-[#007AFF] mb-6 block"
+              >
+                {t('faq.transparency')}
+              </motion.span>
               
-              <h2 className="font-sans text-4xl md:text-5xl font-black tracking-tight leading-[1.1] text-[#111111] text-balance mb-8">
-                {t('faq.title1')} <br />
-                <span className="relative inline-block mt-1 md:mt-2">
-                  <span className="relative z-10 text-[#111111]">{t('faq.title2')}</span>
-                  {/* Subtle yellow underline */}
-                  <svg className="absolute -bottom-1 md:-bottom-2 left-0 w-full h-3 md:h-4 text-[#FFD500] -z-10 opacity-70" viewBox="0 0 200 30" preserveAspectRatio="none">
-                    <path d="M0,15 C50,30 150,10 200,20" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-                  </svg>
+              <motion.h2 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ ...springConfig, delay: 0.1 }}
+                className="font-sans text-[clamp(2.5rem,4vw,4rem)] font-semibold tracking-tighter leading-[1.05] text-[#1d1d1f] text-balance mb-8"
+              >
+                {t('faq.title1')} <br className="hidden md:block" />
+                <span className="text-black/30 mt-2 block">
+                  {t('faq.title2')}
                 </span>
-              </h2>
+              </motion.h2>
               
-              <p className="text-lg md:text-xl text-[#555555] font-medium leading-relaxed mb-12 max-w-sm">
+              <motion.p 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ ...springConfig, delay: 0.2 }}
+                className="text-lg md:text-xl text-black/60 font-medium leading-relaxed mb-12 max-w-sm text-balance"
+              >
                 {t('faq.desc')}
-              </p>
+              </motion.p>
               
-              <div className="flex flex-col gap-5">
-                <span className="text-sm font-bold uppercase tracking-widest text-[#111111]">{t('faq.notFound')}</span>
-                <a href="mailto:contact@elevaops.com" className="inline-flex items-center justify-center bg-black text-white px-8 py-4 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-[#007AFF] transition-colors duration-300 w-fit">
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ ...springConfig, delay: 0.3 }}
+                className="flex flex-col items-center lg:items-start gap-5"
+              >
+                <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">{t('faq.notFound')}</span>
+                <a href="mailto:contact@elevaops.com" className="inline-flex items-center justify-center bg-[#1d1d1f] text-white px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#007AFF] transition-colors duration-300 w-fit shadow-[0_10px_30px_-10px_rgba(0,0,0,0.3)]">
                   {t('faq.contact')}
                 </a>
-              </div>
+              </motion.div>
             </div>
           </div>
           

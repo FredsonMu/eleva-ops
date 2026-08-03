@@ -3,144 +3,155 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useLanguage } from '@/lib/i18n';
+import { Layers, Presentation, Compass, Briefcase } from 'lucide-react';
 
 export function Services() {
   const { t } = useLanguage();
+  const springConfig = { type: "spring", stiffness: 100, damping: 20 };
+
+  const icons = [Layers, Presentation, Compass, Briefcase];
 
   const specialties = [
     {
       id: "01",
       title: t('serv.1.title'),
       desc: t('serv.1.desc'),
-      image: "/platforms-websites.svg",
-      bg: "bg-[#E0F7FA]",
-      textColor: "text-[#006064]",
-      rotation: -2
+      image: "/platforms-websites.svg"
     },
     {
       id: "02",
       title: t('serv.2.title'),
       desc: t('serv.2.desc'),
-      image: "/business-presentation.svg",
-      bg: "bg-[#F3E5F5]",
-      textColor: "text-[#4A148C]",
-      rotation: 1
+      image: "/business-presentation.svg"
     },
     {
       id: "03",
       title: t('serv.3.title'),
       desc: t('serv.3.desc'),
-      image: "/wireframe.svg",
-      bg: "bg-[#FFF9C4]",
-      textColor: "text-[#F57F17]",
-      rotation: -1
+      image: "/wireframe.svg"
     },
     {
       id: "04",
       title: t('serv.4.title'),
       desc: t('serv.4.desc'),
-      image: "/business-deal.svg",
-      bg: "bg-[#FBE9E7]",
-      textColor: "text-[#BF360C]",
-      rotation: 2
+      image: "/business-deal.svg"
     }
   ];
 
   const targetRef = useRef<HTMLDivElement | null>(null);
   
-  // Track scroll progress for the 400vh container
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
-  // Move the entire track left based on scroll.
-  // Using -75% ensures we scroll past all items.
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
   return (
-    <section ref={targetRef} id="servicos" className="relative h-[400vh] bg-[#FAFAFA] z-10">
+    <section ref={targetRef} id="servicos" className="relative h-[400vh] z-10 bg-[#fbfbfd]">
       
-      {/* Sticky Container - Pins to screen for horizontal scroll */}
+      {/* Sticky Container */}
       <div className="sticky top-0 flex items-center h-screen overflow-hidden">
         
-        {/* Playful background pattern (dots) */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
+        {/* Subtle mesh background */}
+        <div className="absolute inset-0">
+           <div className="absolute top-[-20%] right-[-10%] w-[50vw] h-[50vw] bg-[#007AFF]/3 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+        </div>
 
         {/* The Moving Horizontal Track */}
-        <motion.div style={{ x }} className="flex items-center gap-12 md:gap-24 px-6 md:px-24 w-max relative z-10 h-full py-20">
+        <motion.div style={{ x }} className="flex items-center gap-8 md:gap-16 px-6 md:px-24 w-max relative z-10 h-full py-20">
           
           {/* Slide 1: The Intro Text */}
-          <div className="flex flex-col justify-center w-[85vw] md:w-[600px] flex-shrink-0 pl-4 md:pl-12">
+          <div className="flex flex-col justify-center items-center text-center md:items-start md:text-left w-[85vw] md:w-[500px] flex-shrink-0 md:pl-12">
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mb-8"
+              transition={springConfig}
+              className="mb-6"
             >
-              <span className="font-handwritten text-2xl md:text-3xl text-[#007AFF] font-bold inline-block px-6 py-2 border-2 border-[#007AFF] rounded-[2rem] bg-[#007AFF]/5 transform -rotate-2">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#007AFF]">
                 {t('serv.label')}
               </span>
             </motion.div>
             
-            <h2 className="font-sans text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.05] tracking-tight font-black text-[#111111] text-balance">
-              {t('serv.title1')} <br />
-              <span className="relative inline-block mt-2">
-                <span className="relative z-10">{t('serv.title2')}</span>
-                {/* Massive playful underline */}
-                <svg className="absolute -bottom-3 left-0 w-full h-6 text-[#FFD500] -z-10" viewBox="0 0 200 30" preserveAspectRatio="none">
-                  <path d="M0,15 Q100,30 200,10" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
-                </svg>
+            <motion.h2 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ ...springConfig, delay: 0.1 }}
+              className="font-sans text-[clamp(2.5rem,4vw,4rem)] leading-[1.05] tracking-tight font-semibold text-[#1d1d1f] text-balance"
+            >
+              {t('serv.title1')} <br className="hidden md:block" />
+              <span className="text-black/30 mt-2 block">
+                {t('serv.title2')}
               </span>
-            </h2>
+            </motion.h2>
             
-            <p className="mt-8 text-xl text-[#555] font-medium max-w-md">
-              Keep scrolling down to explore our approach.
-            </p>
+            <motion.p 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ ...springConfig, delay: 0.2 }}
+              className="mt-6 text-lg text-black/50 font-medium max-w-md leading-relaxed"
+            >
+              Scroll to explore our core solutions designed for scale.
+            </motion.p>
           </div>
 
           {/* Slides 2-5: The Cards */}
-          {specialties.map((item, i) => (
-            <div 
-              key={item.id}
-              className={`group relative rounded-[2.5rem] border-[8px] border-white ${item.bg} p-6 md:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between w-[85vw] md:w-[500px] flex-shrink-0 h-[60vh] min-h-[320px] max-h-[600px]`}
-              style={{ transform: `rotate(${item.rotation}deg)` }}
-            >
-              
-              <div className="flex justify-between items-start z-10 relative">
-                <span className={`font-mono text-4xl font-black ${item.textColor} bg-white/80 backdrop-blur-md px-6 py-3 rounded-2xl shadow-sm border border-white/50 transform -rotate-3`}>
-                  {item.id}
-                </span>
-              </div>
-              
-              {/* Card Content (Bottom) */}
-              <div className="relative z-10 mt-auto bg-white/90 backdrop-blur-xl border border-white/50 rounded-[2rem] p-6 shadow-lg">
-                <h3 className="text-2xl md:text-3xl font-sans font-black tracking-tight text-[#111111] mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-[#555555] font-medium leading-relaxed text-sm md:text-base">
-                  {item.desc}
-                </p>
-              </div>
+          {specialties.map((item, i) => {
+            const Icon = icons[i];
+            return (
+              <motion.div 
+                key={item.id}
+                initial={{ opacity: 0, scale: 0.9, y: 50 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ ...springConfig, delay: i * 0.1 }}
+                className="group relative rounded-[40px] ios-card p-1 flex flex-col justify-between w-[85vw] md:w-[480px] flex-shrink-0 h-[65vh] min-h-[400px] max-h-[600px] transition-transform duration-700 hover:-translate-y-4"
+              >
+                <div className="w-full h-full bg-[#fbfbfd] rounded-[36px] p-8 md:p-10 flex flex-col justify-between relative overflow-hidden">
+                  
+                  {/* Top Bar */}
+                  <div className="flex justify-between items-start z-10 relative">
+                    <span className="font-sans text-lg font-bold text-black/20">
+                      {item.id}
+                    </span>
+                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#007AFF] shadow-sm">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                  </div>
+                  
+                  {/* Central abstract graphic */}
+                  <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center opacity-70 transition-opacity duration-700">
+                    <div className="w-[120%] h-[120%] relative group-hover:scale-105 transition-transform duration-1000 ease-out">
+                       <Image src={item.image} alt={item.title} fill className="object-contain drop-shadow-xl" />
+                    </div>
+                  </div>
 
-              {/* Overflowing SVG Image */}
-              <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-[2rem]">
-                <div className="absolute top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] group-hover:scale-105 group-hover:rotate-2 transition-transform duration-700 ease-out opacity-90">
-                  <Image src={item.image} alt={item.title} fill className="object-cover md:object-contain drop-shadow-xl" />
+                  {/* Card Content (Bottom) */}
+                  <div className="relative z-10 mt-auto bg-white p-6 rounded-[24px] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] text-center md:text-left flex flex-col items-center md:items-start border border-black/5">
+                    <h3 className="text-2xl font-sans font-semibold tracking-tight text-[#1d1d1f] mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-black/50 font-medium leading-relaxed text-sm">
+                      {item.desc}
+                    </p>
+                  </div>
+
                 </div>
-              </div>
-              
-            </div>
-          ))}
+              </motion.div>
+            );
+          })}
           
-          {/* Final padding slide to ensure the last card is fully visible before un-sticking */}
           <div className="w-[40vw] md:w-[15vw] flex-shrink-0"></div>
 
         </motion.div>
 
-        {/* Global Progress Bar for the Section */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-64 h-2 bg-black/10 rounded-full overflow-hidden">
+        {/* Global Progress Bar */}
+        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 w-48 h-1.5 bg-black/5 rounded-full overflow-hidden border-none shadow-none">
           <motion.div 
-            className="h-full bg-[#111111]"
+            className="h-full bg-black/40 rounded-full"
             style={{ width: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
           />
         </div>
