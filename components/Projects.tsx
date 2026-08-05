@@ -4,6 +4,8 @@ import { Play, RotateCcw } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { useRef, useState, useEffect, useCallback } from 'react';
 
+const springConfig = { type: "spring" as const, stiffness: 100, damping: 20 };
+
 interface Project {
   id: string;
   title: string;
@@ -11,8 +13,6 @@ interface Project {
   tag?: string;
   video: string;
 }
-
-const springConfig = { type: "spring" as const, stiffness: 100, damping: 20 };
 
 function ProjectCard({ 
   p, 
@@ -79,11 +79,12 @@ function ProjectCard({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="ios-card rounded-[40px] md:rounded-[48px] p-2 flex flex-col lg:flex-row gap-0 transition-transform duration-700 hover:-translate-y-4 origin-top relative overflow-hidden">
-        <div className="w-full h-full bg-white rounded-[36px] md:rounded-[40px] flex flex-col lg:flex-row p-4 md:p-6 lg:p-8 gap-6 md:gap-10">
+      <div className="bg-white border-[0.5px] border-black/10 rounded-[24px] md:rounded-[48px] p-2 flex flex-col lg:flex-row gap-0 transition-transform duration-700 hover:-translate-y-2 origin-top relative overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.05)]">
+        <div className="w-full h-full bg-white rounded-[20px] md:rounded-[40px] flex flex-col lg:flex-row p-4 md:p-6 lg:p-8 gap-6 md:gap-10">
+          
           {/* Left Side: Video Container */}
           <div 
-            className="relative w-full lg:w-3/5 aspect-[4/3] lg:aspect-video rounded-[32px] overflow-hidden cursor-pointer group/video shadow-inner"
+            className="relative w-full aspect-video rounded-[16px] md:rounded-[32px] overflow-hidden cursor-pointer group/video shadow-inner bg-black/5"
             onClick={togglePlay}
           >
             <video 
@@ -111,9 +112,9 @@ function ProjectCard({
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={togglePlay}
-                    className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white flex items-center justify-center shadow-2xl transition-all duration-300 group-hover/video:bg-white/90"
+                    className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center shadow-2xl transition-all duration-300 group-hover/video:bg-white"
                   >
-                    <Play size={32} fill="#1d1d1f" className="text-[#1d1d1f] ml-1.5" />
+                    <Play size={28} fill="#1d1d1f" className="text-[#1d1d1f] ml-1.5 md:ml-2 w-6 h-6 md:w-8 md:h-8" />
                   </motion.button>
                 </motion.div>
               )}
@@ -129,10 +130,10 @@ function ProjectCard({
                   whileHover={{ scale: 1.1, rotate: -15 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={restartVideo}
-                  className={`absolute bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 z-10 bg-white ${isPlaying ? 'hover:bg-white text-black' : 'text-black'}`}
+                  className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 z-10 bg-white/90 backdrop-blur-md hover:bg-white text-black`}
                   title="Restart"
                 >
-                  <RotateCcw size={18} strokeWidth={2.5} />
+                  <RotateCcw size={16} strokeWidth={2.5} className="md:w-[18px] md:h-[18px]" />
                 </motion.button>
               )}
             </AnimatePresence>
@@ -141,22 +142,22 @@ function ProjectCard({
           {/* Right Side: Content */}
           <div className="w-full lg:w-2/5 flex flex-col justify-center items-center text-center lg:items-start lg:text-left py-4 md:py-8 lg:pr-8">
             <div className="flex items-center justify-center lg:justify-start gap-3 mb-6 md:mb-8">
-              <span className="font-sans text-xl md:text-2xl font-bold text-black/30">
+              <span className="font-sans text-lg md:text-2xl font-bold text-black/30">
                 {p.id}
               </span>
-              <span className="w-8 h-[2px] bg-black/10" />
+              <span className="w-6 md:w-8 h-[2px] bg-black/10" />
               <span className="text-[10px] font-bold uppercase tracking-widest text-[#007AFF]">
                 {p.category}
               </span>
             </div>
             
-            <h3 className="text-3xl md:text-5xl lg:text-6xl font-sans font-semibold tracking-tight text-[#1d1d1f] leading-[1.1] mb-6 text-balance">
+            <h3 className="text-2xl md:text-5xl lg:text-6xl font-sans font-semibold tracking-tight text-[#1d1d1f] leading-[1.1] mb-6 text-balance">
               {p.title}
             </h3>
 
             {p.tag && (
-              <div className="mb-8">
-                <span className="bg-[#fbfbfd] border border-black/5 shadow-sm inline-block px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-black/80">
+              <div className="mb-4 md:mb-8">
+                <span className="bg-[#fdfdfd] border border-black/5 shadow-sm inline-block px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-black/80">
                   {p.tag}
                 </span>
               </div>
@@ -164,7 +165,6 @@ function ProjectCard({
             
           </div>
         </div>
-        
       </div>
     </motion.div>
   );
@@ -206,30 +206,26 @@ export function Projects() {
   ];
 
   return (
-    <section id="trabalho" className="py-24 md:py-40 relative z-10 overflow-visible bg-[#fbfbfd]">
+    <section id="trabalho" className="py-20 md:py-40 relative z-10 overflow-visible bg-transparent">
       
-      <div className="absolute inset-0">
-         <div className="absolute top-[20%] left-[-10%] w-[50vw] h-[50vw] bg-[#007AFF]/3 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
-      </div>
-
-      <div className="w-full px-4 md:px-8 relative z-10">
-        <header className="max-w-4xl mx-auto mb-20 md:mb-32 text-center flex flex-col items-center">
+      <div className="w-full px-4 md:px-6 relative z-10">
+        <header className="max-w-4xl mx-auto mb-16 md:mb-32 text-center flex flex-col items-center">
           <div className="mb-6">
             <span className="text-xs font-bold uppercase tracking-widest text-[#007AFF]">
               {t('proj.label')}
             </span>
           </div>
           <h2 className="font-sans text-[clamp(2.5rem,5vw,5.5rem)] font-semibold tracking-tighter text-[#1d1d1f] leading-[1.05] mb-6 text-balance">
-            {t('proj.title1')} <br />
+            {t('proj.title1')} <br className="hidden md:block" />
             <span className="text-black/30 mt-2 block">{t('proj.title2')}</span>
           </h2>
-          <p className="text-lg md:text-xl text-black/60 leading-relaxed max-w-2xl font-medium mt-6">
+          <p className="text-lg md:text-xl text-black/60 leading-relaxed max-w-2xl font-medium mt-4 md:mt-6">
             {t('proj.subtitle')}
           </p>
         </header>
 
         {/* Sticky Stacking Cards Container */}
-        <div className="flex flex-col gap-8 md:gap-16 pb-32">
+        <div className="flex flex-col gap-8 md:gap-16 pb-20 md:pb-32">
           {projects.map((p, i) => (
             <ProjectCard 
               key={p.id} 

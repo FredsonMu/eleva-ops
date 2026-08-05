@@ -1,5 +1,4 @@
 'use client';
-import { motion } from 'motion/react';
 import Image from 'next/image';
 import { useLanguage } from '@/lib/i18n';
 
@@ -10,7 +9,7 @@ export function Team() {
     {
       name: "Eduardo",
       role: t('team.m1.role'),
-      img: "/edu.jpeg"
+      img: "/Edu.png"
     },
     {
       name: "Fredson",
@@ -25,40 +24,23 @@ export function Team() {
   ];
 
   return (
-    <section id="equipa" className="pt-24 pb-32 md:pt-40 md:pb-48 bg-[#fbfbfd] overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
+    <section className="pt-20 pb-24 md:pt-40 md:pb-48 bg-transparent overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
 
         <div className="mb-32 md:mb-52 max-w-5xl mx-auto">
           <div className="flex flex-col items-center text-center">
             
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mb-8"
-            >
+            <div className="mb-8">
               <span className="text-xs font-bold uppercase tracking-widest text-[#007AFF]">
                 {t('team.label')}
               </span>
-            </motion.div>
+            </div>
             
-            <motion.h3 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="font-sans text-[clamp(2.5rem,4.5vw,4.5rem)] font-semibold leading-[1.05] text-[#1d1d1f] tracking-tighter text-balance mb-16 mx-auto max-w-4xl"
-            >
+            <h3 className="font-sans text-[clamp(2.5rem,4.5vw,4.5rem)] font-semibold leading-[1.05] text-[#1d1d1f] tracking-tighter text-balance mb-12 md:mb-16 mx-auto max-w-4xl">
               {t('team.quote')}
-            </motion.h3>
+            </h3>
             
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10"
-            >
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10">
               <div className="flex -space-x-4">
                 <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] bg-gray-100 shadow-md relative z-10">
                   <Image src="/Property 1=68.png" alt="Avatar 1" width={64} height={64} className="w-full h-full object-cover" />
@@ -74,46 +56,46 @@ export function Team() {
               <div className="hidden sm:block w-[1px] h-12 bg-black/10"></div>
               
               <div className="flex flex-col text-center sm:text-left">
-                <span className="font-sans font-semibold text-[#1d1d1f] text-lg md:text-xl tracking-tight">Sarah Jenkins & Team</span>
-                <span className="text-[10px] font-bold tracking-widest text-black/40 uppercase mt-1">VP of Operations, TechFlow</span>
+                <span className="font-sans font-semibold text-[#1d1d1f] text-lg md:text-xl tracking-tight">{t('team.p1.name')}</span>
+                <span className="text-[10px] font-bold tracking-widest text-black/40 uppercase mt-1">{t('team.p1.role')}</span>
               </div>
-            </motion.div>
+            </div>
             
           </div>
         </div>
 
         {/* Completely New Immersive Team Layout */}
-        <div className="flex flex-col items-center mt-32 md:mt-48 pb-20">
+        <div id="equipa" className="flex flex-col items-center mt-24 md:mt-48 pb-10 md:pb-20">
           
-          <div className="flex flex-col lg:flex-row items-start justify-between w-full max-w-6xl mx-auto px-4 md:px-0 mb-16 md:mb-24 gap-8 lg:gap-24">
+          <div className="flex flex-col lg:flex-row items-start justify-between w-full max-w-6xl mx-auto mb-16 md:mb-24 gap-8 lg:gap-24">
             
             {/* Left Side: Title */}
             <div className="flex flex-col lg:w-1/2">
               <div className="mb-6">
                 <span className="text-xs font-bold uppercase tracking-widest text-[#007AFF]">
-                  Our Mission & Team
+                  {t('team.who')}{t('team.are')}
                 </span>
               </div>
               <h2 className="font-sans text-[clamp(2.5rem,4vw,4.5rem)] font-semibold tracking-tighter text-[#1d1d1f] leading-[1.05] text-balance">
-                We build the systems so leaders can go back to leading.
+                {t('team.title')}
               </h2>
             </div>
             
             {/* Right Side: Text */}
             <div className="flex flex-col lg:w-1/2 lg:pt-14">
               <p className="text-xl md:text-2xl text-black/50 font-medium leading-relaxed text-balance">
-                That is the essence of our team. We saw brilliant minds working like robots, so we decided to build the robots for them.
+                {t('team.desc')}
               </p>
             </div>
 
           </div>
 
           {/* Symmetrical Immersive Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-6xl mx-auto px-4 md:px-0">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-6xl mx-auto">
             {members.map((member, i) => (
               <div 
                 key={i} 
-                className="relative group rounded-[32px] md:rounded-[48px] overflow-hidden bg-gray-100 aspect-[3/4] md:aspect-[3/4] lg:aspect-[2/3] shadow-lg hover:shadow-2xl transition-all duration-700 ease-out transform hover:-translate-y-2"
+                className="relative group rounded-[24px] md:rounded-[48px] overflow-hidden bg-gray-100 aspect-[3/4] md:aspect-[3/4] lg:aspect-[2/3] shadow-lg hover:shadow-2xl transition-all duration-700 ease-out transform hover:-translate-y-2 border border-black/5"
               >
                 {/* Image */}
                 <Image

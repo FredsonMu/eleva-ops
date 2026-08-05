@@ -7,6 +7,7 @@ export const dict = {
   'nav.contact': { pt: 'Falar com a Equipa', en: 'Talk to Us' },
 
   // Hero
+  'hero.startProject': { pt: 'Começar projeto', en: 'Start a project' },
   'hero.pill': { pt: 'Disponível para novos projetos', en: 'Available for new projects' },
   'hero.typing1': { pt: 'Ops.', en: 'Ops.' },
   'hero.typing2': { pt: 'Sistemas.', en: 'Systems.' },
@@ -29,15 +30,23 @@ export const dict = {
   'about.title1': { pt: 'O seu maior gargalo', en: 'Your biggest bottleneck' },
   'about.title2': { pt: 'é a sua própria operação.', en: 'is your own operation.' },
   'about.p1': { pt: 'Demasiadas ferramentas que não comunicam entre si. Informação perdida em intermináveis threads de WhatsApp. Tarefas manuais que sugam a energia da sua melhor equipa. O seu negócio está a ser estrangulado pela sua própria operação.', en: 'Too many tools that don\'t talk to each other. Information lost in endless WhatsApp threads. Manual tasks draining your best team\'s energy. Your business is being choked by its own operation.' },
+  'about.hero.1': { pt: 'Demasiadas ferramentas que não comunicam entre si.', en: 'Too many tools that don\'t talk to each other.' },
+  'about.hero.2': { pt: 'Informação perdida em intermináveis threads de WhatsApp. Tarefas manuais que sugam a energia da sua melhor equipa.', en: 'Information lost in endless WhatsApp threads. Manual tasks draining your best team\'s energy.' },
+  'about.hero.3': { pt: 'O seu negócio está a ser estrangulado pela sua própria operação.', en: 'Your business is being choked by its own operation.' },
   'about.p2': { pt: 'A Eleva Ops existe para cortar o ruído. Não vendemos apenas "websites" ou "software". Desenhamos a arquitetura invisível que permite à sua empresa escalar. Substituímos o caos por sistemas focados em organização, clareza e conversão.', en: 'Eleva Ops exists to cut the noise. We don\'t just sell "websites" or "software". We design the invisible architecture that allows your company to scale. We replace chaos with systems focused on organization, clarity, and conversion.' },
+  'about.oldWay': { pt: 'A Maneira Antiga', en: 'The Old Way' },
+  'about.newStandard': { pt: 'O Novo Padrão', en: 'The New Standard' },
   'about.vision': { pt: 'Caos', en: 'Chaos' },
   'about.editorial': { pt: 'Processos Manuais', en: 'Manual Processes' },
+  'about.chaos.desc': { pt: 'Processos manuais e gargalos intermináveis que sugam a energia da sua equipa.', en: 'Manual processes and endless bottlenecks draining your team\'s energy.' },
   'about.scale': { pt: 'Ordem', en: 'Order' },
+  'about.order.desc': { pt: 'Sistemas integrados e fluxos de trabalho automatizados que escalam graciosamente sem si.', en: 'Integrated systems and automated workflows that scale gracefully without you.' },
   'about.robust': { pt: 'Sistemas Integrados', en: 'Integrated Systems' },
   'about.focus': { pt: 'Gargalos', en: 'Bottlenecks' },
   'about.fluid': { pt: 'Fluxos Automatizados', en: 'Automated Workflows' },
   'about.axis': { pt: 'Resultado', en: 'Outcome' },
-  'about.conversion': { pt: 'Tempo Livre & Lucro', en: 'Free Time & Profit' },
+  'about.conversion': { pt: 'Tempo Livre &', en: 'Free Time &' },
+  'about.conversion2': { pt: 'Lucro', en: 'Profit' },
 
   // Services
   'serv.label': { pt: 'A Nossa Resposta', en: 'Our Answer' },
@@ -61,6 +70,9 @@ export const dict = {
   // Team
   'team.label': { pt: 'A Realidade', en: 'The Reality' },
   'team.quote': { pt: '"Antes da Eleva Ops, perdíamos horas em tarefas operacionais. Agora, o sistema faz o trabalho pesado. O resultado? Mais tempo para os clientes e o dobro da conversão online."', en: '"Before Eleva Ops, we wasted hours on operational tasks. Now, the system does the heavy lifting. The result? More time for clients and twice the online conversion."' },
+  'team.p1.name': { pt: 'Sarah Jenkins & Equipa', en: 'Sarah Jenkins & Team' },
+  'team.p1.role': { pt: 'VP de Operações, TechFlow', en: 'VP of Operations, TechFlow' },
+  'team.title': { pt: 'Construímos os sistemas para que os líderes possam voltar a liderar.', en: 'We build the systems so leaders can go back to leading.' },
   'team.who': { pt: 'A nossa ', en: 'Our ' },
   'team.are': { pt: 'Missão.', en: 'Mission.' },
   'team.desc': { pt: 'Víamos líderes brilhantes a trabalhar como robôs para manter as empresas de pé. Decidimos construir os sistemas e os robôs, para que esses líderes pudessem voltar a liderar. Essa é a essência da nossa equipa.', en: 'We saw brilliant leaders working like robots to keep their companies afloat. We decided to build the systems and the robots, so those leaders could go back to leading. That is the essence of our team.' },

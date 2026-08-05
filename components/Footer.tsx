@@ -5,7 +5,7 @@ import { useLanguage } from '@/lib/i18n';
 export function Footer() {
   const { t } = useLanguage();
   return (
-    <footer className="pt-24 md:pt-40 pb-16 bg-[#fbfbfd] px-6 md:px-12 selection:bg-[#007AFF] selection:text-white border-t border-black/5">
+    <footer className="pt-24 md:pt-40 pb-16 bg-transparent px-4 md:px-6 selection:bg-[#007AFF] selection:text-white">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col mb-32 md:mb-40">
            <span className="text-xs font-bold uppercase tracking-widest text-[#007AFF] mb-8 block">
