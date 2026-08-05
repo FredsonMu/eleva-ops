@@ -30,9 +30,9 @@ export function LanguageToggle() {
     <>
       <button 
         onClick={handleToggle}
-        className="flex items-center gap-2 bg-black/5 hover:bg-black/10 p-1.5 md:px-3 md:py-1.5 rounded-full transition-colors cursor-pointer group pointer-events-auto border border-black/10 shrink-0"
+        className="flex items-center gap-2 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:bg-white/10 p-1.5 md:px-3 md:py-1.5 rounded-full transition-colors cursor-pointer group pointer-events-auto border border-black/10 dark:border-white/20 shrink-0"
       >
-        <div className="relative w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-white shadow-sm border border-black/5 shrink-0">
+        <div className="relative w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-white dark:bg-white/5 shadow-sm border border-black/5 dark:border-white/10 shrink-0">
            <AnimatePresence mode="wait" initial={false}>
              {language === 'pt' ? (
                 <motion.span 

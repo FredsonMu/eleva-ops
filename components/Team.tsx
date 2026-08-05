@@ -36,7 +36,7 @@ export function Team() {
               </span>
             </div>
             
-            <h3 className="font-sans text-[clamp(2.5rem,4.5vw,4.5rem)] font-semibold leading-[1.05] text-[#1d1d1f] tracking-tighter text-balance mb-12 md:mb-16 mx-auto max-w-4xl">
+            <h3 className="font-sans text-[clamp(2.5rem,4.5vw,4.5rem)] font-semibold leading-[1.05] text-[#1d1d1f] dark:text-white tracking-tighter text-balance mb-12 md:mb-16 mx-auto max-w-4xl">
               {t('team.quote')}
             </h3>
             
@@ -53,11 +53,11 @@ export function Team() {
                 </div>
               </div>
               
-              <div className="hidden sm:block w-[1px] h-12 bg-black/10"></div>
+              <div className="hidden sm:block w-[1px] h-12 bg-black/10 dark:bg-white/10"></div>
               
               <div className="flex flex-col text-center sm:text-left">
-                <span className="font-sans font-semibold text-[#1d1d1f] text-lg md:text-xl tracking-tight">{t('team.p1.name')}</span>
-                <span className="text-[10px] font-bold tracking-widest text-black/40 uppercase mt-1">{t('team.p1.role')}</span>
+                <span className="font-sans font-semibold text-[#1d1d1f] dark:text-white text-lg md:text-xl tracking-tight">{t('team.p1.name')}</span>
+                <span className="text-[10px] font-bold tracking-widest text-black/40 dark:text-white/40 uppercase mt-1">{t('team.p1.role')}</span>
               </div>
             </div>
             
@@ -76,14 +76,14 @@ export function Team() {
                   {t('team.who')}{t('team.are')}
                 </span>
               </div>
-              <h2 className="font-sans text-[clamp(2.5rem,4vw,4.5rem)] font-semibold tracking-tighter text-[#1d1d1f] leading-[1.05] text-balance">
+              <h2 className="font-sans text-[clamp(2.5rem,4vw,4.5rem)] font-semibold tracking-tighter text-[#1d1d1f] dark:text-white leading-[1.05] text-balance">
                 {t('team.title')}
               </h2>
             </div>
             
             {/* Right Side: Text */}
             <div className="flex flex-col lg:w-1/2 lg:pt-14">
-              <p className="text-xl md:text-2xl text-black/50 font-medium leading-relaxed text-balance">
+              <p className="text-xl md:text-2xl text-black/50 dark:text-white/50 font-medium leading-relaxed text-balance">
                 {t('team.desc')}
               </p>
             </div>
@@ -95,7 +95,7 @@ export function Team() {
             {members.map((member, i) => (
               <div 
                 key={i} 
-                className="relative group rounded-[24px] md:rounded-[48px] overflow-hidden bg-gray-100 aspect-[3/4] md:aspect-[3/4] lg:aspect-[2/3] shadow-lg hover:shadow-2xl transition-all duration-700 ease-out transform hover:-translate-y-2 border border-black/5"
+                className="relative group rounded-[24px] md:rounded-[48px] overflow-hidden bg-gray-100 aspect-[3/4] md:aspect-[3/4] lg:aspect-[2/3] shadow-lg hover:shadow-2xl transition-all duration-700 ease-out transform hover:-translate-y-2 border border-black/5 dark:border-white/10"
               >
                 {/* Image */}
                 <Image

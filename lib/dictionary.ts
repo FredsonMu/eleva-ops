@@ -149,6 +149,17 @@ export const dict = {
   'faq.5.a': { pt: 'As agências tradicionais focam-se em fazer sites bonitos. Nós focamo-nos em resolver problemas de negócio através de engenharia. Um site bonito que não gera leads ou que não está ligado ao seu CRM é inútil. Nós fechamos o ciclo: desde a atração do cliente até à gestão da operação.', en: 'Traditional agencies focus on making pretty websites. We focus on solving business problems through engineering. A pretty site that doesn\'t generate leads or isn\'t connected to your CRM is useless. We close the loop: from client attraction to operations management.' },
   'faq.6.q': { pt: 'Sei que tenho um problema de processos, mas não sei por onde começar.', en: 'I know I have a process problem, but I don\'t know where to start.' },
   'faq.6.a': { pt: 'Perfeito. Essa é a nossa fase de "Diagnóstico do Caos". Basta falar connosco. Vamos mapear os seus processos atuais gratuitamente, identificar os gargalos e mostrar-lhe exatamente como a automação ou um novo sistema pode poupar horas à sua equipa. Sem compromisso.', en: 'Perfect. That\'s our "Diagnosing the Chaos" phase. Just talk to us. We will map your current processes for free, identify the bottlenecks, and show you exactly how automation or a new system can save your team hours. No strings attached.' },
+  // Contact
+  'contact.label': { pt: 'Fale connosco', en: 'Get in touch' },
+  'contact.title1': { pt: 'Vamos construir algo ', en: 'Let\'s build something ' },
+  'contact.title2': { pt: 'incrível.', en: 'amazing.' },
+  'contact.desc': { pt: 'Tem um desafio complexo? Nós adoramos resolvê-los. Diga-nos o que precisa e entraremos em contacto em 24h.', en: 'Have a complex challenge? We love solving them. Tell us what you need and we\'ll get back to you within 24h.' },
+  'contact.name': { pt: 'O seu nome', en: 'Your name' },
+  'contact.email': { pt: 'O seu email', en: 'Your email' },
+  'contact.message': { pt: 'Como podemos ajudar?', en: 'How can we help?' },
+  'contact.submit': { pt: 'Enviar Mensagem', en: 'Send Message' },
+  'contact.loading': { pt: 'A enviar...', en: 'Sending...' },
+  'contact.success': { pt: 'Enviado com sucesso!', en: 'Sent successfully!' },
   
   // Footer
   'footer.label': { pt: 'Chega de apagar fogos.', en: 'Stop putting out fires.' },

@@ -79,12 +79,12 @@ function ProjectCard({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="bg-white border-[0.5px] border-black/10 rounded-[24px] md:rounded-[48px] p-2 flex flex-col lg:flex-row gap-0 transition-transform duration-700 hover:-translate-y-2 origin-top relative overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.05)]">
-        <div className="w-full h-full bg-white rounded-[20px] md:rounded-[40px] flex flex-col lg:flex-row p-4 md:p-6 lg:p-8 gap-6 md:gap-10">
+      <div className="bg-white dark:bg-white/5 border-[0.5px] border-black/10 dark:border-white/20 rounded-[24px] md:rounded-[48px] p-2 flex flex-col lg:flex-row gap-0 transition-transform duration-700 hover:-translate-y-2 origin-top relative overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.05)]">
+        <div className="w-full h-full bg-white dark:bg-white/5 rounded-[20px] md:rounded-[40px] flex flex-col lg:flex-row p-4 md:p-6 lg:p-8 gap-6 md:gap-10">
           
           {/* Left Side: Video Container */}
           <div 
-            className="relative w-full aspect-video rounded-[16px] md:rounded-[32px] overflow-hidden cursor-pointer group/video shadow-inner bg-black/5"
+            className="relative w-full aspect-video rounded-[16px] md:rounded-[32px] overflow-hidden cursor-pointer group/video shadow-inner bg-black/5 dark:bg-white/5"
             onClick={togglePlay}
           >
             <video 
@@ -106,15 +106,15 @@ function ProjectCard({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 flex items-center justify-center transition-all duration-500 bg-black/5"
+                  className="absolute inset-0 flex items-center justify-center transition-all duration-500 bg-black/5 dark:bg-white/5"
                 >
                   <motion.button 
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={togglePlay}
-                    className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center shadow-2xl transition-all duration-300 group-hover/video:bg-white"
+                    className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center shadow-2xl transition-all duration-300 group-hover/video:bg-white dark:bg-white/5"
                   >
-                    <Play size={28} fill="#1d1d1f" className="text-[#1d1d1f] ml-1.5 md:ml-2 w-6 h-6 md:w-8 md:h-8" />
+                    <Play size={28} fill="#1d1d1f" className="text-[#1d1d1f] dark:text-white ml-1.5 md:ml-2 w-6 h-6 md:w-8 md:h-8" />
                   </motion.button>
                 </motion.div>
               )}
@@ -130,7 +130,7 @@ function ProjectCard({
                   whileHover={{ scale: 1.1, rotate: -15 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={restartVideo}
-                  className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 z-10 bg-white/90 backdrop-blur-md hover:bg-white text-black`}
+                  className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 z-10 bg-white/90 backdrop-blur-md hover:bg-white dark:bg-white/5 text-black`}
                   title="Restart"
                 >
                   <RotateCcw size={16} strokeWidth={2.5} className="md:w-[18px] md:h-[18px]" />
@@ -142,23 +142,23 @@ function ProjectCard({
           {/* Right Side: Content */}
           <div className="w-full lg:w-2/5 flex flex-col justify-center items-center text-center lg:items-start lg:text-left py-4 md:py-8 lg:pr-8">
             <div className="flex items-center justify-center lg:justify-start gap-3 mb-6 md:mb-8">
-              <span className="font-sans text-lg md:text-2xl font-bold text-black/30">
+              <span className="font-sans text-lg md:text-2xl font-bold text-black/30 dark:text-white/30">
                 {p.id}
               </span>
-              <span className="w-6 md:w-8 h-[2px] bg-black/10" />
+              <span className="w-6 md:w-8 h-[2px] bg-black/10 dark:bg-white/10" />
               <span className="text-[10px] font-bold uppercase tracking-widest text-[#007AFF]">
                 {p.category}
               </span>
             </div>
             
-            <h3 className="text-2xl md:text-5xl lg:text-6xl font-sans font-semibold tracking-tight text-[#1d1d1f] leading-[1.1] mb-6 text-balance">
+            <h3 className="text-2xl md:text-5xl lg:text-6xl font-sans font-semibold tracking-tight text-[#1d1d1f] dark:text-white leading-[1.1] mb-6 text-balance">
               {p.title}
             </h3>
 
             {p.tag && (
               <div className="mb-4 md:mb-8">
-                <span className="bg-[#fdfdfd] border border-black/5 shadow-sm inline-block px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-black/80">
-                  {p.tag}
+                <span className="bg-[#007AFF] text-white shadow-[0_4px_20px_rgba(0,122,255,0.4)] border border-white/20 inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-widest">
+                  <span className="text-white/80 text-[10px]">★</span> {p.tag}
                 </span>
               </div>
             )}
@@ -215,11 +215,11 @@ export function Projects() {
               {t('proj.label')}
             </span>
           </div>
-          <h2 className="font-sans text-[clamp(2.5rem,5vw,5.5rem)] font-semibold tracking-tighter text-[#1d1d1f] leading-[1.05] mb-6 text-balance">
+          <h2 className="font-sans text-[clamp(2.5rem,5vw,5.5rem)] font-semibold tracking-tighter text-[#1d1d1f] dark:text-white leading-[1.05] mb-6 text-balance">
             {t('proj.title1')} <br className="hidden md:block" />
-            <span className="text-black/30 mt-2 block">{t('proj.title2')}</span>
+            <span className="text-black/30 dark:text-white/30 mt-2 block">{t('proj.title2')}</span>
           </h2>
-          <p className="text-lg md:text-xl text-black/60 leading-relaxed max-w-2xl font-medium mt-4 md:mt-6">
+          <p className="text-lg md:text-xl text-black/60 dark:text-white/60 leading-relaxed max-w-2xl font-medium mt-4 md:mt-6">
             {t('proj.subtitle')}
           </p>
         </header>

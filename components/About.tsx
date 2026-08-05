@@ -17,9 +17,9 @@ export function About() {
             {t('about.manifesto')}
           </span>
           <h2 
-            className="font-sans font-semibold text-[clamp(2rem,3vw,3rem)] tracking-tight leading-tight text-[#1d1d1f] max-w-2xl text-balance"
+            className="font-sans font-semibold text-[clamp(2rem,3vw,3rem)] tracking-tight leading-tight text-[#1d1d1f] dark:text-white max-w-2xl text-balance"
           >
-            {t('about.title1')} <span className="text-black/40">{t('about.title2')}</span>
+            {t('about.title1')} <span className="text-black/40 dark:text-white/40">{t('about.title2')}</span>
           </h2>
         </div>
 
@@ -27,18 +27,18 @@ export function About() {
         <div className="w-full max-w-6xl mx-auto mb-16 md:mb-32 flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
           
           <div className="w-full lg:w-1/2 flex flex-col items-start text-left">
-            <h3 className="font-sans text-[clamp(1.75rem,3vw,3rem)] font-bold text-[#1d1d1f] leading-[1.1] tracking-tight mb-8 md:mb-10 text-balance">
+            <h3 className="font-sans text-[clamp(1.75rem,3vw,3rem)] font-bold text-[#1d1d1f] dark:text-white leading-[1.1] tracking-tight mb-8 md:mb-10 text-balance">
               {t('about.hero.1')} <br className="hidden lg:block"/>
-              <span className="text-black/30">{t('about.hero.2')}</span>
+              <span className="text-black/30 dark:text-white/30">{t('about.hero.2')}</span>
             </h3>
             
             <div className="pl-5 md:pl-6 border-l-[3px] border-[#007AFF] py-2 mb-8">
-              <p className="font-sans text-xl md:text-2xl text-[#1d1d1f] font-semibold tracking-tight">
+              <p className="font-sans text-xl md:text-2xl text-[#1d1d1f] dark:text-white font-semibold tracking-tight">
                 {t('about.hero.3')}
               </p>
             </div>
             
-            <p className="font-sans text-lg text-black/50 leading-relaxed max-w-lg font-medium">
+            <p className="font-sans text-lg text-black/50 dark:text-white/50 leading-relaxed max-w-lg font-medium">
               {t('about.p2')}
             </p>
           </div>
@@ -61,7 +61,7 @@ export function About() {
         </div>
 
         {/* Cardless Typographical Presentation */}
-        <div className="w-full max-w-5xl mx-auto border-t border-black/10 pt-16 md:pt-24">
+        <div className="w-full max-w-5xl mx-auto border-t border-black/10 dark:border-white/20 pt-16 md:pt-24">
           <div className="flex flex-col lg:flex-row items-stretch justify-between gap-12 lg:gap-8">
             
             {/* Chaos (Faded, Old Way) */}
@@ -70,13 +70,13 @@ export function About() {
             >
                {/* Decorative Element */}
                <div className="absolute top-0 right-10 w-12 h-12 rounded-full border border-black border-dashed opacity-[0.05] animate-[spin_12s_linear_infinite] pointer-events-none hidden lg:block"></div>
-               <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center mb-6 border border-black/10">
+               <div className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center mb-6 border border-black/10 dark:border-white/20">
                  <div className="w-1.5 h-1.5 rounded-full bg-black/30"></div>
                </div>
 
-               <span className="text-[10px] uppercase tracking-widest font-bold text-black/30 mb-4">{t('about.oldWay')}</span>
-               <h3 className="text-4xl md:text-5xl font-sans font-bold text-black/20 tracking-tight line-through decoration-2 mb-4">{t('about.vision')}</h3>
-               <p className="text-black/40 font-medium text-base md:text-lg text-balance">{t('about.chaos.desc')}</p>
+               <span className="text-[10px] uppercase tracking-widest font-bold text-black/30 dark:text-white/30 mb-4">{t('about.oldWay')}</span>
+               <h3 className="text-4xl md:text-5xl font-sans font-bold text-black/20 dark:text-white/20 tracking-tight line-through decoration-2 mb-4">{t('about.vision')}</h3>
+               <p className="text-black/40 dark:text-white/40 font-medium text-base md:text-lg text-balance">{t('about.chaos.desc')}</p>
             </div>
 
             {/* Elegant Divider */}
@@ -94,13 +94,13 @@ export function About() {
                </div>
 
                <span className="text-[10px] uppercase tracking-widest font-bold text-[#007AFF] mb-4 relative z-10">{t('about.newStandard')}</span>
-               <h3 className="text-4xl md:text-5xl font-sans font-bold text-[#1d1d1f] tracking-tight mb-4 relative z-10">{t('about.scale')}</h3>
-               <p className="text-black/60 font-medium text-base md:text-lg text-balance relative z-10">{t('about.order.desc')}</p>
+               <h3 className="text-4xl md:text-5xl font-sans font-bold text-[#1d1d1f] dark:text-white tracking-tight mb-4 relative z-10">{t('about.scale')}</h3>
+               <p className="text-black/60 dark:text-white/60 font-medium text-base md:text-lg text-balance relative z-10">{t('about.order.desc')}</p>
             </div>
 
             {/* Outcome (Restored Card) */}
             <div 
-              className="flex-[1.4] w-full bg-white border-[0.5px] border-black/10 rounded-[24px] md:rounded-[40px] p-8 md:p-12 flex flex-col justify-center items-center text-center relative overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)]"
+              className="flex-[1.4] w-full bg-white dark:bg-white/5 border-[0.5px] border-black/10 dark:border-white/20 rounded-[24px] md:rounded-[40px] p-8 md:p-12 flex flex-col justify-center items-center text-center relative overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)]"
             >
               {/* Background minimal chart graphic */}
               <div className="absolute right-0 bottom-0 opacity-10 translate-x-4 translate-y-4 pointer-events-none">
@@ -113,7 +113,7 @@ export function About() {
               <span className="text-[10px] font-bold uppercase tracking-widest text-[#007AFF] mb-3 md:mb-4 z-10">
                 {t('about.axis')}
               </span>
-              <h3 className="font-sans font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight text-[#1d1d1f] z-10 leading-[1.1] text-balance">
+              <h3 className="font-sans font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight text-[#1d1d1f] dark:text-white z-10 leading-[1.1] text-balance">
                 {t('about.conversion')} <br className="hidden md:block" /> {t('about.conversion2')}
               </h3>
             </div>
