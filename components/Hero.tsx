@@ -1,7 +1,5 @@
 'use client';
-import { useRef } from 'react';
 import Image from 'next/image';
-import { useScroll, useTransform } from 'motion/react';
 import { TypeAnimation } from 'react-type-animation';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';

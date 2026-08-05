@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { useLanguage } from '@/lib/i18n';
 import { X, Check, TrendingUp } from 'lucide-react';
 
@@ -49,10 +50,12 @@ export function About() {
             <div 
               className="relative w-[90%] max-w-[480px] aspect-square overflow-hidden rounded-[32px] lg:rounded-[48px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] bg-gray-100 transition-all duration-700 ease-out hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.2)] hover:scale-[1.02] transform-gpu"
             >
-              <img
+              <Image
                 src="/usar.png"
-                className="object-cover object-center w-full h-full scale-[1.05]"
                 alt="Software Interface"
+                width={480}
+                height={480}
+                className="object-cover object-center w-full h-full scale-[1.05]"
               />
             </div>
 

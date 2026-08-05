@@ -59,7 +59,7 @@ export function LanguageToggle() {
              )}
            </AnimatePresence>
         </div>
-        <span className="hidden lg:block text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-[#111111] group-hover:text-black whitespace-nowrap lg:pr-2">
+        <span className="hidden lg:block text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-[#111111] dark:text-white group-hover:text-black dark:group-hover:text-white whitespace-nowrap lg:pr-2">
           {language === 'pt' ? 'Switch to English' : 'Mudar para PT'}
         </span>
       </button>
