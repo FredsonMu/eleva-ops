@@ -45,12 +45,9 @@ export function About() {
 
           <div className="w-full lg:w-1/2 relative flex justify-center items-center min-h-[400px] md:min-h-[500px]">
             
-            {/* Organic Fluid Blob Shape (No Borders) */}
+            {/* Rounded Image Frame */}
             <div 
-              className="relative w-[90%] max-w-[480px] aspect-square overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] bg-gray-100 transition-all duration-700 ease-out hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.2)] hover:scale-[1.02]"
-              style={{
-                borderRadius: "63% 37% 54% 46% / 55% 48% 52% 45%"
-              }}
+              className="relative w-[90%] max-w-[480px] aspect-square overflow-hidden rounded-[32px] lg:rounded-[48px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] bg-gray-100 transition-all duration-700 ease-out hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.2)] hover:scale-[1.02] transform-gpu"
             >
               <img
                 src="/usar.png"
