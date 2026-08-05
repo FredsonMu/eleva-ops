@@ -28,35 +28,214 @@ export function About() {
         <div className="w-full max-w-6xl mx-auto mb-16 md:mb-32 flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
           
           <div className="w-full lg:w-1/2 flex flex-col items-start text-left">
-            <h3 className="font-sans text-[clamp(1.75rem,3vw,3rem)] font-bold text-[#1d1d1f] dark:text-white leading-[1.1] tracking-tight mb-8 md:mb-10 text-balance">
+            <h3 className="font-sans text-[clamp(1.35rem,5.5vw,1.75rem)] md:text-[clamp(1.75rem,3vw,3rem)] font-bold text-[#1d1d1f] dark:text-white leading-[1.25] md:leading-[1.1] tracking-tight md:tracking-tight mb-8 md:mb-10 text-justify md:text-left text-pretty md:text-balance hyphens-auto md:hyphens-none" lang="en">
               {t('about.hero.1')} <br className="hidden lg:block"/>
               <span className="text-black/30 dark:text-white/30">{t('about.hero.2')}</span>
             </h3>
             
-            <div className="pl-5 md:pl-6 border-l-[3px] border-[#007AFF] py-2 mb-8">
-              <p className="font-sans text-xl md:text-2xl text-[#1d1d1f] dark:text-white font-semibold tracking-tight">
+            <div className="pl-5 md:pl-6 border-l-[3px] border-[#007AFF] py-2 mb-8 w-full">
+              <p className="font-sans text-[1.05rem] md:text-2xl text-[#1d1d1f] dark:text-white font-semibold tracking-tight text-justify md:text-left text-pretty hyphens-auto md:hyphens-none" lang="en">
                 {t('about.hero.3')}
               </p>
             </div>
             
-            <p className="font-sans text-lg text-black/50 dark:text-white/50 leading-relaxed max-w-lg font-medium">
+            <p className="font-sans text-[0.95rem] md:text-lg text-black/50 dark:text-white/50 leading-relaxed font-medium text-justify md:text-left text-pretty hyphens-auto md:hyphens-none" lang="en">
               {t('about.p2')}
             </p>
           </div>
 
-          <div className="w-full lg:w-1/2 relative flex justify-center items-center min-h-[400px] md:min-h-[500px]">
+          <div className="w-full lg:w-1/2 relative flex justify-end items-center mt-10 lg:mt-0 h-[400px] md:h-[500px]">
             
-            {/* Rounded Image Frame */}
-            <div 
-              className="relative w-[90%] max-w-[480px] aspect-square overflow-hidden rounded-[32px] lg:rounded-[48px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] bg-gray-100 transition-all duration-700 ease-out hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.2)] hover:scale-[1.02] transform-gpu"
-            >
-              <Image
-                src="/usar.png"
-                alt="Software Interface"
-                width={480}
-                height={480}
-                className="object-cover object-center w-full h-full scale-[1.05]"
-              />
+            {/* Dashboard Mockup — Liquid Glass & Bleeding Edge */}
+            <div className="relative w-[110%] md:w-[130%] lg:w-[150%] max-w-[800px] lg:absolute lg:left-0 group z-10">
+              {/* Glow */}
+              <div className="absolute -inset-6 bg-gradient-to-tr from-[#007AFF]/15 via-transparent to-[#007AFF]/5 rounded-[50px] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+              
+              {/* Dashboard Window Wrapper for Animated Border */}
+              <div className="relative p-[1.5px] rounded-[20px] md:rounded-[28px] overflow-hidden transition-transform duration-700 group-hover:-translate-x-4 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.15)] dark:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.5)]">
+                
+                {/* Spinning Gradient Border */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] opacity-30 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] opacity-30 group-hover:opacity-100 transition-opacity duration-700"></div>
+                
+                {/* Actual Dashboard Window - Liquid Glass */}
+                <div className="relative w-full h-full bg-white/70 dark:bg-[#0a0a0f]/80 backdrop-blur-3xl rounded-[19px] md:rounded-[27px] overflow-hidden flex flex-col">
+                  
+                  {/* Window Top Bar */}
+                  <div className="flex items-center gap-2 px-4 md:px-5 py-3 md:py-3.5 border-b border-black/5 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
+                    <div className="flex gap-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57] border border-black/10 dark:border-transparent"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e] border border-black/10 dark:border-transparent"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#28c840] border border-black/10 dark:border-transparent"></div>
+                    </div>
+                    <div className="flex-1 flex justify-center items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#007AFF] animate-pulse"></div>
+                      <span className="text-[10px] text-black/50 dark:text-white/40 font-mono tracking-wider font-semibold">elevaops.core // live_environment</span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-1">
+                    {/* Sidebar */}
+                    <div className="hidden md:flex flex-col w-[160px] border-r border-black/5 dark:border-white/10 bg-white/30 dark:bg-black/20 p-3 gap-1">
+                      <div className="flex items-center gap-2 px-2.5 py-2 rounded-lg bg-black/[0.04] dark:bg-white/[0.08] border border-black/5 dark:border-white/10 shadow-sm relative overflow-hidden">
+                        <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#007AFF]"></div>
+                        <div className="w-4 h-4 rounded bg-[#007AFF] flex items-center justify-center shadow-sm"><TrendingUp size={10} className="text-white" /></div>
+                        <span className="text-[10px] text-[#007AFF] dark:text-white font-bold tracking-tight">Overview</span>
+                      </div>
+                      <div className="flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-colors">
+                        <div className="w-4 h-4 rounded border border-black/10 dark:border-white/20 flex items-center justify-center">
+                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                        </div>
+                        <span className="text-[10px] text-black/60 dark:text-white/50 font-semibold">Integrations</span>
+                        <span className="ml-auto text-[8px] bg-black/5 dark:bg-white/10 px-1.5 py-0.5 rounded font-bold">14</span>
+                      </div>
+                      <div className="flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-colors">
+                        <div className="w-4 h-4 rounded border border-black/10 dark:border-white/20 flex items-center justify-center">
+                          <div className="w-1.5 h-1.5 rounded-full bg-purple-500"></div>
+                        </div>
+                        <span className="text-[10px] text-black/60 dark:text-white/50 font-semibold">Workflows</span>
+                      </div>
+                      <div className="flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-colors mt-auto">
+                        <div className="w-5 h-5 rounded-full bg-gradient-to-br from-gray-200 to-gray-400 dark:from-gray-700 dark:to-gray-900 border border-white/20 flex items-center justify-center overflow-hidden">
+                           <div className="w-full h-full bg-[url('https://api.dicebear.com/7.x/notionists/svg?seed=Admin&backgroundColor=transparent')] bg-cover bg-center"></div>
+                        </div>
+                        <span className="text-[10px] text-black/60 dark:text-white/50 font-semibold">Admin</span>
+                      </div>
+                    </div>
+
+                    {/* Main Content */}
+                    <div className="flex-1 p-4 md:p-5 flex flex-col gap-3 relative z-10">
+                      
+                      {/* Floating Decorative Orbs */}
+                      <div className="absolute top-10 right-10 w-24 h-24 bg-[#007AFF]/10 rounded-full blur-2xl pointer-events-none"></div>
+                      <div className="absolute bottom-10 left-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                      {/* Metrics Row */}
+                      <div className="grid grid-cols-3 gap-2 md:gap-4 relative z-10">
+                        <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] backdrop-blur-md hover:border-[#007AFF]/30 transition-colors">
+                          <div className="flex justify-between items-start mb-2">
+                            <span className="text-[9px] text-black/50 dark:text-white/40 uppercase tracking-widest font-bold">Tools Synced</span>
+                            <div className="w-4 h-4 rounded-full bg-[#007AFF]/10 flex items-center justify-center">
+                              <div className="w-1.5 h-1.5 rounded-full bg-[#007AFF]"></div>
+                            </div>
+                          </div>
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-xl md:text-3xl font-bold text-[#1d1d1f] dark:text-white tracking-tight">14</span>
+                            <span className="text-xs text-black/40 dark:text-white/40 font-medium">/14</span>
+                          </div>
+                          <div className="w-full h-1 bg-black/5 dark:bg-white/10 rounded-full mt-2 overflow-hidden">
+                            <div className="w-full h-full bg-[#007AFF] rounded-full"></div>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] backdrop-blur-md hover:border-emerald-500/30 transition-colors relative overflow-hidden">
+                          <div className="absolute -right-4 -bottom-4 w-16 h-16 bg-emerald-500/10 rounded-full blur-xl"></div>
+                          <span className="text-[9px] text-black/50 dark:text-white/40 uppercase tracking-widest font-bold block mb-2 relative z-10">Time Saved</span>
+                          <span className="text-xl md:text-3xl font-bold text-[#1d1d1f] dark:text-white tracking-tight block relative z-10">84<span className="text-sm text-black/40 dark:text-white/40 font-medium">h</span></span>
+                          <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold inline-flex items-center gap-1 mt-1 bg-emerald-500/10 px-1.5 py-0.5 rounded relative z-10">↑ This Week</span>
+                        </div>
+                        
+                        <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] backdrop-blur-md flex flex-col justify-between">
+                          <span className="text-[9px] text-black/50 dark:text-white/40 uppercase tracking-widest font-bold block">Health</span>
+                          <div className="flex items-center justify-between">
+                            <span className="text-lg md:text-2xl font-bold text-[#1d1d1f] dark:text-white tracking-tight">Clear</span>
+                            {/* SVG Circle Progress */}
+                            <div className="relative w-8 h-8">
+                              <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(150,150,150,0.2)" strokeWidth="3" />
+                                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#007AFF" strokeWidth="3" strokeDasharray="100, 100" />
+                              </svg>
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <Check size={10} className="text-[#007AFF]" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Chart Area */}
+                      <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-5 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] backdrop-blur-md relative z-10">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] text-black/70 dark:text-white/70 font-bold uppercase tracking-widest">Manual Tasks</span>
+                            <span className="text-[8px] bg-red-500/10 text-red-500 px-1.5 py-0.5 rounded font-bold border border-red-500/20">Declining</span>
+                          </div>
+                          <div className="flex gap-1">
+                            <span className="text-[9px] text-black/40 dark:text-white/30 px-2 py-0.5 rounded font-bold hover:bg-black/5 dark:hover:bg-white/[0.04] cursor-pointer transition-colors">7D</span>
+                            <span className="text-[9px] text-[#007AFF] bg-[#007AFF]/10 border border-[#007AFF]/20 px-2 py-0.5 rounded font-bold shadow-sm">30D</span>
+                          </div>
+                        </div>
+                        <svg viewBox="0 0 300 70" className="w-full h-auto" preserveAspectRatio="none">
+                          <defs>
+                            <linearGradient id="chartGrad2" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="0%" stopColor="#007AFF" stopOpacity="0.3"/>
+                              <stop offset="100%" stopColor="#007AFF" stopOpacity="0"/>
+                            </linearGradient>
+                            <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                              <stop offset="0%" stopColor="#ff5f57" />
+                              <stop offset="50%" stopColor="#febc2e" />
+                              <stop offset="100%" stopColor="#007AFF" />
+                            </linearGradient>
+                          </defs>
+                          <path d="M0 60 Q40 58 80 45 T160 30 T240 15 T300 8" fill="none" stroke="url(#lineGrad)" strokeWidth="3" strokeLinecap="round">
+                            <animate attributeName="d" dur="6s" repeatCount="indefinite" values="M0 60 Q40 58 80 45 T160 30 T240 15 T300 8;M0 55 Q40 50 80 40 T160 35 T240 20 T300 5;M0 60 Q40 58 80 45 T160 30 T240 15 T300 8" />
+                          </path>
+                          <path d="M0 60 Q40 58 80 45 T160 30 T240 15 T300 8 L300 70 L0 70 Z" fill="url(#chartGrad2)">
+                            <animate attributeName="d" dur="6s" repeatCount="indefinite" values="M0 60 Q40 58 80 45 T160 30 T240 15 T300 8 L300 70 L0 70 Z;M0 55 Q40 50 80 40 T160 35 T240 20 T300 5 L300 70 L0 70 Z;M0 60 Q40 58 80 45 T160 30 T240 15 T300 8 L300 70 L0 70 Z" />
+                          </path>
+                          {/* Data Points */}
+                          <circle cx="80" cy="45" r="3" fill="white" stroke="#febc2e" strokeWidth="1.5">
+                            <animate attributeName="cy" values="45;40;45" dur="6s" repeatCount="indefinite" />
+                          </circle>
+                          <circle cx="240" cy="15" r="3" fill="white" stroke="#007AFF" strokeWidth="1.5">
+                            <animate attributeName="cy" values="15;20;15" dur="6s" repeatCount="indefinite" />
+                          </circle>
+                          <circle cx="298" cy="8" r="4.5" fill="white" stroke="#007AFF" strokeWidth="2">
+                            <animate attributeName="r" values="4.5;6;4.5" dur="2s" repeatCount="indefinite" />
+                            <animate attributeName="cy" values="8;5;8" dur="6s" repeatCount="indefinite" />
+                          </circle>
+                        </svg>
+                      </div>
+
+                      {/* Task List */}
+                      <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-5 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] backdrop-blur-md relative z-10">
+                        <span className="text-[10px] text-black/60 dark:text-white/50 font-bold uppercase tracking-widest block mb-4 flex items-center justify-between">
+                          Architecture Sync
+                          <span className="text-[8px] bg-black/5 dark:bg-white/10 text-black/60 dark:text-white/60 px-1.5 py-0.5 rounded border border-black/5 dark:border-white/10">3 active</span>
+                        </span>
+                        <div className="flex flex-col gap-3">
+                          <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors -mx-2">
+                            <div className="w-5 h-5 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shadow-sm relative">
+                               <div className="absolute inset-0 rounded-full bg-emerald-500/20 animate-ping opacity-50"></div>
+                               <Check size={10} className="text-emerald-600 dark:text-emerald-400 font-bold" />
+                            </div>
+                            <div className="flex-1 flex flex-col">
+                              <span className="text-xs text-black/80 dark:text-white/80 font-semibold">WhatsApp ⇄ CRM</span>
+                              <span className="text-[9px] text-black/40 dark:text-white/40 font-medium">Synced 2m ago</span>
+                            </div>
+                            <span className="text-[9px] text-emerald-700 dark:text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full shadow-sm">Online</span>
+                          </div>
+                          
+                          <div className="flex items-center gap-3 p-2 rounded-lg bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 -mx-2">
+                            <div className="w-5 h-5 rounded-full bg-[#007AFF]/10 border border-[#007AFF]/30 flex items-center justify-center shadow-sm relative">
+                              <div className="w-2 h-2 rounded-full bg-[#007AFF] animate-pulse"></div>
+                            </div>
+                            <div className="flex-1 flex flex-col">
+                              <span className="text-xs text-black/80 dark:text-white/80 font-semibold">Cross-Platform Data Flow</span>
+                              <span className="text-[9px] text-black/40 dark:text-white/40 font-medium">Processing 1.2k records...</span>
+                            </div>
+                            <span className="text-[9px] text-[#007AFF] font-bold bg-[#007AFF]/10 border border-[#007AFF]/20 px-2 py-0.5 rounded-full shadow-sm flex items-center gap-1">
+                              <div className="w-1.5 h-1.5 rounded-full bg-[#007AFF] animate-spin"></div>
+                              Running
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </div>

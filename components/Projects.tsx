@@ -197,12 +197,7 @@ export function Projects() {
       category: t('proj.2.cat'), 
       video: "/video/ec_group.mp4",
     },
-    { 
-      id: "03", 
-      title: t('proj.3.title'), 
-      category: t('proj.3.cat'), 
-      video: "/video/casa_norte.mp4",
-    },
+
   ];
 
   return (

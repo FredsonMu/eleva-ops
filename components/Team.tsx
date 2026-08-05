@@ -55,9 +55,8 @@ export function Team() {
               
               <div className="hidden sm:block w-[1px] h-12 bg-black/10 dark:bg-white/10"></div>
               
-              <div className="flex flex-col text-center sm:text-left">
+              <div className="flex flex-col justify-center text-center sm:text-left">
                 <span className="font-sans font-semibold text-[#1d1d1f] dark:text-white text-lg md:text-xl tracking-tight">{t('team.p1.name')}</span>
-                <span className="text-[10px] font-bold tracking-widest text-black/40 dark:text-white/40 uppercase mt-1">{t('team.p1.role')}</span>
               </div>
             </div>
             
@@ -76,14 +75,14 @@ export function Team() {
                   {t('team.who')}{t('team.are')}
                 </span>
               </div>
-              <h2 className="font-sans text-[clamp(2.5rem,4vw,4.5rem)] font-semibold tracking-tighter text-[#1d1d1f] dark:text-white leading-[1.05] text-balance">
+              <h2 className="font-sans text-[clamp(1.85rem,7vw,2.5rem)] md:text-[clamp(2.5rem,4vw,4.5rem)] font-semibold tracking-tight md:tracking-tighter text-[#1d1d1f] dark:text-white leading-[1.1] md:leading-[1.05] text-justify md:text-left text-pretty md:text-balance hyphens-auto md:hyphens-none" lang="en">
                 {t('team.title')}
               </h2>
             </div>
             
             {/* Right Side: Text */}
             <div className="flex flex-col lg:w-1/2 lg:pt-14">
-              <p className="text-xl md:text-2xl text-black/50 dark:text-white/50 font-medium leading-relaxed text-balance">
+              <p className="text-[1.1rem] md:text-2xl text-black/50 dark:text-white/50 font-medium leading-relaxed text-justify md:text-left text-pretty md:text-balance hyphens-auto md:hyphens-none" lang="en">
                 {t('team.desc')}
               </p>
             </div>

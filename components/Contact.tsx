@@ -70,7 +70,7 @@ export function Contact() {
   };
 
   return (
-    <section ref={sectionRef} id="contact" className="py-24 md:py-40 relative z-10 overflow-hidden bg-transparent border-t border-black/5 dark:border-white/10 mt-20">
+    <section ref={sectionRef} id="contact" className="py-24 md:py-40 relative z-10 overflow-hidden bg-transparent">
       
       {/* Background ambient light */}
       <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-[#007AFF]/5 rounded-full blur-[150px] pointer-events-none translate-x-1/3 -translate-y-1/3"></div>
@@ -80,7 +80,7 @@ export function Contact() {
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
           
           {/* Left Column: Massive Editorial Typography */}
-          <div className="w-full lg:w-5/12 flex flex-col justify-start pt-4">
+          <div className="w-full lg:w-5/12 flex flex-col justify-start pt-4 items-center text-center lg:items-start lg:text-left">
             <div className="contact-reveal mb-6 md:mb-8">
                <span className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-[#007AFF]">
                  {t('contact.label')}
@@ -111,11 +111,11 @@ export function Contact() {
                   name="name"
                   required
                   placeholder=" "
-                  className="peer w-full bg-transparent border-b-2 border-black/10 dark:border-white/20 py-4 md:py-6 text-2xl md:text-4xl text-[#1d1d1f] dark:text-white font-medium outline-none transition-colors focus:border-[#007AFF]"
+                  className="peer w-full bg-transparent border-b-2 border-black/10 dark:border-white/20 py-4 md:py-6 text-2xl md:text-4xl text-[#1d1d1f] dark:text-white font-medium outline-none transition-colors focus:border-[#007AFF] text-center md:text-left"
                 />
                 <label 
                   htmlFor="name" 
-                  className="absolute left-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-all duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold"
+                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-all duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold whitespace-nowrap"
                 >
                   {t('contact.name')}
                 </label>
@@ -129,11 +129,11 @@ export function Contact() {
                   name="email"
                   required
                   placeholder=" "
-                  className="peer w-full bg-transparent border-b-2 border-black/10 dark:border-white/20 py-4 md:py-6 text-2xl md:text-4xl text-[#1d1d1f] dark:text-white font-medium outline-none transition-colors focus:border-[#007AFF]"
+                  className="peer w-full bg-transparent border-b-2 border-black/10 dark:border-white/20 py-4 md:py-6 text-2xl md:text-4xl text-[#1d1d1f] dark:text-white font-medium outline-none transition-colors focus:border-[#007AFF] text-center md:text-left"
                 />
                 <label 
                   htmlFor="email" 
-                  className="absolute left-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-all duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold"
+                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-all duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold whitespace-nowrap"
                 >
                   {t('contact.email')}
                 </label>
@@ -147,7 +147,7 @@ export function Contact() {
                   required
                   rows={1}
                   placeholder=" "
-                  className="peer w-full bg-transparent border-b-2 border-black/10 dark:border-white/20 py-4 md:py-6 text-2xl md:text-3xl text-[#1d1d1f] dark:text-white font-medium outline-none transition-colors focus:border-[#007AFF] resize-none overflow-hidden min-h-[80px]"
+                  className="peer w-full bg-transparent border-b-2 border-black/10 dark:border-white/20 py-4 md:py-6 text-2xl md:text-3xl text-[#1d1d1f] dark:text-white font-medium outline-none transition-colors focus:border-[#007AFF] resize-none overflow-hidden min-h-[80px] text-center md:text-left"
                   onInput={(e) => {
                     // Auto-resize textarea
                     const target = e.target as HTMLTextAreaElement;
@@ -157,14 +157,14 @@ export function Contact() {
                 />
                 <label 
                   htmlFor="message" 
-                  className="absolute left-0 top-6 -translate-y-1/2 text-2xl md:text-3xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-all duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold"
+                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-6 -translate-y-1/2 text-2xl md:text-3xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-all duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold whitespace-nowrap"
                 >
                   {t('contact.message')}
                 </label>
               </div>
 
               {/* Submit Button */}
-              <div className="contact-reveal pt-8 md:pt-12">
+              <div className="contact-reveal pt-8 md:pt-12 flex justify-center md:justify-start">
                 <button 
                   type="submit"
                   disabled={formState !== 'idle'}

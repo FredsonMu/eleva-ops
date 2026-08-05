@@ -1,5 +1,5 @@
 'use client';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import Image from 'next/image';
 import { useLanguage } from '@/lib/i18n';
 import gsap from 'gsap';
@@ -100,13 +100,16 @@ export function Origin() {
 
           {/* Right: Editorial Text (origin.p1) */}
           <div className="w-full lg:w-1/2 flex flex-col justify-center text-left">
-            <h3 className="font-sans text-[clamp(1.75rem,3vw,3.5rem)] font-semibold text-[#1d1d1f] dark:text-white leading-[1.15] text-balance tracking-tighter flex flex-wrap justify-start gap-x-[0.25em] gap-y-[0.1em]">
+            <h3 className="font-sans text-[clamp(1.35rem,5.5vw,1.75rem)] md:text-[clamp(1.75rem,3vw,3.5rem)] font-semibold text-[#1d1d1f] dark:text-white leading-[1.2] md:leading-[1.15] text-justify md:text-left md:text-balance tracking-tight md:tracking-tighter block" lang="en">
               {words.map((word, i) => (
-                <span key={i} className="inline-block overflow-hidden pb-1 -mb-1">
-                  <span className="origin-word inline-block transform translate-y-full opacity-0">
-                    {word}
+                <React.Fragment key={i}>
+                  <span className="inline-flex overflow-hidden pb-1 -mb-1 align-bottom">
+                    <span className="origin-word inline-block transform translate-y-full opacity-0">
+                      {word}
+                    </span>
                   </span>
-                </span>
+                  {i < words.length - 1 && ' '}
+                </React.Fragment>
               ))}
             </h3>
             
@@ -182,9 +185,17 @@ export function Origin() {
             {t('origin.footer.t1')} <br className="hidden md:block" />
             <span className="text-black/30 dark:text-white/30 mt-2 block">{t('origin.footer.t2')}</span>
           </h2>
-          <span className="bg-[#fbfbfd] dark:bg-[#040914] border border-black/5 dark:border-white/10 px-6 py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-[#007AFF] shadow-sm">
-            {t('origin.footer.pill')}
-          </span>
+          <div className="relative inline-flex p-[1.5px] rounded-full overflow-hidden shadow-[0_0_20px_rgba(0,122,255,0.1)] group hover:scale-[1.02] transition-transform duration-300">
+            {/* Spinning Gradient Border */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_6s_linear_infinite] opacity-100 md:opacity-30 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_6s_linear_infinite] opacity-100 md:opacity-30 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+            
+            <div className="relative bg-[#fbfbfd] dark:bg-[#040914] px-6 py-3 rounded-full flex items-center justify-center w-full h-full z-10 border border-black/5 dark:border-white/5">
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-[#007AFF]">
+                {t('origin.footer.pill')}
+              </span>
+            </div>
+          </div>
         </div>
         
       </div>
