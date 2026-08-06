@@ -63,8 +63,8 @@ export const dict = {
   'proj.1.tag': { pt: 'Destaque', en: 'Featured' },
   'proj.2.title': { pt: 'EC Agência', en: 'EC Agency' },
   'proj.2.cat': { pt: 'Web Design . Desenvolvimento', en: 'Web Design . Development' },
-  'proj.3.title': { pt: 'Casa Norte Studio', en: 'Casa Norte Studio' },
-  'proj.3.cat': { pt: 'Estratégia . Web Design', en: 'Strategy . Web Design' },
+  'proj.3.title': { pt: 'A Tal Francesinha', en: 'A Tal Francesinha' },
+  'proj.3.cat': { pt: 'Website . Branding', en: 'Website . Branding' },
   'proj.explore': { pt: 'Clique para explorar a solução', en: 'Click to explore the solution' },
   
   // Team

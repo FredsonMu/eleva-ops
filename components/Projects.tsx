@@ -12,6 +12,7 @@ interface Project {
   category: string;
   tag?: string;
   video: string;
+  fit?: "cover" | "contain";
 }
 
 function ProjectCard({ 
@@ -96,7 +97,7 @@ function ProjectCard({
               preload="metadata"
               onPlay={() => setIsPlaying(true)}
               onPause={() => setIsPlaying(false)}
-              className="w-full h-full object-cover transition-transform duration-1000 group-hover/video:scale-105"
+              className={`w-full h-full transition-transform duration-1000 group-hover/video:scale-105 ${p.fit === 'contain' ? 'object-contain' : 'object-cover'}`}
             />
                 
             {/* Play Button */}
@@ -196,6 +197,13 @@ export function Projects() {
       title: t('proj.2.title'), 
       category: t('proj.2.cat'), 
       video: "/video/ec_group.mp4",
+    },
+    { 
+      id: "03", 
+      title: t('proj.3.title'), 
+      category: t('proj.3.cat'), 
+      video: "/video/a_tal_francesinha.mp4",
+      fit: "contain"
     },
 
   ];
