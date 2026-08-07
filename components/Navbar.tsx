@@ -24,17 +24,17 @@ export function Navbar() {
           ? "bg-transparent" 
           : "bg-white/80 dark:bg-[#020617]/70 backdrop-blur-lg shadow-[0_4px_24px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_24px_-10px_rgba(0,0,0,0.5)] border-[0.5px] border-black/5 dark:border-white/10"
       }`}>
-        <div className="flex items-center gap-2 group cursor-pointer shrink-0">
+        <a href="/" className="flex items-center gap-2 group cursor-pointer shrink-0">
           <span className="font-sans font-semibold text-xl tracking-tight text-[#1d1d1f] dark:text-white">
             Eleva<span className="text-black/40 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">Ops</span>
           </span>
-        </div>
+        </a>
 
         <nav className="hidden md:flex gap-8 items-center text-xs font-bold uppercase tracking-widest text-black/40 dark:text-white/40 shrink-0">
-          <a href="#trabalho" className="hover:text-[#007AFF] dark:hover:text-[#007AFF] transition-colors">{t('nav.portfolio')}</a>
-          <a href="#servicos" className="hover:text-[#007AFF] dark:hover:text-[#007AFF] transition-colors">{t('nav.expertise')}</a>
-          <a href="#metodo" className="hover:text-[#007AFF] dark:hover:text-[#007AFF] transition-colors">{t('nav.method')}</a>
-          <a href="#equipa" className="hover:text-[#007AFF] dark:hover:text-[#007AFF] transition-colors">{t('nav.team')}</a>
+          <a href="/#trabalho" className="hover:text-[#007AFF] dark:hover:text-[#007AFF] transition-colors">{t('nav.portfolio')}</a>
+          <a href="/#servicos" className="hover:text-[#007AFF] dark:hover:text-[#007AFF] transition-colors">{t('nav.expertise')}</a>
+          <a href="/#metodo" className="hover:text-[#007AFF] dark:hover:text-[#007AFF] transition-colors">{t('nav.method')}</a>
+          <a href="/#equipa" className="hover:text-[#007AFF] dark:hover:text-[#007AFF] transition-colors">{t('nav.team')}</a>
         </nav>
         
         <div className="flex items-center gap-3 shrink-0">

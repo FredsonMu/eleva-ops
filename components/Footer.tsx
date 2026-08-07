@@ -44,9 +44,14 @@ export function Footer() {
             <p className="text-sm text-black/50 dark:text-white/50 font-medium leading-relaxed max-w-xs">
               {t('footer.desc')}
             </p>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40 mt-4">
-              {t('footer.rights')}
-            </span>
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-4">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40">
+                {t('footer.rights')}
+              </span>
+              <a href="/privacy-policy" className="text-[10px] font-bold uppercase tracking-widest text-[#007AFF] hover:text-[#005bb5] transition-colors">
+                Privacy Policy
+              </a>
+            </div>
           </div>
 
           <div className="flex flex-col md:items-end justify-end gap-8 h-full pb-4">
