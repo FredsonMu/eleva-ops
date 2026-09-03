@@ -1,9 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Plus, Minus } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 
-function FAQItem({ question, answer, isOpen, onClick }: { question: string, answer: string, isOpen: boolean, onClick: () => void }) {
+const FAQItem = memo(function FAQItem({ question, answer, isOpen, onClick }: { question: string, answer: string, isOpen: boolean, onClick: () => void }) {
   return (
     <div className="border-b border-black/10 dark:border-white/20">
       <button 
@@ -24,7 +24,7 @@ function FAQItem({ question, answer, isOpen, onClick }: { question: string, answ
       )}
     </div>
   );
-}
+});
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);

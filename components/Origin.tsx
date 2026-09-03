@@ -15,30 +15,41 @@ export function Origin() {
   const { t } = useLanguage();
 
   useGSAP(() => {
-    gsap.to('.origin-word', {
-      y: 0,
-      opacity: 1,
-      duration: 1.2,
-      stagger: 0.015,
-      ease: "power4.out",
-      scrollTrigger: {
-        trigger: ".origin-quote-container",
-        start: "top 85%",
-      }
+    const mm = gsap.matchMedia();
+    
+    mm.add('(min-width: 769px)', () => {
+      gsap.to('.origin-word', {
+        y: 0,
+        opacity: 1,
+        duration: 1.2,
+        stagger: 0.015,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: ".origin-quote-container",
+          start: "top 85%",
+        }
+      });
+
+      gsap.to('.origin-card', {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".origin-grid-container",
+          start: "top 80%",
+        }
+      });
     });
 
-    gsap.to('.origin-card', {
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      duration: 1.2,
-      stagger: 0.15,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: ".origin-grid-container",
-        start: "top 80%",
-      }
+    mm.add('(max-width: 768px)', () => {
+      gsap.to('.origin-word', { opacity: 1, y: 0, duration: 0.8 });
+      gsap.to('.origin-card', { opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.2 });
     });
+
+    return () => mm.revert();
   }, { scope: containerRef });
 
   const p1Text = t('origin.p1');
@@ -69,15 +80,16 @@ export function Origin() {
           <div className="w-full lg:w-1/2 flex justify-center lg:justify-start">
             <div className="relative w-full max-w-[320px] md:max-w-[480px] group perspective-1000">
                {/* Ethereal Glow */}
-               <div className="absolute -inset-8 bg-gradient-to-tr from-[#007AFF]/20 via-[#007AFF]/5 to-transparent rounded-[50px] blur-3xl opacity-40 group-hover:opacity-80 transition-opacity duration-700"></div>
+               <div className="absolute -inset-8 bg-gradient-to-tr from-[#007AFF]/20 via-[#007AFF]/5 to-transparent rounded-[50px] blur-md md:blur-3xl opacity-40 group-hover:opacity-80 transition-opacity duration-700"></div>
                
                {/* 3D Floating Glass Card */}
-               <div className="relative p-2 md:p-3 bg-white/60 dark:bg-white/5 backdrop-blur-3xl rounded-[32px] md:rounded-[48px] border-[0.5px] border-black/10 dark:border-white/20 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] transition-all duration-700 ease-out group-hover:-translate-y-4 md:group-hover:rotate-2 group-hover:border-[#007AFF]/20">
+               <div className="relative p-2 md:p-3 bg-white/60 dark:bg-white/5 md:backdrop-blur-3xl rounded-[32px] md:rounded-[48px] border-[0.5px] border-black/10 dark:border-white/20 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] transition-all duration-700 ease-out group-hover:-translate-y-4 md:group-hover:rotate-2 group-hover:border-[#007AFF]/20">
                  
                  <div className="relative rounded-[24px] md:rounded-[40px] overflow-hidden bg-black/5 dark:bg-black/40 aspect-[4/3]">
                    <Image 
                      src="/trabalho.png" 
                      fill
+                     sizes="(max-width: 768px) 100vw, 50vw"
                      className="object-cover opacity-90 group-hover:opacity-100 transition-transform duration-1000 ease-out group-hover:scale-110" 
                      alt="Trabalho" 
                      priority
@@ -187,8 +199,8 @@ export function Origin() {
           </h2>
           <div className="relative inline-flex p-[1.5px] rounded-full overflow-hidden shadow-[0_0_20px_rgba(0,122,255,0.1)] group hover:scale-[1.02] transition-transform duration-300">
             {/* Spinning Gradient Border */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_6s_linear_infinite] opacity-100 md:opacity-30 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_6s_linear_infinite] opacity-100 md:opacity-30 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_6s_linear_infinite] opacity-100 md:opacity-30 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none hidden md:block"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_6s_linear_infinite] opacity-100 md:opacity-30 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none hidden md:block"></div>
             
             <div className="relative bg-[#fbfbfd] dark:bg-[#040914] px-6 py-3 rounded-full flex items-center justify-center w-full h-full z-10 border border-black/5 dark:border-white/5">
               <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-[#007AFF]">

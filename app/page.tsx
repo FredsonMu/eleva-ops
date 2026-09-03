@@ -21,16 +21,16 @@ export default function Home() {
       {/* Global AI Aurora Background */}
       <div className="fixed inset-0 pointer-events-none z-0">
          {/* Primary Blue Aurora */}
-         <div className="absolute top-[-10%] left-[-10%] w-[70vw] md:w-[50vw] h-[70vw] md:h-[50vw] bg-[#007AFF]/[0.15] dark:bg-[#007AFF]/[0.25] rounded-full blur-[100px] md:blur-[150px] mix-blend-normal"></div>
+         <div className="absolute top-[-10%] left-[-10%] w-[70vw] md:w-[50vw] h-[70vw] md:h-[50vw] bg-[#007AFF]/[0.15] dark:bg-[#007AFF]/[0.25] rounded-full blur-[40px] md:blur-[150px] mix-blend-normal"></div>
          {/* Secondary Cyan Aurora */}
-         <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] md:w-[40vw] h-[60vw] md:h-[40vw] bg-[#00c6ff]/[0.12] dark:bg-[#00c6ff]/[0.2] rounded-full blur-[100px] md:blur-[140px] mix-blend-normal"></div>
+         <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] md:w-[40vw] h-[60vw] md:h-[40vw] bg-[#00c6ff]/[0.12] dark:bg-[#00c6ff]/[0.2] rounded-full blur-[40px] md:blur-[140px] mix-blend-normal"></div>
          {/* Center Accent */}
-         <div className="absolute top-[40%] left-[20%] w-[50vw] md:w-[30vw] h-[50vw] md:h-[30vw] bg-purple-500/[0.08] dark:bg-purple-500/[0.15] rounded-full blur-[100px] md:blur-[120px] mix-blend-normal"></div>
+         <div className="absolute top-[40%] left-[20%] w-[50vw] md:w-[30vw] h-[50vw] md:h-[30vw] bg-purple-500/[0.08] dark:bg-purple-500/[0.15] rounded-full blur-[40px] md:blur-[120px] mix-blend-normal"></div>
          {/* Subtle Noise Texture */}
-         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.25] dark:opacity-[0.15] mix-blend-overlay"></div>
+         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] dark:opacity-[0.08]"></div>
       </div>
 
-      <div className="relative z-10 flex flex-col min-h-screen">
+      <div className="relative z-10 flex flex-col min-h-screen overflow-x-clip">
         <Navbar />
         <main>
         <Hero />

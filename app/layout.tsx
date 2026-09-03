@@ -137,7 +137,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`dark ${inter.variable} ${outfit.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className="font-sans antialiased text-ink bg-paper overflow-x-hidden w-full max-w-[100vw] dark:bg-[#020617] dark:text-white" suppressHydrationWarning>
+      <body className="font-sans antialiased text-ink bg-paper dark:bg-[#020617] dark:text-white" suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
