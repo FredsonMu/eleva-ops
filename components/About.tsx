@@ -49,17 +49,17 @@ export function About() {
             {/* Dashboard Mockup — Liquid Glass & Bleeding Edge */}
             <div className="relative w-[110%] md:w-[130%] lg:w-[150%] max-w-[800px] lg:absolute lg:left-0 group z-10">
               {/* Glow */}
-              <div className="absolute -inset-6 bg-gradient-to-tr from-[#007AFF]/15 via-transparent to-[#007AFF]/5 rounded-[50px] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+              <div className="absolute -inset-6 bg-gradient-to-tr from-[#007AFF]/15 via-transparent to-[#007AFF]/5 rounded-[50px] blur-md md:blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
               
               {/* Dashboard Window Wrapper for Animated Border */}
               <div className="relative p-[1.5px] rounded-[20px] md:rounded-[28px] overflow-hidden transition-transform duration-700 group-hover:-translate-x-4 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.15)] dark:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.5)]">
                 
                 {/* Spinning Gradient Border */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] opacity-30 group-hover:opacity-100 transition-opacity duration-700"></div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] opacity-30 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] opacity-30 group-hover:opacity-100 transition-opacity duration-700 hidden md:block"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] opacity-30 group-hover:opacity-100 transition-opacity duration-700 hidden md:block"></div>
                 
                 {/* Actual Dashboard Window - Liquid Glass */}
-                <div className="relative w-full h-full bg-white/70 dark:bg-[#0a0a0f]/80 backdrop-blur-3xl rounded-[19px] md:rounded-[27px] overflow-hidden flex flex-col">
+                <div className="relative w-full h-full bg-white/70 dark:bg-[#0a0a0f]/80 md:backdrop-blur-3xl rounded-[19px] md:rounded-[27px] overflow-hidden flex flex-col">
                   
                   {/* Window Top Bar */}
                   <div className="flex items-center gap-2 px-4 md:px-5 py-3 md:py-3.5 border-b border-black/5 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
@@ -165,36 +165,38 @@ export function About() {
                             <span className="text-[9px] text-[#007AFF] bg-[#007AFF]/10 border border-[#007AFF]/20 px-2 py-0.5 rounded font-bold shadow-sm">30D</span>
                           </div>
                         </div>
-                        <svg viewBox="0 0 300 70" className="w-full h-auto" preserveAspectRatio="none">
-                          <defs>
-                            <linearGradient id="chartGrad2" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="0%" stopColor="#007AFF" stopOpacity="0.3"/>
-                              <stop offset="100%" stopColor="#007AFF" stopOpacity="0"/>
-                            </linearGradient>
-                            <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                              <stop offset="0%" stopColor="#ff5f57" />
-                              <stop offset="50%" stopColor="#febc2e" />
-                              <stop offset="100%" stopColor="#007AFF" />
-                            </linearGradient>
-                          </defs>
-                          <path d="M0 60 Q40 58 80 45 T160 30 T240 15 T300 8" fill="none" stroke="url(#lineGrad)" strokeWidth="3" strokeLinecap="round">
-                            <animate attributeName="d" dur="6s" repeatCount="indefinite" values="M0 60 Q40 58 80 45 T160 30 T240 15 T300 8;M0 55 Q40 50 80 40 T160 35 T240 20 T300 5;M0 60 Q40 58 80 45 T160 30 T240 15 T300 8" />
-                          </path>
-                          <path d="M0 60 Q40 58 80 45 T160 30 T240 15 T300 8 L300 70 L0 70 Z" fill="url(#chartGrad2)">
-                            <animate attributeName="d" dur="6s" repeatCount="indefinite" values="M0 60 Q40 58 80 45 T160 30 T240 15 T300 8 L300 70 L0 70 Z;M0 55 Q40 50 80 40 T160 35 T240 20 T300 5 L300 70 L0 70 Z;M0 60 Q40 58 80 45 T160 30 T240 15 T300 8 L300 70 L0 70 Z" />
-                          </path>
-                          {/* Data Points */}
-                          <circle cx="80" cy="45" r="3" fill="white" stroke="#febc2e" strokeWidth="1.5">
-                            <animate attributeName="cy" values="45;40;45" dur="6s" repeatCount="indefinite" />
-                          </circle>
-                          <circle cx="240" cy="15" r="3" fill="white" stroke="#007AFF" strokeWidth="1.5">
-                            <animate attributeName="cy" values="15;20;15" dur="6s" repeatCount="indefinite" />
-                          </circle>
-                          <circle cx="298" cy="8" r="4.5" fill="white" stroke="#007AFF" strokeWidth="2">
-                            <animate attributeName="r" values="4.5;6;4.5" dur="2s" repeatCount="indefinite" />
-                            <animate attributeName="cy" values="8;5;8" dur="6s" repeatCount="indefinite" />
-                          </circle>
-                        </svg>
+                        <div className="hidden md:block">
+                          <svg viewBox="0 0 300 70" className="w-full h-auto" preserveAspectRatio="none">
+                            <defs>
+                              <linearGradient id="chartGrad2" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stopColor="#007AFF" stopOpacity="0.3"/>
+                                <stop offset="100%" stopColor="#007AFF" stopOpacity="0"/>
+                              </linearGradient>
+                              <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stopColor="#ff5f57" />
+                                <stop offset="50%" stopColor="#febc2e" />
+                                <stop offset="100%" stopColor="#007AFF" />
+                              </linearGradient>
+                            </defs>
+                            <path d="M0 60 Q40 58 80 45 T160 30 T240 15 T300 8" fill="none" stroke="url(#lineGrad)" strokeWidth="3" strokeLinecap="round">
+                              <animate attributeName="d" dur="6s" repeatCount="indefinite" values="M0 60 Q40 58 80 45 T160 30 T240 15 T300 8;M0 55 Q40 50 80 40 T160 35 T240 20 T300 5;M0 60 Q40 58 80 45 T160 30 T240 15 T300 8" />
+                            </path>
+                            <path d="M0 60 Q40 58 80 45 T160 30 T240 15 T300 8 L300 70 L0 70 Z" fill="url(#chartGrad2)">
+                              <animate attributeName="d" dur="6s" repeatCount="indefinite" values="M0 60 Q40 58 80 45 T160 30 T240 15 T300 8 L300 70 L0 70 Z;M0 55 Q40 50 80 40 T160 35 T240 20 T300 5 L300 70 L0 70 Z;M0 60 Q40 58 80 45 T160 30 T240 15 T300 8 L300 70 L0 70 Z" />
+                            </path>
+                            {/* Data Points */}
+                            <circle cx="80" cy="45" r="3" fill="white" stroke="#febc2e" strokeWidth="1.5">
+                              <animate attributeName="cy" values="45;40;45" dur="6s" repeatCount="indefinite" />
+                            </circle>
+                            <circle cx="240" cy="15" r="3" fill="white" stroke="#007AFF" strokeWidth="1.5">
+                              <animate attributeName="cy" values="15;20;15" dur="6s" repeatCount="indefinite" />
+                            </circle>
+                            <circle cx="298" cy="8" r="4.5" fill="white" stroke="#007AFF" strokeWidth="2">
+                              <animate attributeName="r" values="4.5;6;4.5" dur="2s" repeatCount="indefinite" />
+                              <animate attributeName="cy" values="8;5;8" dur="6s" repeatCount="indefinite" />
+                            </circle>
+                          </svg>
+                        </div>
                       </div>
 
                       {/* Task List */}

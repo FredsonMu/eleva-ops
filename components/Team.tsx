@@ -94,7 +94,7 @@ export function Team() {
             {members.map((member, i) => (
               <div 
                 key={i} 
-                className="relative group rounded-[24px] md:rounded-[48px] overflow-hidden bg-gray-100 aspect-[3/4] md:aspect-[3/4] lg:aspect-[2/3] shadow-lg hover:shadow-2xl transition-all duration-700 ease-out transform hover:-translate-y-2 border border-black/5 dark:border-white/10"
+                className="relative group rounded-[24px] md:rounded-[48px] overflow-hidden bg-gray-100 aspect-[3/4] md:aspect-[3/4] lg:aspect-[2/3] shadow-lg hover:shadow-2xl transition-[transform,box-shadow,opacity] duration-700 ease-out transform transform-gpu hover:-translate-y-2 border border-black/5 dark:border-white/10"
               >
                 {/* Image */}
                 <Image
