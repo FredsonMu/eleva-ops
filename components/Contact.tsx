@@ -115,7 +115,7 @@ export function Contact() {
                 />
                 <label 
                   htmlFor="name" 
-                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold whitespace-nowrap"
+                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-all duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold whitespace-nowrap"
                 >
                   {t('contact.name')}
                 </label>
@@ -133,7 +133,7 @@ export function Contact() {
                 />
                 <label 
                   htmlFor="email" 
-                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold whitespace-nowrap"
+                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-all duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold whitespace-nowrap"
                 >
                   {t('contact.email')}
                 </label>
@@ -151,15 +151,13 @@ export function Contact() {
                   onInput={(e) => {
                     // Auto-resize textarea
                     const target = e.target as HTMLTextAreaElement;
-                    requestAnimationFrame(() => {
-                      target.style.height = 'auto';
-                      target.style.height = `${target.scrollHeight}px`;
-                    });
+                    target.style.height = 'auto';
+                    target.style.height = target.scrollHeight + 'px';
                   }}
                 />
                 <label 
                   htmlFor="message" 
-                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-6 -translate-y-1/2 text-2xl md:text-3xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold whitespace-nowrap"
+                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-6 -translate-y-1/2 text-2xl md:text-3xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-all duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold whitespace-nowrap"
                 >
                   {t('contact.message')}
                 </label>
@@ -170,7 +168,7 @@ export function Contact() {
                 <button 
                   type="submit"
                   disabled={formState !== 'idle'}
-                  className="group relative inline-flex items-center gap-6 overflow-hidden rounded-full bg-[#1d1d1f] dark:bg-white dark:bg-white/5 px-10 py-6 font-semibold text-white transition-[transform,opacity,box-shadow] duration-300 hover:bg-black hover:shadow-[0_10px_40px_rgba(0,122,255,0.2)] disabled:opacity-70"
+                  className="group relative inline-flex items-center gap-6 overflow-hidden rounded-full bg-[#1d1d1f] dark:bg-white dark:bg-white/5 px-10 py-6 font-semibold text-white transition-all duration-300 hover:bg-black hover:pr-8 hover:pl-12 hover:shadow-[0_10px_40px_rgba(0,122,255,0.2)] disabled:opacity-70 disabled:hover:px-10"
                 >
                   <span className="text-lg md:text-xl tracking-tight relative z-10">
                     {formState === 'idle' && t('contact.submit')}

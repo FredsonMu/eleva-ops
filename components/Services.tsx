@@ -36,11 +36,11 @@ export function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-2 relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-[transform,opacity,box-shadow] duration-500 h-[340px] md:h-[380px]"
+            className="lg:col-span-2 relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-all duration-500 h-[340px] md:h-[380px]"
           >
             {/* Spinning Gradient Border */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
             
             <div className="relative w-full h-full bg-white dark:bg-[#0a0a0f] border border-black/5 dark:border-white/10 rounded-[24px] md:rounded-[31.5px] overflow-hidden transition-colors duration-500">
               {/* Visual - Vercel Level Precision */}
@@ -93,7 +93,7 @@ export function Services() {
                     
                     {/* Data Point */}
                     <g transform="translate(900, 80)">
-                      <circle cx="0" cy="0" r="24" fill="#007AFF" opacity="0.1" className="md:animate-ping" />
+                      <circle cx="0" cy="0" r="24" fill="#007AFF" opacity="0.1" className="animate-ping" />
                       <circle cx="0" cy="0" r="4.5" fill="white" stroke="#007AFF" strokeWidth="2.5" className="dark:fill-black" />
                     </g>
                   </svg>
@@ -106,7 +106,7 @@ export function Services() {
                       <span className="text-[10px] font-mono text-emerald-500 font-bold ml-1">+24.2%</span>
                     </div>
                     {/* Vertical line connecting tooltip to graph dot */}
-                    <div className="w-px h-[80px] md:h-[60px] md:group-hover:h-[80px] bg-gradient-to-b from-black/20 dark:from-white/20 to-transparent transition-[transform,opacity,box-shadow] duration-700 ease-out"></div>
+                    <div className="w-px h-[80px] md:h-[60px] md:group-hover:h-[80px] bg-gradient-to-b from-black/20 dark:from-white/20 to-transparent transition-all duration-700 ease-out"></div>
                   </div>
 
                 </div>
@@ -131,11 +131,11 @@ export function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-1 relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-[transform,opacity,box-shadow] duration-500 h-[340px] md:h-[380px]"
+            className="lg:col-span-1 relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-all duration-500 h-[340px] md:h-[380px]"
           >
             {/* Spinning Gradient Border */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#10b981_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#10b981_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#10b981_360deg)] animate-[spin_12s_linear_infinite] opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#10b981_360deg)] animate-[spin_12s_linear_infinite] opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
 
             <div className="relative w-full h-full bg-white dark:bg-[#0a0a0f] border border-black/5 dark:border-white/10 rounded-[24px] md:rounded-[31.5px] overflow-hidden transition-colors duration-500">
               {/* Visual - Vercel Level Precision */}
@@ -160,10 +160,10 @@ export function Services() {
                 <div className="relative w-full h-[180px] mt-6 flex items-center justify-center transition-transform duration-1000 ease-out scale-105 md:scale-100 md:group-hover:scale-105">
                   
                   {/* Glow Behind Center */}
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[150px] h-[150px] bg-emerald-500/10 blur-md md:blur-3xl rounded-full"></div>
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[150px] h-[150px] bg-emerald-500/10 blur-3xl rounded-full"></div>
 
                   {/* SVG Connecting Lines */}
-                  <svg className="hidden md:block absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+                  <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
                      <defs>
                         <linearGradient id="line-glow-emerald" x1="0" y1="0" x2="1" y2="0">
                           <stop offset="0%" stopColor="#10b981" stopOpacity="0"/>
@@ -197,10 +197,10 @@ export function Services() {
                   </div>
 
                   {/* Central Node (Processor) */}
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-[#111] border border-emerald-500/30 dark:border-emerald-500/30 p-2.5 rounded-lg shadow-[0_0_25px_rgba(16,185,129,0.25)] md:shadow-[0_0_15px_rgba(16,185,129,0.15)] md:group-hover:shadow-[0_0_25px_rgba(16,185,129,0.25)] transition-[transform,opacity,box-shadow] duration-700 ease-out z-20">
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-[#111] border border-emerald-500/30 dark:border-emerald-500/30 p-2.5 rounded-lg shadow-[0_0_25px_rgba(16,185,129,0.25)] md:shadow-[0_0_15px_rgba(16,185,129,0.15)] md:group-hover:shadow-[0_0_25px_rgba(16,185,129,0.25)] transition-all duration-700 ease-out z-20">
                      <Layers size={14} className="text-emerald-500" />
                      {/* Pulse effect */}
-                     <div className="absolute inset-0 rounded-lg border border-emerald-500/50 md:animate-ping opacity-20 md:opacity-0 md:group-hover:opacity-20 transition-opacity duration-300"></div>
+                     <div className="absolute inset-0 rounded-lg border border-emerald-500/50 animate-ping opacity-20 md:opacity-0 md:group-hover:opacity-20 transition-opacity duration-300"></div>
                   </div>
 
                   {/* Node 2: Right Top (Action 1) */}
@@ -243,11 +243,11 @@ export function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-1 relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-[transform,opacity,box-shadow] duration-500 h-[340px] md:h-[380px]"
+            className="lg:col-span-1 relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-all duration-500 h-[340px] md:h-[380px]"
           >
             {/* Spinning Gradient Border */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#a855f7_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#a855f7_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#a855f7_360deg)] animate-[spin_12s_linear_infinite] opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#a855f7_360deg)] animate-[spin_12s_linear_infinite] opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
 
             <div className="relative w-full h-full bg-white dark:bg-[#0a0a0f] border border-black/5 dark:border-white/10 rounded-[24px] md:rounded-[31.5px] overflow-hidden transition-colors duration-500">
               {/* Visual - Vercel Level Precision */}
@@ -272,7 +272,7 @@ export function Services() {
                 <div className="relative w-[220px] md:w-[240px] mt-2 transition-transform duration-1000 ease-out scale-[1.03] -translate-y-2 md:scale-100 md:translate-y-0 md:group-hover:scale-[1.03] md:group-hover:-translate-y-2">
                   
                   {/* Glow */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150px] h-[150px] bg-purple-500/10 blur-md md:blur-3xl rounded-full"></div>
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150px] h-[150px] bg-purple-500/10 blur-3xl rounded-full"></div>
 
                   {/* Vercel Style Table Component */}
                   <div className="relative bg-white dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] overflow-hidden">
@@ -319,7 +319,7 @@ export function Services() {
                   </div>
                   
                   {/* Floating Action Pill */}
-                  <div className="absolute -right-4 -bottom-3 bg-white dark:bg-[#1a1a24] border border-black/10 dark:border-white/10 px-2.5 py-1.5 rounded-md shadow-lg flex items-center gap-1.5 opacity-100 translate-x-2 md:opacity-0 md:translate-x-0 md:group-hover:opacity-100 md:group-hover:translate-x-2 transition-[transform,opacity,box-shadow] duration-500 delay-100 z-20">
+                  <div className="absolute -right-4 -bottom-3 bg-white dark:bg-[#1a1a24] border border-black/10 dark:border-white/10 px-2.5 py-1.5 rounded-md shadow-lg flex items-center gap-1.5 opacity-100 translate-x-2 md:opacity-0 md:translate-x-0 md:group-hover:opacity-100 md:group-hover:translate-x-2 transition-all duration-500 delay-100 z-20">
                     <CheckCircle2 size={10} className="text-purple-500" />
                     <span className="text-[8px] font-mono text-[#1d1d1f] dark:text-white/70">{t('serv.v3.access')}</span>
                   </div>
@@ -346,11 +346,11 @@ export function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="lg:col-span-2 relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-[transform,opacity,box-shadow] duration-500 h-[340px] md:h-[380px]"
+            className="lg:col-span-2 relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-all duration-500 h-[340px] md:h-[380px]"
           >
             {/* Spinning Gradient Border */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
 
             <div className="relative w-full h-full bg-white dark:bg-[#0a0a0f] border border-black/5 dark:border-white/10 rounded-[24px] md:rounded-[31.5px] overflow-hidden transition-colors duration-500">
               {/* Visual - Vercel Level Precision */}
@@ -374,7 +374,7 @@ export function Services() {
                 <div className="relative w-[280px] md:w-[320px] transition-transform duration-1000 ease-out -translate-x-4 md:translate-x-0 md:group-hover:-translate-x-4 scale-90 md:scale-100 origin-top-right md:origin-center">
                   
                   {/* Glow */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-[#007AFF]/10 blur-md md:blur-3xl rounded-full"></div>
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-[#007AFF]/10 blur-3xl rounded-full"></div>
 
                   {/* Sleek AI Window */}
                   <div className="relative bg-white dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] overflow-hidden">

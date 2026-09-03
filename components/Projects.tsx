@@ -70,20 +70,17 @@ function ProjectCard({
   };
 
   return (
-    <div 
-      className="sticky w-full max-w-[1200px] mx-auto group"
-      style={{ top: `calc(15vh + ${i * 40}px)`, zIndex: 10 + i }}
+    <motion.div 
+      initial={{ opacity: 0, y: 100, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={springConfig}
+      className={`sticky w-full max-w-[1200px] mx-auto z-[${10 + i}] group`}
+      style={{ top: `calc(15vh + ${i * 40}px)` }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div 
-        initial={{ opacity: 0, y: 100, scale: 0.95 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={springConfig}
-        className="w-full h-full"
-      >
-        <div className="bg-white dark:bg-white/5 border-[0.5px] border-black/10 dark:border-white/20 rounded-[24px] md:rounded-[48px] p-2 flex flex-col lg:flex-row gap-0 transition-transform duration-700 hover:-translate-y-2 origin-top relative overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.05)]">
+      <div className="bg-white dark:bg-white/5 border-[0.5px] border-black/10 dark:border-white/20 rounded-[24px] md:rounded-[48px] p-2 flex flex-col lg:flex-row gap-0 transition-transform duration-700 hover:-translate-y-2 origin-top relative overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.05)]">
         <div className="w-full h-full bg-white dark:bg-white/5 rounded-[20px] md:rounded-[40px] flex flex-col lg:flex-row p-4 md:p-6 lg:p-8 gap-6 md:gap-10">
           
           {/* Left Side: Video Container */}
@@ -97,7 +94,7 @@ function ProjectCard({
               loop
               muted
               playsInline
-              preload="none"
+              preload="metadata"
               onPlay={() => setIsPlaying(true)}
               onPause={() => setIsPlaying(false)}
               className={`w-full h-full transition-transform duration-1000 group-hover/video:scale-105 ${p.fit === 'contain' ? 'object-contain' : 'object-cover'}`}
@@ -110,13 +107,13 @@ function ProjectCard({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 flex items-center justify-center transition-[transform,opacity,box-shadow] duration-500 bg-black/5 dark:bg-white/5"
+                  className="absolute inset-0 flex items-center justify-center transition-all duration-500 bg-black/5 dark:bg-white/5"
                 >
                   <motion.button 
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={togglePlay}
-                    className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center shadow-2xl transition-[transform,opacity,box-shadow] duration-300 group-hover/video:bg-white dark:bg-white/5"
+                    className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center shadow-2xl transition-all duration-300 group-hover/video:bg-white dark:bg-white/5"
                   >
                     <Play size={28} fill="#1d1d1f" className="text-[#1d1d1f] dark:text-white ml-1.5 md:ml-2 w-6 h-6 md:w-8 md:h-8" />
                   </motion.button>
@@ -134,7 +131,7 @@ function ProjectCard({
                   whileHover={{ scale: 1.1, rotate: -15 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={restartVideo}
-                  className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg transition-[transform,opacity,box-shadow] duration-300 z-10 bg-white/90 backdrop-blur-md hover:bg-white dark:bg-white/5 text-black`}
+                  className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 z-10 bg-white/90 backdrop-blur-md hover:bg-white dark:bg-white/5 text-black`}
                   title="Restart"
                 >
                   <RotateCcw size={16} strokeWidth={2.5} className="md:w-[18px] md:h-[18px]" />
@@ -169,9 +166,8 @@ function ProjectCard({
             
           </div>
         </div>
-        </div>
-      </motion.div>
-    </div>
+      </div>
+    </motion.div>
   );
 }
 
