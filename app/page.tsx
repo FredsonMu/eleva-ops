@@ -2,19 +2,21 @@ import dynamic from 'next/dynamic';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
 
-const About = dynamic(() => import('@/components/About').then(mod => mod.About));
-const Services = dynamic(() => import('@/components/Services').then(mod => mod.Services));
-const Projects = dynamic(() => import('@/components/Projects').then(mod => mod.Projects));
-const Methodology = dynamic(() => import('@/components/Methodology').then(mod => mod.Methodology));
-const Team = dynamic(() => import('@/components/Team').then(mod => mod.Team));
-const Origin = dynamic(() => import('@/components/Origin').then(mod => mod.Origin));
-const Contact = dynamic(() => import('@/components/Contact').then(mod => mod.Contact));
-const FAQ = dynamic(() => import('@/components/FAQ').then(mod => mod.FAQ));
-const Footer = dynamic(() => import('@/components/Footer').then(mod => mod.Footer));
+const LoadingSkeleton = () => <div className="w-full min-h-[50vh] flex items-center justify-center"><div className="w-8 h-8 border-4 border-[#007AFF]/20 border-t-[#007AFF] rounded-full animate-spin"></div></div>;
+
+const About = dynamic(() => import('@/components/About').then(mod => mod.About), { loading: LoadingSkeleton });
+const Services = dynamic(() => import('@/components/Services').then(mod => mod.Services), { loading: LoadingSkeleton });
+const Projects = dynamic(() => import('@/components/Projects').then(mod => mod.Projects), { loading: LoadingSkeleton });
+const Methodology = dynamic(() => import('@/components/Methodology').then(mod => mod.Methodology), { loading: LoadingSkeleton });
+const Team = dynamic(() => import('@/components/Team').then(mod => mod.Team), { loading: LoadingSkeleton });
+const Origin = dynamic(() => import('@/components/Origin').then(mod => mod.Origin), { loading: LoadingSkeleton });
+const Contact = dynamic(() => import('@/components/Contact').then(mod => mod.Contact), { loading: LoadingSkeleton });
+const FAQ = dynamic(() => import('@/components/FAQ').then(mod => mod.FAQ), { loading: LoadingSkeleton });
+const Footer = dynamic(() => import('@/components/Footer').then(mod => mod.Footer), { loading: LoadingSkeleton });
 
 export default function Home() {
   return (
-    <div className="bg-[#fdfdfd] dark:bg-[#020617] text-[#1d1d1f] dark:text-white selection:bg-[#007AFF] selection:text-white min-h-screen relative overflow-hidden transition-colors duration-500">
+    <div className="bg-[#fdfdfd] dark:bg-[#020617] text-[#1d1d1f] dark:text-white selection:bg-[#007AFF] selection:text-white min-h-screen relative overflow-hidden">
       
       {/* Global AI Aurora Background */}
       <div className="fixed inset-0 pointer-events-none z-0">
