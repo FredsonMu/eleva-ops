@@ -6,7 +6,7 @@ const LoadingSkeleton = () => <div className="w-full min-h-[50vh] flex items-cen
 
 const About = dynamic(() => import('@/components/About').then(mod => mod.About), { loading: LoadingSkeleton });
 const Services = dynamic(() => import('@/components/Services').then(mod => mod.Services), { loading: LoadingSkeleton });
-const Projects = dynamic(() => import('@/components/Projects').then(mod => mod.Projects), { loading: LoadingSkeleton });
+
 const Methodology = dynamic(() => import('@/components/Methodology').then(mod => mod.Methodology), { loading: LoadingSkeleton });
 const Team = dynamic(() => import('@/components/Team').then(mod => mod.Team), { loading: LoadingSkeleton });
 const Origin = dynamic(() => import('@/components/Origin').then(mod => mod.Origin), { loading: LoadingSkeleton });
@@ -36,7 +36,7 @@ export default function Home() {
         <Hero />
         <About />
         <Services />
-        <Projects />
+
         <Methodology />
         <Team />
         <Origin />
