@@ -1,7 +1,7 @@
 'use client';
 import { ArrowUpRight, Instagram } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
-import Image from 'next/image';
+import Link from 'next/link';
 
 export function Footer() {
   const { t } = useLanguage();
@@ -18,16 +18,16 @@ export function Footer() {
                href="mailto:contact@elevaops.com" 
                className="group inline-block w-fit"
              >
-               <h2 className="font-sans text-[clamp(2.5rem,5vw,5.5rem)] font-semibold leading-[1.05] tracking-tighter text-[#1d1d1f] dark:text-white transition-all duration-700">
+               <h2 className="font-sans text-[clamp(2.5rem,5vw,5.5rem)] font-semibold leading-[1.05] tracking-tighter text-[#1d1d1f] dark:text-white">
                  {t('footer.title1')} <br className="md:hidden" />
-                 <span className="text-black/30 dark:text-white/30 group-hover:text-black transition-colors duration-500 block mt-2">
+                 <span className="text-black/30 dark:text-white/30 group-hover:text-black dark:group-hover:text-white transition-colors duration-500 block mt-2">
                    {t('footer.title2')}
                  </span>
                </h2>
              </a>
              <div className="mt-16 flex flex-col sm:flex-row gap-8 items-start sm:items-center">
-               <a href="mailto:contact@elevaops.com" className="flex justify-center items-center gap-2 bg-[#1d1d1f] dark:bg-white dark:bg-white/5 text-white px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#007AFF] transition-colors duration-300 w-full sm:w-fit shadow-lg shadow-black/5">
-                 {t('footer.contact')} <ArrowUpRight size={16} className="ml-1" />
+               <a href="mailto:contact@elevaops.com" className="flex justify-center items-center gap-2 bg-[#1d1d1f] dark:bg-white/10 text-white px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#007AFF] transition-colors duration-300 w-full sm:w-fit shadow-lg shadow-black/5">
+                 {t('footer.contact')} <ArrowUpRight size={16} className="ml-1" aria-hidden="true" />
                </a>
                <div className="flex flex-col justify-center">
                  <span className="text-sm font-semibold text-[#1d1d1f] dark:text-white">contact@elevaops.com</span>
@@ -48,9 +48,9 @@ export function Footer() {
               <span className="text-[10px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40">
                 {t('footer.rights')}
               </span>
-              <a href="/privacy-policy" className="text-[10px] font-bold uppercase tracking-widest text-[#007AFF] hover:text-[#005bb5] transition-colors">
+              <Link href="/privacy-policy" className="text-[10px] font-bold uppercase tracking-widest text-[#007AFF] hover:text-[#005bb5] transition-colors">
                 Privacy Policy
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -61,7 +61,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-black/50 dark:text-white/50 hover:text-[#007AFF] transition-colors duration-300"
             >
-              <Instagram size={20} strokeWidth={2.5} />
+              <Instagram size={20} strokeWidth={2.5} aria-hidden="true" />
               <span className="text-xs font-bold uppercase tracking-widest">Instagram</span>
             </a>
           </div>

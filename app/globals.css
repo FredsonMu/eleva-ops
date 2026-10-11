@@ -1,12 +1,11 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
-  --font-display: var(--font-display), "Outfit", sans-serif;
-  --font-handwritten: var(--font-handwritten), "Caveat", cursive;
 }
 
 @layer utilities {
@@ -72,6 +71,22 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 20px 0 rgba(0,0,0,0.2);
   }
+  .aurora-blob {
+    position: absolute;
+    border-radius: 9999px;
+    background: radial-gradient(
+      closest-side,
+      rgb(var(--aurora-rgb) / var(--aurora-alpha)) 0%,
+      rgb(var(--aurora-rgb) / calc(var(--aurora-alpha) * 0.55)) 45%,
+      rgb(var(--aurora-rgb) / 0) 100%
+    );
+  }
+  .aurora-blue { --aurora-rgb: 0 122 255; --aurora-alpha: 0.15; }
+  .aurora-cyan { --aurora-rgb: 0 198 255; --aurora-alpha: 0.12; }
+  .aurora-purple { --aurora-rgb: 168 85 247; --aurora-alpha: 0.08; }
+  .dark .aurora-blue { --aurora-alpha: 0.25; }
+  .dark .aurora-cyan { --aurora-alpha: 0.2; }
+  .dark .aurora-purple { --aurora-alpha: 0.15; }
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -84,21 +99,67 @@
 :root {
   --color-accent: #007AFF; /* Apple Blue */
   --color-ink: #1d1d1f; /* Apple dark gray text */
-  --color-paper: #ffffff; /* Pure white as requested */
+  --color-paper: #fdfdfd;
   --color-subtle: #f5f5f7;
   --color-border: rgba(0,0,0,0.08);
+  color-scheme: light;
+}
+
+/* next-themes adds `.dark` to <html> before first paint, so these apply without a flash. */
+:root.dark {
+  --color-ink: #ffffff;
+  --color-paper: #020617;
+  --color-border: rgba(255,255,255,0.1);
+  color-scheme: dark;
+}
+
+/* Also paints the overscroll / rubber-band area on mobile in the right color. */
+html,
+body {
+  background-color: var(--color-paper);
 }
 
 body {
-  background-color: var(--color-paper);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Smooth scrolling */
+/* Smooth scrolling; anchor targets land below the fixed navbar. */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+
+/* Scroll reveal (components/Reveal.tsx). Only hidden when JS can run, so content is
+   never stuck invisible if scripts fail to load. */
+@media (scripting: enabled) {
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-y, 30px), 0) scale(var(--reveal-scale, 1));
+    transition:
+      opacity var(--reveal-duration, 0.7s) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+      transform var(--reveal-duration, 0.7s) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+  }
+  .reveal.in-view,
+  .in-view .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Minimalist scrollbar */
@@ -114,6 +175,12 @@ html {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.25);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
 
 @media (max-width: 768px) {

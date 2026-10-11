@@ -1,37 +1,15 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useLanguage } from '@/lib/i18n';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
 import { ArrowRight, Check } from 'lucide-react';
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
+import { revealStyle, useInView } from './Reveal';
 
 export function Contact() {
   const { t } = useLanguage();
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>('idle');
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    // Elegant reveal animation for the whole section
-    gsap.fromTo('.contact-reveal', 
-      { y: 60, opacity: 0 },
-      {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-        },
-        y: 0,
-        opacity: 1,
-        duration: 1.2,
-        stagger: 0.1,
-        ease: 'power3.out'
-      }
-    );
-  }, { scope: sectionRef });
+  const [sectionRef, inView] = useInView<HTMLElement>('0px 0px -25% 0px');
+  // Staggered reveal: each item waits 0.1s longer than the previous one.
+  const reveal = (i: number) => revealStyle({ y: 60, duration: 1.2, delay: i * 0.1 });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,15 +43,15 @@ export function Contact() {
     } catch (error) {
       console.error(error);
       setFormState('idle'); // Should probably add an error state later, but idle is fine for now
-      alert("Houve um erro a enviar a mensagem. Por favor, tente novamente mais tarde.");
+      alert(t('contact.error'));
     }
   };
 
   return (
-    <section ref={sectionRef} id="contact" className="py-24 md:py-40 relative z-10 overflow-hidden bg-transparent">
+    <section ref={sectionRef} id="contact" className={`py-24 md:py-40 relative z-10 overflow-hidden bg-transparent ${inView ? 'in-view' : ''}`}>
       
       {/* Background ambient light */}
-      <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-[#007AFF]/5 rounded-full blur-[150px] pointer-events-none translate-x-1/3 -translate-y-1/3"></div>
+      <div className="absolute top-0 right-0 w-[70vw] h-[70vw] rounded-full bg-[radial-gradient(closest-side,rgba(0,122,255,0.05),rgba(0,122,255,0.03)_45%,transparent)] pointer-events-none translate-x-1/3 -translate-y-1/3"></div>
 
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative z-10">
         
@@ -81,20 +59,20 @@ export function Contact() {
           
           {/* Left Column: Massive Editorial Typography */}
           <div className="w-full lg:w-5/12 flex flex-col justify-start pt-4 items-center text-center lg:items-start lg:text-left">
-            <div className="contact-reveal mb-6 md:mb-8">
+            <div style={reveal(0)} className="reveal mb-6 md:mb-8">
                <span className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-[#007AFF]">
                  {t('contact.label')}
                </span>
             </div>
             
-            <h2 className="contact-reveal font-sans font-semibold text-[clamp(3rem,6vw,6rem)] tracking-tighter leading-[0.95] text-[#1d1d1f] dark:text-white text-balance mb-8">
+            <h2 style={reveal(1)} className="reveal font-sans font-semibold text-[clamp(3rem,6vw,6rem)] tracking-tighter leading-[0.95] text-[#1d1d1f] dark:text-white text-balance mb-8">
               {t('contact.title1')} <br />
               <span className="text-[#007AFF]">
                 {t('contact.title2')}
               </span>
             </h2>
             
-            <p className="contact-reveal text-black/50 dark:text-white/50 font-medium text-lg md:text-xl max-w-md leading-relaxed text-balance">
+            <p style={reveal(2)} className="reveal text-black/50 dark:text-white/50 font-medium text-lg md:text-xl max-w-md leading-relaxed text-balance">
               {t('contact.desc')}
             </p>
           </div>
@@ -104,7 +82,7 @@ export function Contact() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-10 md:gap-16 w-full max-w-2xl lg:ml-auto">
               
               {/* Name Input */}
-              <div className="contact-reveal relative group">
+              <div style={reveal(3)} className="reveal relative group">
                 <input 
                   type="text" 
                   id="name" 
@@ -115,14 +93,14 @@ export function Contact() {
                 />
                 <label 
                   htmlFor="name" 
-                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold whitespace-nowrap"
+                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/30 dark:text-white/40 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:peer-valid:text-white/40 peer-valid:font-bold whitespace-nowrap"
                 >
                   {t('contact.name')}
                 </label>
               </div>
               
               {/* Email Input */}
-              <div className="contact-reveal relative group">
+              <div style={reveal(4)} className="reveal relative group">
                 <input 
                   type="email" 
                   id="email" 
@@ -133,14 +111,14 @@ export function Contact() {
                 />
                 <label 
                   htmlFor="email" 
-                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold whitespace-nowrap"
+                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/30 dark:text-white/40 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:peer-valid:text-white/40 peer-valid:font-bold whitespace-nowrap"
                 >
                   {t('contact.email')}
                 </label>
               </div>
 
               {/* Message Input */}
-              <div className="contact-reveal relative group mt-4">
+              <div style={reveal(5)} className="reveal relative group mt-4">
                 <textarea 
                   id="message" 
                   name="message"
@@ -159,18 +137,18 @@ export function Contact() {
                 />
                 <label 
                   htmlFor="message" 
-                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-6 -translate-y-1/2 text-2xl md:text-3xl text-black/20 dark:text-white/20 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:text-white/40 peer-valid:font-bold whitespace-nowrap"
+                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-6 -translate-y-1/2 text-2xl md:text-3xl text-black/30 dark:text-white/40 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:peer-valid:text-white/40 peer-valid:font-bold whitespace-nowrap"
                 >
                   {t('contact.message')}
                 </label>
               </div>
 
               {/* Submit Button */}
-              <div className="contact-reveal pt-8 md:pt-12 flex justify-center md:justify-start">
+              <div style={reveal(6)} className="reveal pt-8 md:pt-12 flex justify-center md:justify-start">
                 <button 
                   type="submit"
                   disabled={formState !== 'idle'}
-                  className="group relative inline-flex items-center gap-6 overflow-hidden rounded-full bg-[#1d1d1f] dark:bg-white dark:bg-white/5 px-10 py-6 font-semibold text-white transition-[transform,opacity,box-shadow] duration-300 hover:bg-black hover:shadow-[0_10px_40px_rgba(0,122,255,0.2)] disabled:opacity-70"
+                  className="group relative inline-flex items-center gap-6 overflow-hidden rounded-full bg-[#1d1d1f] dark:bg-white/10 px-10 py-6 font-semibold text-white transition-[transform,opacity,box-shadow] duration-300 hover:bg-black hover:shadow-[0_10px_40px_rgba(0,122,255,0.2)] disabled:opacity-70"
                 >
                   <span className="text-lg md:text-xl tracking-tight relative z-10">
                     {formState === 'idle' && t('contact.submit')}

@@ -42,13 +42,13 @@ export function Team() {
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10">
               <div className="flex -space-x-4">
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] bg-gray-100 shadow-md relative z-10">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] dark:border-[#020617] bg-gray-100 shadow-md relative z-10">
                   <Image src="/Property 1=68.png" alt="Avatar 1" width={64} height={64} className="w-full h-full object-cover" />
                 </div>
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] bg-gray-200 shadow-md relative z-20">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] dark:border-[#020617] bg-gray-200 shadow-md relative z-20">
                   <Image src="/Property 1=11.png" alt="Avatar 2" width={64} height={64} className="w-full h-full object-cover" />
                 </div>
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] bg-gray-300 shadow-md relative z-30">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] dark:border-[#020617] bg-gray-300 shadow-md relative z-30">
                   <Image src="/Property 1=06.png" alt="Avatar 3" width={64} height={64} className="w-full h-full object-cover" />
                 </div>
               </div>
@@ -94,12 +94,13 @@ export function Team() {
             {members.map((member, i) => (
               <div 
                 key={i} 
-                className="relative group rounded-[24px] md:rounded-[48px] overflow-hidden bg-gray-100 aspect-[3/4] md:aspect-[3/4] lg:aspect-[2/3] shadow-lg hover:shadow-2xl transition-[transform,box-shadow,opacity] duration-700 ease-out transform transform-gpu hover:-translate-y-2 border border-black/5 dark:border-white/10"
+                className="relative group rounded-[24px] md:rounded-[48px] overflow-hidden bg-gray-100 dark:bg-white/5 aspect-[3/4] lg:aspect-[2/3] shadow-lg hover:shadow-2xl transition-[transform,box-shadow] duration-700 ease-out hover:-translate-y-2 border border-black/5 dark:border-white/10"
               >
                 {/* Image */}
                 <Image
                   src={member.img}
                   fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-top transition-transform duration-1000 group-hover:scale-105"
                   alt={member.name}
                   referrerPolicy="no-referrer"

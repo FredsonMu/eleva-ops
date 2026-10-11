@@ -1,7 +1,9 @@
-import type { Metadata } from 'next';
-import { Inter, Outfit, JetBrains_Mono } from 'next/font/google';
-import './globals.css';
+import type { Metadata, Viewport } from 'next';
+import { notFound } from 'next/navigation';
+import { Inter, JetBrains_Mono } from 'next/font/google';
+import '../globals.css';
 import { LanguageProvider } from '@/lib/i18n';
+import { htmlLang, isLanguage, languages } from '@/lib/languages';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
 const inter = Inter({
@@ -10,16 +12,12 @@ const inter = Inter({
   display: 'swap',
 });
 
-const outfit = Outfit({
-  subsets: ['latin'],
-  variable: '--font-display',
-  display: 'swap',
-});
-
+// Only used for small labels below the fold, so it shouldn't compete with the hero for bandwidth.
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
+  preload: false,
 });
 
 const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://elevaops.com').replace(/\/$/, '');
@@ -134,16 +132,32 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#fdfdfd' },
+    { media: '(prefers-color-scheme: dark)', color: '#020617' },
+  ],
+};
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return languages.map(lang => ({ lang }));
+}
+
+export default async function RootLayout({ children, params }: { children: React.ReactNode; params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  if (!isLanguage(lang)) notFound();
+
   return (
-    <html lang="en" className={`dark ${inter.variable} ${outfit.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className="font-sans antialiased text-ink bg-paper dark:bg-[#020617] dark:text-white" suppressHydrationWarning>
+    <html lang={htmlLang[lang]} className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+      <body className="font-sans antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          <LanguageProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <LanguageProvider initialLanguage={lang}>
             {children}
           </LanguageProvider>
         </ThemeProvider>

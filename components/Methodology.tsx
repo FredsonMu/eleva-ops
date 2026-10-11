@@ -47,11 +47,11 @@ export function Methodology() {
                 className={`${colClass} relative group rounded-[24px] md:rounded-[40px] p-[1px] overflow-hidden min-h-[300px] md:min-h-[400px]`}
               >
                 {/* Border Layer */}
-                <div className="absolute inset-0 bg-gradient-to-br from-black/5 via-black/0 to-black/5 opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-black/5 via-black/0 to-black/5 dark:from-white/10 dark:via-white/0 dark:to-white/10 opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
                 
                 {/* Clean Notion-style Inner Card */}
                 <div 
-                  className="relative h-full w-full bg-white/60 dark:bg-white/5 backdrop-blur-md md:backdrop-blur-3xl rounded-[23px] md:rounded-[39px] p-6 md:p-10 flex flex-col justify-between overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.05)] transition-[transform,opacity,box-shadow] duration-500 ease-out group-hover:bg-white/90 dark:group-hover:bg-white/10 border-[1.5px] border-black/10 dark:border-white/10 group-hover:border-[#007AFF]/20 dark:group-hover:border-[#007AFF]/30"
+                  className="relative h-full w-full bg-white/80 dark:bg-white/[0.07] rounded-[23px] md:rounded-[39px] p-6 md:p-10 flex flex-col justify-between overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.05)] transition-[background-color,border-color] duration-500 ease-out group-hover:bg-white/90 dark:group-hover:bg-white/10 border-[1.5px] border-black/10 dark:border-white/10 group-hover:border-[#007AFF]/20 dark:group-hover:border-[#007AFF]/30"
                 >
                   
                   {/* Decorative Elements */}
@@ -59,9 +59,9 @@ export function Methodology() {
                   <div className="absolute bottom-6 right-6 w-8 h-8 border-b-[1.5px] border-r-[1.5px] border-black/5 dark:border-white/10 rounded-br-xl hidden md:block"></div>
                   
                   {/* Internal Glow on Hover */}
-                  <div className="absolute -inset-[100%] bg-gradient-to-br from-[#007AFF]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 blur-md md:blur-3xl pointer-events-none transform translate-y-1/4 translate-x-1/4"></div>
+                  <div className="absolute -inset-[100%] bg-gradient-to-br from-[#007AFF]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none transform translate-y-1/4 translate-x-1/4"></div>
 
-                  <span className="text-[140px] md:text-[200px] leading-[0.7] font-semibold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-black/5 dark:from-white/5 to-transparent select-none absolute -top-4 -right-4 font-sans pointer-events-none group-hover:scale-105 transform-gpu group-hover:from-black/10 dark:group-hover:from-white/10 transition-[transform,opacity,box-shadow] duration-700 ease-out origin-top-right">
+                  <span className="text-[140px] md:text-[200px] leading-[0.7] font-semibold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-black/5 dark:from-white/5 to-transparent select-none absolute -top-4 -right-4 font-sans pointer-events-none group-hover:scale-105 transform-gpu group-hover:from-black/10 dark:group-hover:from-white/10 transition-transform duration-700 ease-out origin-top-right">
                     {step.id}
                   </span>
                   

@@ -59,7 +59,7 @@ export function About() {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] opacity-30 group-hover:opacity-100 transition-opacity duration-700 hidden md:block"></div>
                 
                 {/* Actual Dashboard Window - Liquid Glass */}
-                <div className="relative w-full h-full bg-white/70 dark:bg-[#0a0a0f]/80 md:backdrop-blur-3xl rounded-[19px] md:rounded-[27px] overflow-hidden flex flex-col">
+                <div className="relative w-full h-full bg-white/85 dark:bg-[#0a0a0f]/90 rounded-[19px] md:rounded-[27px] overflow-hidden flex flex-col">
                   
                   {/* Window Top Bar */}
                   <div className="flex items-center gap-2 px-4 md:px-5 py-3 md:py-3.5 border-b border-black/5 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
@@ -112,7 +112,7 @@ export function About() {
 
                       {/* Metrics Row */}
                       <div className="grid grid-cols-3 gap-2 md:gap-4 relative z-10">
-                        <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] backdrop-blur-md hover:border-[#007AFF]/30 transition-colors">
+                        <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:border-[#007AFF]/30 transition-colors">
                           <div className="flex justify-between items-start mb-2">
                             <span className="text-[9px] text-black/50 dark:text-white/40 uppercase tracking-widest font-bold">Tools Synced</span>
                             <div className="w-4 h-4 rounded-full bg-[#007AFF]/10 flex items-center justify-center">
@@ -128,14 +128,14 @@ export function About() {
                           </div>
                         </div>
                         
-                        <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] backdrop-blur-md hover:border-emerald-500/30 transition-colors relative overflow-hidden">
+                        <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:border-emerald-500/30 transition-colors relative overflow-hidden">
                           <div className="absolute -right-4 -bottom-4 w-16 h-16 bg-emerald-500/10 rounded-full blur-xl"></div>
                           <span className="text-[9px] text-black/50 dark:text-white/40 uppercase tracking-widest font-bold block mb-2 relative z-10">Time Saved</span>
                           <span className="text-xl md:text-3xl font-bold text-[#1d1d1f] dark:text-white tracking-tight block relative z-10">84<span className="text-sm text-black/40 dark:text-white/40 font-medium">h</span></span>
                           <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold inline-flex items-center gap-1 mt-1 bg-emerald-500/10 px-1.5 py-0.5 rounded relative z-10">↑ This Week</span>
                         </div>
                         
-                        <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] backdrop-blur-md flex flex-col justify-between">
+                        <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] flex flex-col justify-between">
                           <span className="text-[9px] text-black/50 dark:text-white/40 uppercase tracking-widest font-bold block">Health</span>
                           <div className="flex items-center justify-between">
                             <span className="text-lg md:text-2xl font-bold text-[#1d1d1f] dark:text-white tracking-tight">Clear</span>
@@ -154,7 +154,7 @@ export function About() {
                       </div>
 
                       {/* Chart Area */}
-                      <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-5 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] backdrop-blur-md relative z-10">
+                      <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-5 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] relative z-10">
                         <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center gap-2">
                             <span className="text-[10px] text-black/70 dark:text-white/70 font-bold uppercase tracking-widest">Manual Tasks</span>
@@ -200,7 +200,7 @@ export function About() {
                       </div>
 
                       {/* Task List */}
-                      <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-5 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] backdrop-blur-md relative z-10">
+                      <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-5 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] relative z-10">
                         <span className="text-[10px] text-black/60 dark:text-white/50 font-bold uppercase tracking-widest block mb-4 flex items-center justify-between">
                           Architecture Sync
                           <span className="text-[8px] bg-black/5 dark:bg-white/10 text-black/60 dark:text-white/60 px-1.5 py-0.5 rounded border border-black/5 dark:border-white/10">3 active</span>
@@ -253,9 +253,9 @@ export function About() {
               className="flex-[0.8] flex flex-col items-center lg:items-start text-center lg:text-left relative"
             >
                {/* Decorative Element */}
-               <div className="absolute top-0 right-10 w-12 h-12 rounded-full border border-black border-dashed opacity-[0.05] animate-[spin_12s_linear_infinite] pointer-events-none hidden lg:block"></div>
+               <div className="absolute top-0 right-10 w-12 h-12 rounded-full border border-black dark:border-white border-dashed opacity-[0.05] animate-[spin_12s_linear_infinite] pointer-events-none hidden lg:block"></div>
                <div className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center mb-6 border border-black/10 dark:border-white/20">
-                 <div className="w-1.5 h-1.5 rounded-full bg-black/30"></div>
+                 <div className="w-1.5 h-1.5 rounded-full bg-black/30 dark:bg-white/30"></div>
                </div>
 
                <span className="text-[10px] uppercase tracking-widest font-bold text-black/30 dark:text-white/30 mb-4">{t('about.oldWay')}</span>
@@ -264,8 +264,8 @@ export function About() {
             </div>
 
             {/* Elegant Divider */}
-            <div className="hidden lg:block w-[1px] bg-gradient-to-b from-black/5 via-black/10 to-transparent"></div>
-            <div className="block lg:hidden h-[1px] w-full max-w-[200px] mx-auto bg-gradient-to-r from-transparent via-black/10 to-transparent"></div>
+            <div className="hidden lg:block w-[1px] bg-gradient-to-b from-black/5 via-black/10 to-transparent dark:from-white/5 dark:via-white/10"></div>
+            <div className="block lg:hidden h-[1px] w-full max-w-[200px] mx-auto bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent"></div>
 
             {/* Order (The New Standard) */}
             <div 

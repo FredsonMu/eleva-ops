@@ -2,6 +2,10 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  experimental: {
+    // Inline the (small) Tailwind stylesheet into the HTML so first paint does not wait for a CSS request.
+    inlineCss: true,
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -21,7 +25,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  transpilePackages: ['motion'],
   webpack: (config, {dev}) => {
     // HMR is disabled in AI Studio via DISABLE_HMR env var.
     // Do not modifyâfile watching is disabled to prevent flickering during agent edits.

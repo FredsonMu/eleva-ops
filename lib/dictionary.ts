@@ -5,6 +5,10 @@ export const dict = {
   'nav.method': { pt: 'Método', en: 'Method' },
   'nav.team': { pt: 'Equipa', en: 'Team' },
   'nav.contact': { pt: 'Falar com a Equipa', en: 'Talk to Us' },
+  'contact.error': { pt: 'Houve um erro a enviar a mensagem. Por favor, tente novamente mais tarde.', en: 'There was an error sending your message. Please try again later.' },
+  'nav.toggleTheme': { pt: 'Alternar entre tema claro e escuro', en: 'Toggle light and dark theme' },
+  'nav.openMenu': { pt: 'Abrir menu', en: 'Open menu' },
+  'nav.closeMenu': { pt: 'Fechar menu', en: 'Close menu' },
 
   // Hero
   'hero.startProject': { pt: 'Começar projeto', en: 'Start a project' },

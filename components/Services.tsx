@@ -1,5 +1,5 @@
 'use client';
-import { motion } from 'motion/react';
+import { Reveal } from './Reveal';
 import { useLanguage } from '@/lib/i18n';
 import { Target, Zap, LineChart, MessageSquare, Database, Globe, Link, Shield, Activity, Bot, ArrowRight, Layers, CheckCircle2, Sparkles, User } from 'lucide-react';
 
@@ -11,13 +11,7 @@ export function Services() {
       <div className="w-full max-w-7xl mx-auto px-5 md:px-6">
         
         {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mb-12 md:mb-20 flex flex-col items-center text-center"
-        >
+        <Reveal y={40} duration={0.7} rootMargin="0px 0px -100px 0px" className="mb-12 md:mb-20 flex flex-col items-center text-center">
           <span className="text-[10px] font-bold uppercase tracking-widest text-[#007AFF] mb-4 inline-block border border-black/5 dark:border-white/10 px-4 py-1.5 rounded-full bg-black/5 dark:bg-white/5 shadow-sm">
             {t('serv.label')}
           </span>
@@ -25,19 +19,14 @@ export function Services() {
             {t('serv.title1')} <br className="hidden md:block" />
             <span className="text-black/30 dark:text-white/30">{t('serv.title2')}</span>
           </h2>
-        </motion.div>
+        </Reveal>
 
         {/* Bento Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
           
           {/* 1. Presence & Conversion (Wide Card) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-2 relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-[transform,opacity,box-shadow] duration-500 h-[340px] md:h-[380px]"
-          >
+          <Reveal duration={0.6} rootMargin="0px 0px -50px 0px" className="lg:col-span-2">
+            <div className="relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-[transform,opacity,box-shadow] duration-500 h-[340px] md:h-[380px]">
             {/* Spinning Gradient Border */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
@@ -57,8 +46,8 @@ export function Services() {
                 </svg>
 
                 {/* Fade masks for the grid */}
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white dark:from-[#050505] dark:via-transparent dark:to-[#050505]"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent dark:from-[#050505]"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white dark:from-[#0a0a0f] dark:via-transparent dark:to-[#0a0a0f]"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent dark:from-[#0a0a0f]"></div>
 
                 {/* Minimalist Chart */}
                 <div className="relative w-[120%] md:w-full h-[180%] right-[-15%] md:right-[-5%] bottom-[-20%] transition-transform duration-1000 ease-out -translate-y-4 md:translate-y-0 md:group-hover:-translate-y-4">
@@ -123,16 +112,12 @@ export function Services() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
+          </Reveal>
 
           {/* 2. Smart Automation (Narrow Card) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-1 relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-[transform,opacity,box-shadow] duration-500 h-[340px] md:h-[380px]"
-          >
+          <Reveal duration={0.6} delay={0.1} rootMargin="0px 0px -50px 0px" className="lg:col-span-1">
+            <div className="relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-[transform,opacity,box-shadow] duration-500 h-[340px] md:h-[380px]">
             {/* Spinning Gradient Border */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#10b981_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#10b981_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
@@ -152,9 +137,9 @@ export function Services() {
                 </svg>
 
                 {/* Fade masks for the grid */}
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white dark:from-[#050505] dark:via-transparent dark:to-[#050505]"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-[#050505] dark:via-[#050505]/80"></div>
-                <div className="absolute inset-0 bg-gradient-to-l from-white via-white/80 to-transparent dark:from-[#050505] dark:via-[#050505]/80"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white dark:from-[#0a0a0f] dark:via-transparent dark:to-[#0a0a0f]"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-[#0a0a0f] dark:via-[#0a0a0f]/80"></div>
+                <div className="absolute inset-0 bg-gradient-to-l from-white via-white/80 to-transparent dark:from-[#0a0a0f] dark:via-[#0a0a0f]/80"></div>
 
                 {/* Node Graph Composition */}
                 <div className="relative w-full h-[180px] mt-6 flex items-center justify-center transition-transform duration-1000 ease-out scale-105 md:scale-100 md:group-hover:scale-105">
@@ -235,16 +220,12 @@ export function Services() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
+          </Reveal>
 
           {/* 3. Internal Platforms (Narrow Card) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-1 relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-[transform,opacity,box-shadow] duration-500 h-[340px] md:h-[380px]"
-          >
+          <Reveal duration={0.6} delay={0.2} rootMargin="0px 0px -50px 0px" className="lg:col-span-1">
+            <div className="relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-[transform,opacity,box-shadow] duration-500 h-[340px] md:h-[380px]">
             {/* Spinning Gradient Border */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#a855f7_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#a855f7_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
@@ -264,9 +245,9 @@ export function Services() {
                 </svg>
 
                 {/* Fade masks for the grid */}
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white dark:from-[#050505] dark:via-transparent dark:to-[#050505]"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-[#050505] dark:via-[#050505]/80"></div>
-                <div className="absolute inset-0 bg-gradient-to-l from-white via-white/80 to-transparent dark:from-[#050505] dark:via-[#050505]/80"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white dark:from-[#0a0a0f] dark:via-transparent dark:to-[#0a0a0f]"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-[#0a0a0f] dark:via-[#0a0a0f]/80"></div>
+                <div className="absolute inset-0 bg-gradient-to-l from-white via-white/80 to-transparent dark:from-[#0a0a0f] dark:via-[#0a0a0f]/80"></div>
 
                 {/* UI Composition */}
                 <div className="relative w-[220px] md:w-[240px] mt-2 transition-transform duration-1000 ease-out scale-[1.03] -translate-y-2 md:scale-100 md:translate-y-0 md:group-hover:scale-[1.03] md:group-hover:-translate-y-2">
@@ -338,16 +319,12 @@ export function Services() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
+          </Reveal>
 
           {/* 4. AI Agents (Wide Card) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="lg:col-span-2 relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-[transform,opacity,box-shadow] duration-500 h-[340px] md:h-[380px]"
-          >
+          <Reveal duration={0.6} delay={0.3} rootMargin="0px 0px -50px 0px" className="lg:col-span-2">
+            <div className="relative group p-[1px] md:p-[1.5px] rounded-[25px] md:rounded-[33px] overflow-hidden shadow-[0_4px_24px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.08)] transition-[transform,opacity,box-shadow] duration-500 h-[340px] md:h-[380px]">
             {/* Spinning Gradient Border */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_12s_linear_infinite] hidden md:block opacity-40 md:opacity-0 md:group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
@@ -367,8 +344,8 @@ export function Services() {
                 </svg>
 
                 {/* Fade masks for the grid */}
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white dark:from-[#050505] dark:via-transparent dark:to-[#050505]"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 to-white dark:from-transparent dark:via-[#050505]/80 dark:to-[#050505]"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white dark:from-[#0a0a0f] dark:via-transparent dark:to-[#0a0a0f]"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 to-white dark:from-transparent dark:via-[#0a0a0f]/80 dark:to-[#0a0a0f]"></div>
 
                 {/* AI Console UI Composition */}
                 <div className="relative w-[280px] md:w-[320px] transition-transform duration-1000 ease-out -translate-x-4 md:translate-x-0 md:group-hover:-translate-x-4 scale-90 md:scale-100 origin-top-right md:origin-center">
@@ -452,7 +429,8 @@ export function Services() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
+          </Reveal>
 
         </div>
       </div>

@@ -1,62 +1,19 @@
 'use client';
-import React, { useRef } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { useLanguage } from '@/lib/i18n';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
+import { revealStyle, useInView } from './Reveal';
 
 export function Origin() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
-
-  useGSAP(() => {
-    const mm = gsap.matchMedia();
-    
-    mm.add('(min-width: 769px)', () => {
-      gsap.to('.origin-word', {
-        y: 0,
-        opacity: 1,
-        duration: 1.2,
-        stagger: 0.015,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: ".origin-quote-container",
-          start: "top 85%",
-        }
-      });
-
-      gsap.to('.origin-card', {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".origin-grid-container",
-          start: "top 80%",
-        }
-      });
-    });
-
-    mm.add('(max-width: 768px)', () => {
-      gsap.to('.origin-word', { opacity: 1, y: 0, duration: 0.8 });
-      gsap.to('.origin-card', { opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.2 });
-    });
-
-    return () => mm.revert();
-  }, { scope: containerRef });
+  const [quoteRef, quoteInView] = useInView<HTMLDivElement>('0px 0px -15% 0px');
+  const [gridRef, gridInView] = useInView<HTMLDivElement>('0px 0px -20% 0px');
 
   const p1Text = t('origin.p1');
   const words = p1Text.split(" ");
 
   return (
-    <section ref={containerRef} className="py-20 md:py-40 relative overflow-hidden bg-transparent">
+    <section className="py-20 md:py-40 relative overflow-hidden bg-transparent">
       
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative z-10">
         
@@ -74,7 +31,7 @@ export function Origin() {
         </div>
 
         {/* Split Layout: Image on Left, Quote on Right */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-20 mb-24 md:mb-40 max-w-7xl mx-auto origin-quote-container">
+        <div ref={quoteRef} className={`flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-20 mb-24 md:mb-40 max-w-7xl mx-auto ${quoteInView ? 'in-view' : ''}`}>
           
           {/* Left: The "Jewel" Image Container */}
           <div className="w-full lg:w-1/2 flex justify-center lg:justify-start">
@@ -83,7 +40,7 @@ export function Origin() {
                <div className="absolute -inset-8 bg-gradient-to-tr from-[#007AFF]/20 via-[#007AFF]/5 to-transparent rounded-[50px] blur-md md:blur-3xl opacity-40 group-hover:opacity-80 transition-opacity duration-700"></div>
                
                {/* 3D Floating Glass Card */}
-               <div className="relative p-2 md:p-3 bg-white/60 dark:bg-white/5 md:backdrop-blur-3xl rounded-[32px] md:rounded-[48px] border-[0.5px] border-black/10 dark:border-white/20 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] transition-all duration-700 ease-out group-hover:-translate-y-4 md:group-hover:rotate-2 group-hover:border-[#007AFF]/20">
+               <div className="relative p-2 md:p-3 bg-white/80 dark:bg-white/[0.07] rounded-[32px] md:rounded-[48px] border-[0.5px] border-black/10 dark:border-white/20 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.4)] transition-[transform,border-color] duration-700 ease-out group-hover:-translate-y-4 md:group-hover:rotate-2 group-hover:border-[#007AFF]/20">
                  
                  <div className="relative rounded-[24px] md:rounded-[40px] overflow-hidden bg-black/5 dark:bg-black/40 aspect-[4/3]">
                    <Image 
@@ -92,7 +49,6 @@ export function Origin() {
                      sizes="(max-width: 768px) 100vw, 50vw"
                      className="object-cover opacity-90 group-hover:opacity-100 transition-transform duration-1000 ease-out group-hover:scale-110" 
                      alt="Trabalho" 
-                     priority
                    />
                    
                    {/* Inner Shadow Overlay */}
@@ -116,7 +72,7 @@ export function Origin() {
               {words.map((word, i) => (
                 <React.Fragment key={i}>
                   <span className="inline-flex overflow-hidden pb-1 -mb-1 align-bottom">
-                    <span className="origin-word inline-block transform translate-y-full opacity-0">
+                    <span className="reveal inline-block" style={revealStyle({ y: '100%', duration: 1.2, delay: i * 0.015 })}>
                       {word}
                     </span>
                   </span>
@@ -132,61 +88,67 @@ export function Origin() {
         </div>
 
         {/* 3-Column Editorial Grid */}
-        <div className="origin-grid-container grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 mb-24 md:mb-40 max-w-7xl mx-auto">
+        <div ref={gridRef} className={`grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 mb-24 md:mb-40 max-w-7xl mx-auto ${gridInView ? 'in-view' : ''}`}>
           
           {/* Column 1 */}
-          <div className="origin-card opacity-0 translate-y-[60px] scale-95 group relative flex flex-col bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-[32px] shadow-[0_4px_24px_-10px_rgba(0,0,0,0.02)] overflow-hidden transition-[box-shadow,border-color] duration-500 hover:shadow-[0_20px_60px_-15px_rgba(0,122,255,0.15)] hover:border-[#007AFF]/20">
-             {/* Content */}
-             <div className="relative z-10 w-full flex-grow flex flex-col items-start p-8 md:p-10">
-               <h4 className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-[#007AFF] mb-4 md:mb-6">{t('origin.o1.label')}</h4>
-               <p className="text-2xl md:text-3xl font-semibold text-[#1d1d1f] dark:text-white mb-4 md:mb-6 leading-[1.2] tracking-tight text-balance">
-                 {t('origin.o1.title')}
-               </p>
-               <p className="text-base md:text-lg text-black/60 dark:text-white/60 font-medium leading-relaxed">
-                 {t('origin.o1.desc')}
-               </p>
-             </div>
+          <div style={revealStyle({ y: 60, scale: 0.95, duration: 1.2, delay: 0 })} className="reveal flex">
+            <div className="group relative flex flex-col w-full bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-[32px] shadow-[0_4px_24px_-10px_rgba(0,0,0,0.02)] overflow-hidden transition-[box-shadow,border-color] duration-500 hover:shadow-[0_20px_60px_-15px_rgba(0,122,255,0.15)] hover:border-[#007AFF]/20">
+               {/* Content */}
+               <div className="relative z-10 w-full flex-grow flex flex-col items-start p-8 md:p-10">
+                 <h4 className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-[#007AFF] mb-4 md:mb-6">{t('origin.o1.label')}</h4>
+                 <p className="text-2xl md:text-3xl font-semibold text-[#1d1d1f] dark:text-white mb-4 md:mb-6 leading-[1.2] tracking-tight text-balance">
+                   {t('origin.o1.title')}
+                 </p>
+                 <p className="text-base md:text-lg text-black/60 dark:text-white/60 font-medium leading-relaxed">
+                   {t('origin.o1.desc')}
+                 </p>
+               </div>
+            </div>
           </div>
 
           {/* Column 2 */}
-          <div className="origin-card opacity-0 translate-y-[60px] scale-95 group relative flex flex-col bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-[32px] shadow-[0_4px_24px_-10px_rgba(0,0,0,0.02)] overflow-hidden transition-[box-shadow,border-color] duration-500 hover:shadow-[0_20px_60px_-15px_rgba(0,122,255,0.15)] hover:border-[#007AFF]/20">
-             {/* Content */}
-             <div className="relative z-10 w-full flex-grow flex flex-col items-start p-8 md:p-10">
-               <h4 className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-[#007AFF] mb-4 md:mb-6">{t('origin.o2.label')}</h4>
-               <p className="text-2xl md:text-3xl font-semibold text-[#1d1d1f] dark:text-white mb-4 md:mb-6 leading-[1.2] tracking-tight text-balance">
-                 {t('origin.o2.title')}
-               </p>
-               <p className="text-base md:text-lg text-black/60 dark:text-white/60 font-medium leading-relaxed">
-                 {t('origin.o2.desc')}
-               </p>
-             </div>
+          <div style={revealStyle({ y: 60, scale: 0.95, duration: 1.2, delay: 0.15 })} className="reveal flex">
+            <div className="group relative flex flex-col w-full bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-[32px] shadow-[0_4px_24px_-10px_rgba(0,0,0,0.02)] overflow-hidden transition-[box-shadow,border-color] duration-500 hover:shadow-[0_20px_60px_-15px_rgba(0,122,255,0.15)] hover:border-[#007AFF]/20">
+               {/* Content */}
+               <div className="relative z-10 w-full flex-grow flex flex-col items-start p-8 md:p-10">
+                 <h4 className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-[#007AFF] mb-4 md:mb-6">{t('origin.o2.label')}</h4>
+                 <p className="text-2xl md:text-3xl font-semibold text-[#1d1d1f] dark:text-white mb-4 md:mb-6 leading-[1.2] tracking-tight text-balance">
+                   {t('origin.o2.title')}
+                 </p>
+                 <p className="text-base md:text-lg text-black/60 dark:text-white/60 font-medium leading-relaxed">
+                   {t('origin.o2.desc')}
+                 </p>
+               </div>
+            </div>
           </div>
 
           {/* Column 3 */}
-          <div className="origin-card opacity-0 translate-y-[60px] scale-95 group relative flex flex-col bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-[32px] shadow-[0_4px_24px_-10px_rgba(0,0,0,0.02)] overflow-hidden transition-[box-shadow,border-color] duration-500 hover:shadow-[0_20px_60px_-15px_rgba(0,122,255,0.15)] hover:border-[#007AFF]/20">
-             {/* Content */}
-             <div className="relative z-10 w-full flex-grow flex flex-col items-start p-8 md:p-10">
-               <h4 className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-[#007AFF] mb-4 md:mb-6">{t('origin.o3.label')}</h4>
-               <p className="text-2xl md:text-3xl font-semibold text-[#1d1d1f] dark:text-white mb-4 md:mb-6 leading-[1.2] tracking-tight text-balance">
-                 {t('origin.o3.title')}
-               </p>
-               <p className="text-base md:text-lg text-black/60 dark:text-white/60 font-medium leading-relaxed mb-6">
-                 {t('origin.o3.desc')}
-               </p>
-               
-               {/* Tags for Column 3 moved here gracefully */}
-               <div className="flex flex-wrap gap-2 mt-auto w-full pt-4">
-                   <span className="px-4 py-2 rounded-lg border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] text-xs font-bold tracking-tight shadow-sm backdrop-blur-md">
-                     <span className="text-black/40 dark:text-white/40">{t('origin.o3.b1')}</span> <span className="text-[#1d1d1f] dark:text-white">{t('origin.o3.b2')}</span>
-                   </span>
-                   <span className="px-4 py-2 rounded-lg border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] text-xs font-bold tracking-tight shadow-sm backdrop-blur-md">
-                     <span className="text-black/40 dark:text-white/40">{t('origin.o3.b1')}</span> <span className="text-[#1d1d1f] dark:text-white">{t('origin.o3.b3')}</span>
-                   </span>
-                   <span className="px-4 py-2 rounded-lg border border-[#007AFF]/20 bg-[#007AFF]/5 text-[#007AFF] text-xs font-bold tracking-tight shadow-sm backdrop-blur-md">
-                     {t('origin.o3.b1')} {t('origin.o3.b4')}
-                   </span>
+          <div style={revealStyle({ y: 60, scale: 0.95, duration: 1.2, delay: 0.3 })} className="reveal flex">
+            <div className="group relative flex flex-col w-full bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-[32px] shadow-[0_4px_24px_-10px_rgba(0,0,0,0.02)] overflow-hidden transition-[box-shadow,border-color] duration-500 hover:shadow-[0_20px_60px_-15px_rgba(0,122,255,0.15)] hover:border-[#007AFF]/20">
+               {/* Content */}
+               <div className="relative z-10 w-full flex-grow flex flex-col items-start p-8 md:p-10">
+                 <h4 className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-[#007AFF] mb-4 md:mb-6">{t('origin.o3.label')}</h4>
+                 <p className="text-2xl md:text-3xl font-semibold text-[#1d1d1f] dark:text-white mb-4 md:mb-6 leading-[1.2] tracking-tight text-balance">
+                   {t('origin.o3.title')}
+                 </p>
+                 <p className="text-base md:text-lg text-black/60 dark:text-white/60 font-medium leading-relaxed mb-6">
+                   {t('origin.o3.desc')}
+                 </p>
+                 
+                 {/* Tags for Column 3 moved here gracefully */}
+                 <div className="flex flex-wrap gap-2 mt-auto w-full pt-4">
+                     <span className="px-4 py-2 rounded-lg border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] text-xs font-bold tracking-tight shadow-sm">
+                       <span className="text-black/40 dark:text-white/40">{t('origin.o3.b1')}</span> <span className="text-[#1d1d1f] dark:text-white">{t('origin.o3.b2')}</span>
+                     </span>
+                     <span className="px-4 py-2 rounded-lg border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] text-xs font-bold tracking-tight shadow-sm">
+                       <span className="text-black/40 dark:text-white/40">{t('origin.o3.b1')}</span> <span className="text-[#1d1d1f] dark:text-white">{t('origin.o3.b3')}</span>
+                     </span>
+                     <span className="px-4 py-2 rounded-lg border border-[#007AFF]/20 bg-[#007AFF]/5 text-[#007AFF] text-xs font-bold tracking-tight shadow-sm">
+                       {t('origin.o3.b1')} {t('origin.o3.b4')}
+                     </span>
+                 </div>
                </div>
-             </div>
+            </div>
           </div>
 
         </div>

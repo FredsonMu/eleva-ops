@@ -56,7 +56,7 @@ export function Hero() {
             <div className="absolute inset-0 bg-[#007AFF]/20 rounded-full blur-md group-hover:bg-[#007AFF]/40 group-hover:scale-110 transition-[transform,opacity,box-shadow] duration-500"></div>
             
             {/* Button Surface */}
-            <div className="relative bg-white/80 dark:bg-white/10 backdrop-blur-xl border border-black/5 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.06)] group-hover:shadow-[0_8px_30px_rgb(0,122,255,0.15)] px-8 py-3.5 rounded-full flex items-center gap-3 transition-[transform,opacity,box-shadow] duration-300">
+            <div className="relative bg-white/90 dark:bg-white/10 border border-black/5 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.06)] group-hover:shadow-[0_8px_30px_rgb(0,122,255,0.15)] px-8 py-3.5 rounded-full flex items-center gap-3 transition-[transform,opacity,box-shadow] duration-300">
                
                <span className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#1d1d1f] dark:text-white group-hover:text-[#007AFF] dark:group-hover:text-[#007AFF] transition-colors">
                  {t('hero.startProject')}
@@ -77,9 +77,10 @@ export function Hero() {
               src="/hero imagem1.jpg" 
               alt="Workspace with computers" 
               fill 
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 1024px) 100vw, 1024px"
               className="object-cover" 
               priority
+              fetchPriority="high"
             />
           </div>
         </div>
