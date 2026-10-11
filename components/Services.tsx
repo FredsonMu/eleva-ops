@@ -2,6 +2,7 @@
 import { Reveal } from './Reveal';
 import { useLanguage } from '@/lib/i18n';
 import { Target, Zap, LineChart, MessageSquare, Database, Globe, Link, Shield, Activity, Bot, ArrowRight, Layers, CheckCircle2, Sparkles, User } from 'lucide-react';
+import { BrandText } from './Brand';
 
 export function Services() {
   const { t } = useLanguage();
@@ -364,7 +365,7 @@ export function Services() {
                       </div>
                       <span className="text-[9px] font-mono font-semibold tracking-wider text-[#1d1d1f] dark:text-white/80 uppercase ml-2 flex items-center gap-1.5">
                         <Sparkles size={10} className="text-brand" />
-                        {t('serv.v4.agent')}
+                        <BrandText text={t('serv.v4.agent')} />
                       </span>
                     </div>
 
@@ -378,7 +379,7 @@ export function Services() {
                          </div>
                          <div className="space-y-1">
                            <div className="flex items-center gap-2">
-                             <span className="text-[9px] font-medium text-[#1d1d1f] dark:text-white">ElevaOps AI</span>
+                             <span className="text-[9px] font-medium text-[#1d1d1f] dark:text-white notranslate" translate="no">ElevaOps AI</span>
                              <span className="text-[8px] font-mono text-black/55 dark:text-white/55">10:42 AM</span>
                            </div>
                            <p className="text-[10px] text-black/70 dark:text-white/70 leading-relaxed font-mono">

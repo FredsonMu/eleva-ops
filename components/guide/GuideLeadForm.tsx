@@ -1,0 +1,215 @@
+'use client';
+import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
+import Link from 'next/link';
+import { ArrowRight, Check, Download, Loader2 } from 'lucide-react';
+import { GUIDE, LIMITS } from '@/lib/guide';
+import { captureTracking, getTracking } from './tracking';
+import { Brand } from '../Brand';
+
+type Status = 'idle' | 'submitting' | 'success';
+type FieldErrors = Partial<Record<'firstName' | 'email', string>>;
+
+export const LEAD_EVENT = 'eleva:guide-lead';
+
+export function GuideLeadForm() {
+  const [status, setStatus] = useState<Status>('idle');
+  const [error, setError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [download, setDownload] = useState<string>(GUIDE.pdf);
+  const startedAt = useRef(0);
+  const successHeading = useRef<HTMLHeadingElement>(null);
+  const ids = { name: useId(), email: useId(), consent: useId(), error: useId() };
+
+  useEffect(() => {
+    startedAt.current = Date.now();
+    captureTracking();
+  }, []);
+
+  useEffect(() => {
+    if (status === 'success') successHeading.current?.focus();
+  }, [status]);
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (status === 'submitting') return;
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const firstName = String(data.get('firstName') ?? '').trim();
+    const email = String(data.get('email') ?? '').trim();
+
+    const errors: FieldErrors = {};
+    if (!firstName) errors.firstName = 'Please enter your first name.';
+    if (!email) errors.email = 'Please enter your email.';
+    else if (!(form.elements.namedItem('email') as HTMLInputElement).validity.valid) errors.email = 'Please enter a valid email address.';
+    setFieldErrors(errors);
+    setError('');
+    if (Object.keys(errors).length) {
+      (form.elements.namedItem(errors.firstName ? 'firstName' : 'email') as HTMLInputElement).focus();
+      return;
+    }
+
+    setStatus('submitting');
+    try {
+      const response = await fetch('/api/guide-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName,
+          email,
+          marketingConsent: data.get('marketingConsent') === 'on',
+          company: String(data.get('company') ?? ''), // honeypot
+          startedAt: startedAt.current,
+          tracking: getTracking(),
+        }),
+      });
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok || !result?.ok) {
+        if (result?.field) setFieldErrors({ [result.field]: result.error });
+        setError(result?.error ?? 'Something went wrong. Please try again.');
+        setStatus('idle');
+        return;
+      }
+
+      setDownload(result.download ?? GUIDE.pdf);
+      setStatus('success');
+      // Single, post-validation signal for analytics (e.g. a future Meta Pixel "Lead" event,
+      // using leadId as the event id to deduplicate with the Conversions API).
+      window.dispatchEvent(new CustomEvent(LEAD_EVENT, { detail: { leadId: result.leadId } }));
+    } catch {
+      setError('We couldn’t reach the server. Check your connection and try again.');
+      setStatus('idle');
+    }
+  }
+
+  if (status === 'success') {
+    return (
+      <div className="guide-pop flex flex-col items-center text-center py-6 md:py-10" role="status">
+        <div className="relative mb-7">
+          <span className="absolute inset-0 rounded-full bg-[#007AFF]/20 animate-ping [animation-iteration-count:2]" aria-hidden="true"></span>
+          <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[#007AFF] text-white shadow-[0_12px_32px_-8px_rgba(0,122,255,0.6)]">
+            <Check className="h-8 w-8" strokeWidth={2.5} aria-hidden="true" />
+          </span>
+        </div>
+        <h3 ref={successHeading} tabIndex={-1} className="font-sans text-3xl md:text-4xl font-semibold tracking-tight text-[#1d1d1f] dark:text-white outline-none">
+          Your guide is ready.
+        </h3>
+        <p className="mt-3 text-base md:text-lg text-black/60 dark:text-white/60 font-medium">
+          Thank you. Download your copy below.
+        </p>
+        <a
+          href={download}
+          download={GUIDE.pdfFileName}
+          className="mt-8 inline-flex min-h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-[#007AFF] px-5 sm:px-8 text-[13px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.14em] whitespace-nowrap text-white shadow-[0_14px_34px_-10px_rgba(0,122,255,0.65)] transition-[background-color,transform] duration-200 hover:bg-[#0066dd] active:scale-[0.98]"
+        >
+          <Download className="h-5 w-5" aria-hidden="true" />
+          Download the Guide
+        </a>
+        <p className="mt-4 text-xs font-medium text-black/55 dark:text-white/55">PDF · 17 MB</p>
+      </div>
+    );
+  }
+
+  const inputClass =
+    'peer w-full h-14 rounded-2xl border bg-white/90 dark:bg-white/[0.04] px-4 text-base text-[#1d1d1f] dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 outline-none transition-[border-color,box-shadow] duration-200 focus:border-[#007AFF] focus:ring-4 focus:ring-[#007AFF]/15 aria-[invalid=true]:border-red-500 aria-[invalid=true]:focus:ring-red-500/15';
+
+  return (
+    <form onSubmit={handleSubmit} noValidate aria-describedby={error ? ids.error : undefined} className="flex flex-col gap-5">
+      <div className="flex flex-col gap-2">
+        <label htmlFor={ids.name} className="text-sm font-semibold text-[#1d1d1f] dark:text-white">
+          First name
+        </label>
+        <input
+          id={ids.name}
+          name="firstName"
+          type="text"
+          required
+          autoComplete="given-name"
+          maxLength={LIMITS.firstName}
+          placeholder="Your first name"
+          aria-invalid={!!fieldErrors.firstName}
+          aria-describedby={fieldErrors.firstName ? `${ids.name}-error` : undefined}
+          className={`${inputClass} border-black/10 dark:border-white/15`}
+        />
+        {fieldErrors.firstName && (
+          <p id={`${ids.name}-error`} className="text-sm font-medium text-red-700 dark:text-red-400">{fieldErrors.firstName}</p>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <label htmlFor={ids.email} className="text-sm font-semibold text-[#1d1d1f] dark:text-white">
+          Email
+        </label>
+        <input
+          id={ids.email}
+          name="email"
+          type="email"
+          required
+          inputMode="email"
+          autoComplete="email"
+          autoCapitalize="off"
+          spellCheck={false}
+          maxLength={LIMITS.email}
+          placeholder="you@example.com"
+          aria-invalid={!!fieldErrors.email}
+          aria-describedby={fieldErrors.email ? `${ids.email}-error` : undefined}
+          className={`${inputClass} border-black/10 dark:border-white/15`}
+        />
+        {fieldErrors.email && (
+          <p id={`${ids.email}-error`} className="text-sm font-medium text-red-700 dark:text-red-400">{fieldErrors.email}</p>
+        )}
+      </div>
+
+      {/* Honeypot: invisible to people, tempting to bots. */}
+      <div className="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+        <label htmlFor={`${ids.name}-company`}>Company</label>
+        <input id={`${ids.name}-company`} name="company" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+
+      <label htmlFor={ids.consent} className="flex items-start gap-3 cursor-pointer rounded-2xl p-1 -m-1">
+        <input
+          id={ids.consent}
+          name="marketingConsent"
+          type="checkbox"
+          className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded accent-[#007AFF]"
+        />
+        <span className="text-sm leading-relaxed text-black/60 dark:text-white/60">
+          Optional: also send me occasional emails from <Brand>Eleva Ops</Brand> about automation and AI. You can opt out at any time.
+        </span>
+      </label>
+
+      {error && (
+        <p id={ids.error} role="alert" className="rounded-2xl border border-red-500/20 bg-red-500/[0.06] px-4 py-3 text-sm font-medium text-red-700 dark:text-red-300">
+          {error}
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={status === 'submitting'}
+        className="group mt-1 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-[#007AFF] px-5 sm:px-8 text-[13px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.14em] whitespace-nowrap text-white shadow-[0_14px_34px_-10px_rgba(0,122,255,0.65)] transition-[background-color,transform,opacity] duration-200 hover:bg-[#0066dd] active:scale-[0.98] disabled:opacity-80 disabled:cursor-wait"
+      >
+        {status === 'submitting' ? (
+          <>
+            <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
+            Sending…
+          </>
+        ) : (
+          <>
+            Get Instant Access
+            <ArrowRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+          </>
+        )}
+      </button>
+
+      <p className="text-xs leading-relaxed text-black/55 dark:text-white/55 text-center">
+        We use your details to give you access to the guide. Read our{' '}
+        <Link href="/privacy-policy" className="font-semibold text-brand underline underline-offset-2 hover:no-underline">
+          Privacy Policy
+        </Link>
+        .
+      </p>
+    </form>
+  );
+}

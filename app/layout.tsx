@@ -1,9 +1,7 @@
 import type { Metadata, Viewport } from 'next';
-import { notFound } from 'next/navigation';
 import { Inter, JetBrains_Mono } from 'next/font/google';
-import '../globals.css';
-import { LanguageProvider } from '@/lib/i18n';
-import { htmlLang, isLanguage, languages } from '@/lib/languages';
+import './globals.css';
+import { HtmlLangSync, LanguageProvider } from '@/lib/i18n';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
 const inter = Inter({
@@ -60,6 +58,9 @@ export const metadata: Metadata = {
   },
   description: 'ElevaOps cria soluções digitais à medida para empresas que querem trabalhar melhor: websites, plataformas internas, automações e ferramentas com IA.',
   applicationName: 'ElevaOps',
+  // The site has its own EN/PT switch; browser auto-translation rewrites the page before React
+  // hydrates it (hydration errors, broken interactions) and mistranslates the brand name.
+  other: { google: 'notranslate' },
   authors: [{ name: 'ElevaOps' }],
   creator: 'ElevaOps',
   publisher: 'ElevaOps',
@@ -139,25 +140,17 @@ export const viewport: Viewport = {
   ],
 };
 
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return languages.map(lang => ({ lang }));
-}
-
-export default async function RootLayout({ children, params }: { children: React.ReactNode; params: Promise<{ lang: string }> }) {
-  const { lang } = await params;
-  if (!isLanguage(lang)) notFound();
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={htmlLang[lang]} className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" translate="no" className={`notranslate ${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <LanguageProvider initialLanguage={lang}>
+          <LanguageProvider>
+            <HtmlLangSync />
             {children}
           </LanguageProvider>
         </ThemeProvider>

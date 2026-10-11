@@ -40,25 +40,15 @@ export function Team() {
               {t('team.quote')}
             </h3>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10">
-              <div className="flex -space-x-4">
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] dark:border-[#020617] bg-gray-100 shadow-md relative z-10">
-                  <Image src="/avatar-1.png" alt="Avatar 1" width={64} height={64} className="w-full h-full object-cover" />
-                </div>
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] dark:border-[#020617] bg-gray-200 shadow-md relative z-20">
-                  <Image src="/avatar-2.png" alt="Avatar 2" width={64} height={64} className="w-full h-full object-cover" />
-                </div>
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] dark:border-[#020617] bg-gray-300 shadow-md relative z-30">
-                  <Image src="/avatar-3.png" alt="Avatar 3" width={64} height={64} className="w-full h-full object-cover" />
-                </div>
-              </div>
-              
-              <div className="hidden sm:block w-[1px] h-12 bg-black/10 dark:bg-white/10"></div>
-              
-              <div className="flex flex-col justify-center text-center sm:text-left">
-                <span className="font-sans font-semibold text-[#1d1d1f] dark:text-white text-lg md:text-xl tracking-tight">{t('team.p1.name')}</span>
-              </div>
-            </div>
+            {/* Commitments taken from the FAQ answers — no invented testimonials or figures. */}
+            <ul className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-0 sm:divide-x divide-black/10 dark:divide-white/15">
+              {(['team.c1', 'team.c2', 'team.c3'] as const).map(key => (
+                <li key={key} className="flex items-center gap-2.5 sm:px-6 text-sm md:text-base font-semibold text-[#1d1d1f] dark:text-white">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#007AFF]" aria-hidden="true"></span>
+                  {t(key)}
+                </li>
+              ))}
+            </ul>
             
           </div>
         </div>

@@ -7,6 +7,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
+      // Lead-magnet files are only meant to be reached through the landing page form.
+      disallow: '/guides/',
     },
     sitemap: `${siteUrl}/sitemap.xml`,
     host: siteUrl,

@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { useLanguage } from '@/lib/i18n';
 import { X, Check, TrendingUp } from 'lucide-react';
+import { BrandText } from './Brand';
 
 export function About() {
   const { t } = useLanguage();
@@ -40,7 +41,7 @@ export function About() {
             </div>
             
             <p className="font-sans text-[0.95rem] md:text-lg text-black/60 dark:text-white/60 leading-relaxed font-medium text-justify md:text-left text-pretty hyphens-auto md:hyphens-none" lang="en">
-              {t('about.p2')}
+              <BrandText text={t('about.p2')} />
             </p>
           </div>
 
@@ -70,7 +71,7 @@ export function About() {
                     </div>
                     <div className="flex-1 flex justify-center items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#007AFF] animate-pulse"></div>
-                      <span className="text-[10px] text-black/60 dark:text-white/55 font-mono tracking-wider font-semibold">elevaops.core // live_environment</span>
+                      <span className="text-[10px] text-black/60 dark:text-white/55 font-mono tracking-wider font-semibold notranslate" translate="no">elevaops.core // live_environment</span>
                     </div>
                   </div>
 
@@ -97,7 +98,7 @@ export function About() {
                       </div>
                       <div className="flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-colors mt-auto">
                         <div className="w-5 h-5 rounded-full bg-gradient-to-br from-gray-200 to-gray-400 dark:from-gray-700 dark:to-gray-900 border border-white/20 flex items-center justify-center overflow-hidden">
-                           <div className="w-full h-full bg-[url('https://api.dicebear.com/7.x/notionists/svg?seed=Admin&backgroundColor=transparent')] bg-cover bg-center"></div>
+                           <div className="w-full h-full bg-[url('/illustrations/admin-avatar.svg')] bg-cover bg-center"></div>
                         </div>
                         <span className="text-[10px] text-black/60 dark:text-white/60 font-semibold">Admin</span>
                       </div>

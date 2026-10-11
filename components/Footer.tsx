@@ -2,6 +2,8 @@
 import { ArrowUpRight, Instagram } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import Link from 'next/link';
+import { BrandText } from './Brand';
+import { LogoMark } from './LogoMark';
 
 export function Footer() {
   const { t } = useLanguage();
@@ -40,13 +42,13 @@ export function Footer() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 py-10 border-t border-black/10 dark:border-white/20 items-end">
           <div className="flex flex-col gap-6">
-            <span className="font-sans font-bold text-2xl tracking-tighter text-[#1d1d1f] dark:text-white">ELEVA OPS<span className="text-brand">.</span></span>
+            <span translate="no" className="notranslate flex items-center gap-3 font-sans font-bold text-2xl tracking-tighter text-[#1d1d1f] dark:text-white"><LogoMark className="h-7 w-auto" /><span>ELEVA OPS<span className="text-brand">.</span></span></span>
             <p className="text-sm text-black/60 dark:text-white/60 font-medium leading-relaxed max-w-xs">
               {t('footer.desc')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-4">
               <span className="text-[10px] font-bold uppercase tracking-widest text-black/55 dark:text-white/55">
-                {t('footer.rights')}
+                <BrandText text={t('footer.rights')} />
               </span>
               <Link href="/privacy-policy" className="text-[10px] font-bold uppercase tracking-widest text-brand hover:text-[#005bb5] transition-colors">
                 Privacy Policy

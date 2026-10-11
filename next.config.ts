@@ -12,6 +12,15 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
+  async headers() {
+    return [
+      {
+        // Gated lead-magnet PDFs: keep them out of search results.
+        source: '/guides/:file*.pdf',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+    ];
+  },
   // Allow access to remote image placeholder.
   images: {
     formats: ['image/avif', 'image/webp'],

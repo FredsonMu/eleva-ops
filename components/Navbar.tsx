@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { LanguageToggle } from './LanguageToggle';
 import { ThemeToggle } from './ThemeToggle';
+import { LogoMark } from './LogoMark';
 
 const links = [
   { href: '/#servicos', key: 'nav.expertise' },
@@ -51,8 +52,9 @@ export function Navbar() {
           : "bg-transparent border-transparent"
       }`}>
         <div className="flex items-center justify-between px-5 py-3">
-          <Link href="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 group cursor-pointer shrink-0">
-            <span className="font-sans font-semibold text-xl tracking-tight text-[#1d1d1f] dark:text-white">
+          <Link href="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2.5 group cursor-pointer shrink-0" aria-label="Eleva Ops">
+            <LogoMark className="h-6 w-auto" />
+            <span translate="no" className="notranslate font-sans font-semibold text-xl tracking-tight text-[#1d1d1f] dark:text-white">
               Eleva<span className="text-black/55 dark:text-white/55 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">Ops</span>
             </span>
           </Link>

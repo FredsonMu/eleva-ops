@@ -170,6 +170,33 @@ html {
   }
 }
 
+/* ── AI agents guide landing page ─────────────────────────────── */
+@keyframes guide-rise {
+  from { opacity: 0; transform: translate3d(0, 16px, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes guide-slide {
+  from { transform: translate3d(0, 18px, 0); }
+  to { transform: none; }
+}
+@keyframes guide-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-2deg); }
+  50% { transform: translate3d(0, -10px, 0) rotate(-1deg); }
+}
+@keyframes guide-agent {
+  0%, 70%, 100% { background-color: rgb(0 122 255 / 0.07); color: var(--brand-text); }
+  20% { background-color: #007aff; color: #fff; }
+}
+@keyframes guide-pop {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+.guide-rise { animation: guide-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.guide-slide { animation: guide-slide 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.guide-float { animation: guide-float 7s ease-in-out infinite; }
+.guide-agent { animation: guide-agent 3.6s ease-in-out infinite; }
+.guide-pop { animation: guide-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
 /* Minimalist scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -204,4 +231,23 @@ html {
   .dark .liquid-glass { background: rgba(255, 255, 255, 0.08) !important; }
   .liquid-glass-card { background: rgba(255, 255, 255, 0.9) !important; }
   .dark .liquid-glass-card { background: rgba(255, 255, 255, 0.12) !important; }
+}
+
+/* "The Path" section (components/Methodology.tsx): scroll-driven progress line and steps. */
+.method-fill {
+  transform: scaleY(0);
+  will-change: transform;
+}
+.method-dot {
+  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+}
+.method-step.is-active .method-dot {
+  background-color: #0066cc;
+  border-color: #0066cc;
+  color: #fff;
+  box-shadow: 0 0 0 6px rgb(0 122 255 / 0.12);
+}
+/* Without JS (or before it runs) show the path complete. */
+@media (scripting: none) {
+  .method-fill { transform: scaleY(1); }
 }

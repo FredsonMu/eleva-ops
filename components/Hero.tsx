@@ -16,7 +16,7 @@ export function Hero() {
         {/* Center: Sleek Typography Layout */}
         <div className="relative w-full flex flex-col items-center text-center">
           
-          <h1 className="font-sans font-semibold text-[clamp(3.5rem,12vw,9.5rem)] leading-[0.9] tracking-tighter text-[#1d1d1f] dark:text-white flex flex-col items-center">
+          <h1 translate="no" className="notranslate font-sans font-semibold text-[clamp(3.5rem,12vw,9.5rem)] leading-[0.9] tracking-tighter text-[#1d1d1f] dark:text-white flex flex-col items-center">
             <div className="flex items-center justify-center gap-2 md:gap-4">
               Eleva<span className="text-brand">.</span>
             </div>

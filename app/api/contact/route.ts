@@ -1,24 +1,5 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
-
-// Created lazily so the build doesn't fail when RESEND_API_KEY isn't set.
-let resend: Resend | null = null;
-
-function getResend() {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return null;
-  resend ??= new Resend(apiKey);
-  return resend;
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
+import { EMAIL_FROM, TEAM_INBOX, escapeHtml, getResend } from '@/lib/email';
 
 export async function POST(request: Request) {
   try {
@@ -46,8 +27,8 @@ export async function POST(request: Request) {
 
     // Send email using Resend
     const data = await client.emails.send({
-      from: 'ElevaOps <onboarding@elevaops.com>', // Use the production domain
-      to: 'contact@elevaops.com', // Professional recipient address
+      from: EMAIL_FROM,
+      to: TEAM_INBOX,
       subject: `Nova Mensagem de ${name.replace(/[\r\n]+/g, ' ')} (Website)`,
       replyTo: email,
       html: `
