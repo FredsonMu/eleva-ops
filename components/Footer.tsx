@@ -11,7 +11,7 @@ export function Footer() {
         <div className="relative flex flex-col md:flex-row items-center justify-between mb-32 md:mb-40 w-full">
            
            <div className="flex flex-col w-full md:w-3/5 z-10 relative">
-             <span className="text-xs font-bold uppercase tracking-widest text-[#007AFF] mb-8 block">
+             <span className="text-xs font-bold uppercase tracking-widest text-brand mb-8 block">
                {t('footer.label')}
              </span>
              <a 
@@ -20,7 +20,7 @@ export function Footer() {
              >
                <h2 className="font-sans text-[clamp(2.5rem,5vw,5.5rem)] font-semibold leading-[1.05] tracking-tighter text-[#1d1d1f] dark:text-white">
                  {t('footer.title1')} <br className="md:hidden" />
-                 <span className="text-black/30 dark:text-white/30 group-hover:text-black dark:group-hover:text-white transition-colors duration-500 block mt-2">
+                 <span className="text-black/45 dark:text-white/45 group-hover:text-black dark:group-hover:text-white transition-colors duration-500 block mt-2">
                    {t('footer.title2')}
                  </span>
                </h2>
@@ -31,7 +31,7 @@ export function Footer() {
                </a>
                <div className="flex flex-col justify-center">
                  <span className="text-sm font-semibold text-[#1d1d1f] dark:text-white">contact@elevaops.com</span>
-                 <span className="text-[10px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40 mt-1">{t('footer.avail')}</span>
+                 <span className="text-[10px] font-bold uppercase tracking-widest text-black/55 dark:text-white/55 mt-1">{t('footer.avail')}</span>
                </div>
              </div>
            </div>
@@ -40,15 +40,15 @@ export function Footer() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 py-10 border-t border-black/10 dark:border-white/20 items-end">
           <div className="flex flex-col gap-6">
-            <span className="font-sans font-bold text-2xl tracking-tighter text-[#1d1d1f] dark:text-white">ELEVA OPS<span className="text-[#007AFF]">.</span></span>
-            <p className="text-sm text-black/50 dark:text-white/50 font-medium leading-relaxed max-w-xs">
+            <span className="font-sans font-bold text-2xl tracking-tighter text-[#1d1d1f] dark:text-white">ELEVA OPS<span className="text-brand">.</span></span>
+            <p className="text-sm text-black/60 dark:text-white/60 font-medium leading-relaxed max-w-xs">
               {t('footer.desc')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-4">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-black/55 dark:text-white/55">
                 {t('footer.rights')}
               </span>
-              <Link href="/privacy-policy" className="text-[10px] font-bold uppercase tracking-widest text-[#007AFF] hover:text-[#005bb5] transition-colors">
+              <Link href="/privacy-policy" className="text-[10px] font-bold uppercase tracking-widest text-brand hover:text-[#005bb5] transition-colors">
                 Privacy Policy
               </Link>
             </div>
@@ -59,7 +59,7 @@ export function Footer() {
               href="https://www.instagram.com/elevaops/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-black/50 dark:text-white/50 hover:text-[#007AFF] transition-colors duration-300"
+              className="flex items-center gap-2 text-black/60 dark:text-white/60 hover:text-brand transition-colors duration-300"
             >
               <Instagram size={20} strokeWidth={2.5} aria-hidden="true" />
               <span className="text-xs font-bold uppercase tracking-widest">Instagram</span>

@@ -20,13 +20,13 @@ export function Origin() {
         {/* Thesis Header (Massive Cover) */}
         <div className="flex flex-col items-center text-center mb-12 md:mb-16">
            <div className="mb-6 md:mb-8">
-             <span className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-[#007AFF]">
+             <span className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-brand">
                {t('origin.label')}
              </span>
            </div>
           <h2 className="font-sans text-[clamp(2.5rem,6vw,7rem)] font-semibold tracking-tighter leading-[1] text-[#1d1d1f] dark:text-white text-balance max-w-5xl">
             {t('origin.title1')} <br className="hidden lg:block" />
-            <span className="text-black/30 dark:text-white/30 mt-2 block">{t('origin.title2')}</span>
+            <span className="text-black/45 dark:text-white/45 mt-2 block">{t('origin.title2')}</span>
           </h2>
         </div>
 
@@ -57,7 +57,7 @@ export function Origin() {
                  
                  {/* Elegant Floating Badge */}
                  <div className="absolute -bottom-4 -right-4 md:-bottom-5 md:-right-8 bg-white dark:bg-[#040914] border border-black/10 dark:border-white/10 px-5 md:px-6 py-2.5 md:py-3 rounded-full shadow-2xl transition-transform duration-500 group-hover:scale-105 z-10">
-                   <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-[#007AFF]">
+                   <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-brand">
                      The Process
                    </span>
                  </div>
@@ -95,7 +95,7 @@ export function Origin() {
             <div className="group relative flex flex-col w-full bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-[32px] shadow-[0_4px_24px_-10px_rgba(0,0,0,0.02)] overflow-hidden transition-[box-shadow,border-color] duration-500 hover:shadow-[0_20px_60px_-15px_rgba(0,122,255,0.15)] hover:border-[#007AFF]/20">
                {/* Content */}
                <div className="relative z-10 w-full flex-grow flex flex-col items-start p-8 md:p-10">
-                 <h4 className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-[#007AFF] mb-4 md:mb-6">{t('origin.o1.label')}</h4>
+                 <h4 className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-brand mb-4 md:mb-6">{t('origin.o1.label')}</h4>
                  <p className="text-2xl md:text-3xl font-semibold text-[#1d1d1f] dark:text-white mb-4 md:mb-6 leading-[1.2] tracking-tight text-balance">
                    {t('origin.o1.title')}
                  </p>
@@ -111,7 +111,7 @@ export function Origin() {
             <div className="group relative flex flex-col w-full bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-[32px] shadow-[0_4px_24px_-10px_rgba(0,0,0,0.02)] overflow-hidden transition-[box-shadow,border-color] duration-500 hover:shadow-[0_20px_60px_-15px_rgba(0,122,255,0.15)] hover:border-[#007AFF]/20">
                {/* Content */}
                <div className="relative z-10 w-full flex-grow flex flex-col items-start p-8 md:p-10">
-                 <h4 className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-[#007AFF] mb-4 md:mb-6">{t('origin.o2.label')}</h4>
+                 <h4 className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-brand mb-4 md:mb-6">{t('origin.o2.label')}</h4>
                  <p className="text-2xl md:text-3xl font-semibold text-[#1d1d1f] dark:text-white mb-4 md:mb-6 leading-[1.2] tracking-tight text-balance">
                    {t('origin.o2.title')}
                  </p>
@@ -127,7 +127,7 @@ export function Origin() {
             <div className="group relative flex flex-col w-full bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-[32px] shadow-[0_4px_24px_-10px_rgba(0,0,0,0.02)] overflow-hidden transition-[box-shadow,border-color] duration-500 hover:shadow-[0_20px_60px_-15px_rgba(0,122,255,0.15)] hover:border-[#007AFF]/20">
                {/* Content */}
                <div className="relative z-10 w-full flex-grow flex flex-col items-start p-8 md:p-10">
-                 <h4 className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-[#007AFF] mb-4 md:mb-6">{t('origin.o3.label')}</h4>
+                 <h4 className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-brand mb-4 md:mb-6">{t('origin.o3.label')}</h4>
                  <p className="text-2xl md:text-3xl font-semibold text-[#1d1d1f] dark:text-white mb-4 md:mb-6 leading-[1.2] tracking-tight text-balance">
                    {t('origin.o3.title')}
                  </p>
@@ -138,12 +138,12 @@ export function Origin() {
                  {/* Tags for Column 3 moved here gracefully */}
                  <div className="flex flex-wrap gap-2 mt-auto w-full pt-4">
                      <span className="px-4 py-2 rounded-lg border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] text-xs font-bold tracking-tight shadow-sm">
-                       <span className="text-black/40 dark:text-white/40">{t('origin.o3.b1')}</span> <span className="text-[#1d1d1f] dark:text-white">{t('origin.o3.b2')}</span>
+                       <span className="text-black/55 dark:text-white/55">{t('origin.o3.b1')}</span> <span className="text-[#1d1d1f] dark:text-white">{t('origin.o3.b2')}</span>
                      </span>
                      <span className="px-4 py-2 rounded-lg border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] text-xs font-bold tracking-tight shadow-sm">
-                       <span className="text-black/40 dark:text-white/40">{t('origin.o3.b1')}</span> <span className="text-[#1d1d1f] dark:text-white">{t('origin.o3.b3')}</span>
+                       <span className="text-black/55 dark:text-white/55">{t('origin.o3.b1')}</span> <span className="text-[#1d1d1f] dark:text-white">{t('origin.o3.b3')}</span>
                      </span>
-                     <span className="px-4 py-2 rounded-lg border border-[#007AFF]/20 bg-[#007AFF]/5 text-[#007AFF] text-xs font-bold tracking-tight shadow-sm">
+                     <span className="px-4 py-2 rounded-lg border border-[#007AFF]/20 bg-[#007AFF]/5 text-brand text-xs font-bold tracking-tight shadow-sm">
                        {t('origin.o3.b1')} {t('origin.o3.b4')}
                      </span>
                  </div>
@@ -157,7 +157,7 @@ export function Origin() {
         <div className="flex flex-col items-center text-center pb-10">
           <h2 className="text-[clamp(2rem,4vw,4rem)] font-semibold text-[#1d1d1f] dark:text-white leading-[1.1] tracking-tight text-balance mb-8 md:mb-12 max-w-4xl mx-auto">
             {t('origin.footer.t1')} <br className="hidden md:block" />
-            <span className="text-black/30 dark:text-white/30 mt-2 block">{t('origin.footer.t2')}</span>
+            <span className="text-black/45 dark:text-white/45 mt-2 block">{t('origin.footer.t2')}</span>
           </h2>
           <div className="relative inline-flex p-[1.5px] rounded-full overflow-hidden shadow-[0_0_20px_rgba(0,122,255,0.1)] group hover:scale-[1.02] transition-transform duration-300">
             {/* Spinning Gradient Border */}
@@ -165,7 +165,7 @@ export function Origin() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] aspect-square bg-[conic-gradient(from_180deg,transparent_0_280deg,#007AFF_360deg)] animate-[spin_6s_linear_infinite] opacity-100 md:opacity-30 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none hidden md:block"></div>
             
             <div className="relative bg-[#fbfbfd] dark:bg-[#040914] px-6 py-3 rounded-full flex items-center justify-center w-full h-full z-10 border border-black/5 dark:border-white/5">
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-[#007AFF]">
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-brand">
                 {t('origin.footer.pill')}
               </span>
             </div>

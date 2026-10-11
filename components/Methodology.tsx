@@ -19,7 +19,7 @@ export function Methodology() {
       <div className="max-w-6xl mx-auto px-4 md:px-6 relative z-10 flex flex-col lg:flex-row items-center text-center lg:items-end lg:justify-between lg:text-left mb-16 md:mb-20 gap-8 lg:gap-16">
          <div className="max-w-3xl lg:max-w-2xl">
            <div className="mb-4 flex justify-center lg:justify-start">
-             <span className="inline-block px-4 py-1.5 rounded-full border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] text-[10px] font-bold uppercase tracking-widest text-[#007AFF]">
+             <span className="inline-block px-4 py-1.5 rounded-full border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] text-[10px] font-bold uppercase tracking-widest text-brand">
                {t('meth.label')}
              </span>
            </div>

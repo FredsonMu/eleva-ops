@@ -60,19 +60,19 @@ export function Contact() {
           {/* Left Column: Massive Editorial Typography */}
           <div className="w-full lg:w-5/12 flex flex-col justify-start pt-4 items-center text-center lg:items-start lg:text-left">
             <div style={reveal(0)} className="reveal mb-6 md:mb-8">
-               <span className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-[#007AFF]">
+               <span className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-brand">
                  {t('contact.label')}
                </span>
             </div>
             
             <h2 style={reveal(1)} className="reveal font-sans font-semibold text-[clamp(3rem,6vw,6rem)] tracking-tighter leading-[0.95] text-[#1d1d1f] dark:text-white text-balance mb-8">
               {t('contact.title1')} <br />
-              <span className="text-[#007AFF]">
+              <span className="text-brand">
                 {t('contact.title2')}
               </span>
             </h2>
             
-            <p style={reveal(2)} className="reveal text-black/50 dark:text-white/50 font-medium text-lg md:text-xl max-w-md leading-relaxed text-balance">
+            <p style={reveal(2)} className="reveal text-black/60 dark:text-white/60 font-medium text-lg md:text-xl max-w-md leading-relaxed text-balance">
               {t('contact.desc')}
             </p>
           </div>
@@ -93,7 +93,7 @@ export function Contact() {
                 />
                 <label 
                   htmlFor="name" 
-                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/30 dark:text-white/40 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:peer-valid:text-white/40 peer-valid:font-bold whitespace-nowrap"
+                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/45 dark:text-white/55 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-brand peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/55 dark:peer-valid:text-white/55 peer-valid:font-bold whitespace-nowrap"
                 >
                   {t('contact.name')}
                 </label>
@@ -111,7 +111,7 @@ export function Contact() {
                 />
                 <label 
                   htmlFor="email" 
-                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/30 dark:text-white/40 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:peer-valid:text-white/40 peer-valid:font-bold whitespace-nowrap"
+                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/45 dark:text-white/55 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-brand peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/55 dark:peer-valid:text-white/55 peer-valid:font-bold whitespace-nowrap"
                 >
                   {t('contact.email')}
                 </label>
@@ -137,7 +137,7 @@ export function Contact() {
                 />
                 <label 
                   htmlFor="message" 
-                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-6 -translate-y-1/2 text-2xl md:text-3xl text-black/30 dark:text-white/40 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-[#007AFF] peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/40 dark:peer-valid:text-white/40 peer-valid:font-bold whitespace-nowrap"
+                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-6 -translate-y-1/2 text-2xl md:text-3xl text-black/45 dark:text-white/55 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-brand peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/55 dark:peer-valid:text-white/55 peer-valid:font-bold whitespace-nowrap"
                 >
                   {t('contact.message')}
                 </label>

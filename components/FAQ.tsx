@@ -14,8 +14,8 @@ const FAQItem = memo(function FAQItem({ question, answer, isOpen, onClick }: { q
         aria-controls={answerId}
         className="w-full flex items-center justify-between py-6 md:py-8 text-left group"
       >
-        <h3 className="font-sans text-xl md:text-2xl font-semibold tracking-tight pr-8 text-[#1d1d1f] dark:text-white group-hover:text-[#007AFF] transition-colors duration-300">{question}</h3>
-        <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 shadow-sm flex items-center justify-center group-hover:border-[#007AFF] group-hover:bg-[#007AFF] group-hover:text-white transition-colors duration-300 text-black/50 dark:text-white/50">
+        <h3 className="font-sans text-xl md:text-2xl font-semibold tracking-tight pr-8 text-[#1d1d1f] dark:text-white group-hover:text-brand transition-colors duration-300">{question}</h3>
+        <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 shadow-sm flex items-center justify-center group-hover:border-[#007AFF] group-hover:bg-[#007AFF] group-hover:text-white transition-colors duration-300 text-black/60 dark:text-white/60">
           {isOpen ? <Minus size={16} strokeWidth={2.5} aria-hidden="true" /> : <Plus size={16} strokeWidth={2.5} aria-hidden="true" />}
         </div>
       </button>
@@ -52,14 +52,14 @@ export function FAQ() {
           <div className="lg:col-span-5 relative lg:self-stretch">
             <div className="sticky top-40 flex flex-col items-center text-center lg:items-start lg:text-left">
               <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#007AFF]">
+                <span className="text-xs font-bold uppercase tracking-widest text-brand">
                   {t('faq.transparency')}
                 </span>
               </div>
               
               <h2 className="font-sans text-[clamp(2.5rem,4vw,4rem)] font-semibold tracking-tighter leading-[1.05] text-[#1d1d1f] dark:text-white text-balance mb-6 md:mb-8">
                 {t('faq.title1')} <br className="hidden md:block" />
-                <span className="text-black/30 dark:text-white/30 mt-2 block">
+                <span className="text-black/45 dark:text-white/45 mt-2 block">
                   {t('faq.title2')}
                 </span>
               </h2>
@@ -69,7 +69,7 @@ export function FAQ() {
               </p>
               
               <div className="flex flex-col items-center lg:items-start gap-4 md:gap-5">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40">{t('faq.notFound')}</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-black/55 dark:text-white/55">{t('faq.notFound')}</span>
                 <a href="mailto:contact@elevaops.com" className="inline-flex items-center justify-center bg-[#1d1d1f] dark:bg-white/10 text-white px-8 py-4 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-[#007AFF] transition-colors duration-300 w-fit shadow-[0_4px_14px_-4px_rgba(0,0,0,0.3)]">
                   {t('faq.contact')}
                 </a>

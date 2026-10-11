@@ -18,10 +18,10 @@ export function Hero() {
           
           <h1 className="font-sans font-semibold text-[clamp(3.5rem,12vw,9.5rem)] leading-[0.9] tracking-tighter text-[#1d1d1f] dark:text-white flex flex-col items-center">
             <div className="flex items-center justify-center gap-2 md:gap-4">
-              Eleva<span className="text-[#007AFF]">.</span>
+              Eleva<span className="text-brand">.</span>
             </div>
 
-            <div className="text-black/20 dark:text-white/20 mt-2 h-[1.2em]">
+            <div className="text-black/45 dark:text-white/45 mt-2 h-[1.2em]">
               <TypeAnimation
                 key={language}
                 sequence={[
@@ -47,7 +47,7 @@ export function Hero() {
           
           <p className="text-[#1d1d1f]/70 dark:text-white/70 font-medium leading-[1.6] md:leading-[1.7] max-w-2xl text-lg md:text-[1.35rem] tracking-tight text-balance">
             {t('hero.desc1')}
-            <span className="text-[#007AFF] font-semibold">{t('hero.desc2')}</span>
+            <span className="text-brand font-semibold">{t('hero.desc2')}</span>
           </p>
 
           {/* Premium Floating Button */}
@@ -58,13 +58,13 @@ export function Hero() {
             {/* Button Surface */}
             <div className="relative bg-white/90 dark:bg-white/10 border border-black/5 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.06)] group-hover:shadow-[0_8px_30px_rgb(0,122,255,0.15)] px-8 py-3.5 rounded-full flex items-center gap-3 transition-[transform,opacity,box-shadow] duration-300">
                
-               <span className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#1d1d1f] dark:text-white group-hover:text-[#007AFF] dark:group-hover:text-[#007AFF] transition-colors">
+               <span className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#1d1d1f] dark:text-white group-hover:text-brand dark:group-hover:text-brand transition-colors">
                  {t('hero.startProject')}
                </span>
                
                {/* Arrow Circle */}
                <div className="w-6 h-6 rounded-full bg-black/5 dark:bg-white/10 group-hover:bg-[#007AFF]/10 flex items-center justify-center transition-colors">
-                 <ArrowRight className="w-3.5 h-3.5 text-[#1d1d1f] dark:text-white group-hover:text-[#007AFF] dark:group-hover:text-[#007AFF] group-hover:translate-x-0.5 transition-[transform,opacity,box-shadow]" />
+                 <ArrowRight className="w-3.5 h-3.5 text-[#1d1d1f] dark:text-white group-hover:text-brand dark:group-hover:text-brand group-hover:translate-x-0.5 transition-[transform,opacity,box-shadow]" />
                </div>
             </div>
           </a>

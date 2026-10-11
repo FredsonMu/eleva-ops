@@ -31,7 +31,7 @@ export function Team() {
           <div className="flex flex-col items-center text-center">
             
             <div className="mb-8">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#007AFF]">
+              <span className="text-xs font-bold uppercase tracking-widest text-brand">
                 {t('team.label')}
               </span>
             </div>
@@ -43,13 +43,13 @@ export function Team() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10">
               <div className="flex -space-x-4">
                 <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] dark:border-[#020617] bg-gray-100 shadow-md relative z-10">
-                  <Image src="/Property 1=68.png" alt="Avatar 1" width={64} height={64} className="w-full h-full object-cover" />
+                  <Image src="/avatar-1.png" alt="Avatar 1" width={64} height={64} className="w-full h-full object-cover" />
                 </div>
                 <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] dark:border-[#020617] bg-gray-200 shadow-md relative z-20">
-                  <Image src="/Property 1=11.png" alt="Avatar 2" width={64} height={64} className="w-full h-full object-cover" />
+                  <Image src="/avatar-2.png" alt="Avatar 2" width={64} height={64} className="w-full h-full object-cover" />
                 </div>
                 <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-[3px] border-[#fbfbfd] dark:border-[#020617] bg-gray-300 shadow-md relative z-30">
-                  <Image src="/Property 1=06.png" alt="Avatar 3" width={64} height={64} className="w-full h-full object-cover" />
+                  <Image src="/avatar-3.png" alt="Avatar 3" width={64} height={64} className="w-full h-full object-cover" />
                 </div>
               </div>
               
@@ -71,7 +71,7 @@ export function Team() {
             {/* Left Side: Title */}
             <div className="flex flex-col lg:w-1/2">
               <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#007AFF]">
+                <span className="text-xs font-bold uppercase tracking-widest text-brand">
                   {t('team.who')}{t('team.are')}
                 </span>
               </div>
@@ -82,7 +82,7 @@ export function Team() {
             
             {/* Right Side: Text */}
             <div className="flex flex-col lg:w-1/2 lg:pt-14">
-              <p className="text-[1.1rem] md:text-2xl text-black/50 dark:text-white/50 font-medium leading-relaxed text-justify md:text-left text-pretty md:text-balance hyphens-auto md:hyphens-none" lang="en">
+              <p className="text-[1.1rem] md:text-2xl text-black/60 dark:text-white/60 font-medium leading-relaxed text-justify md:text-left text-pretty md:text-balance hyphens-auto md:hyphens-none" lang="en">
                 {t('team.desc')}
               </p>
             </div>

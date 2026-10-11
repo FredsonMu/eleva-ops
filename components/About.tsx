@@ -13,14 +13,14 @@ export function About() {
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
           <span 
-            className="text-xs font-bold uppercase tracking-widest text-[#007AFF] mb-4"
+            className="text-xs font-bold uppercase tracking-widest text-brand mb-4"
           >
             {t('about.manifesto')}
           </span>
           <h2 
             className="font-sans font-semibold text-[clamp(2rem,3vw,3rem)] tracking-tight leading-tight text-[#1d1d1f] dark:text-white max-w-2xl text-balance"
           >
-            {t('about.title1')} <span className="text-black/40 dark:text-white/40">{t('about.title2')}</span>
+            {t('about.title1')} <span className="text-black/55 dark:text-white/55">{t('about.title2')}</span>
           </h2>
         </div>
 
@@ -30,7 +30,7 @@ export function About() {
           <div className="w-full lg:w-1/2 flex flex-col items-start text-left">
             <h3 className="font-sans text-[clamp(1.35rem,5.5vw,1.75rem)] md:text-[clamp(1.75rem,3vw,3rem)] font-bold text-[#1d1d1f] dark:text-white leading-[1.25] md:leading-[1.1] tracking-tight md:tracking-tight mb-8 md:mb-10 text-justify md:text-left text-pretty md:text-balance hyphens-auto md:hyphens-none" lang="en">
               {t('about.hero.1')} <br className="hidden lg:block"/>
-              <span className="text-black/30 dark:text-white/30">{t('about.hero.2')}</span>
+              <span className="text-black/45 dark:text-white/45">{t('about.hero.2')}</span>
             </h3>
             
             <div className="pl-5 md:pl-6 border-l-[3px] border-[#007AFF] py-2 mb-8 w-full">
@@ -39,7 +39,7 @@ export function About() {
               </p>
             </div>
             
-            <p className="font-sans text-[0.95rem] md:text-lg text-black/50 dark:text-white/50 leading-relaxed font-medium text-justify md:text-left text-pretty hyphens-auto md:hyphens-none" lang="en">
+            <p className="font-sans text-[0.95rem] md:text-lg text-black/60 dark:text-white/60 leading-relaxed font-medium text-justify md:text-left text-pretty hyphens-auto md:hyphens-none" lang="en">
               {t('about.p2')}
             </p>
           </div>
@@ -70,7 +70,7 @@ export function About() {
                     </div>
                     <div className="flex-1 flex justify-center items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#007AFF] animate-pulse"></div>
-                      <span className="text-[10px] text-black/50 dark:text-white/40 font-mono tracking-wider font-semibold">elevaops.core // live_environment</span>
+                      <span className="text-[10px] text-black/60 dark:text-white/55 font-mono tracking-wider font-semibold">elevaops.core // live_environment</span>
                     </div>
                   </div>
 
@@ -80,26 +80,26 @@ export function About() {
                       <div className="flex items-center gap-2 px-2.5 py-2 rounded-lg bg-black/[0.04] dark:bg-white/[0.08] border border-black/5 dark:border-white/10 shadow-sm relative overflow-hidden">
                         <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#007AFF]"></div>
                         <div className="w-4 h-4 rounded bg-[#007AFF] flex items-center justify-center shadow-sm"><TrendingUp size={10} className="text-white" /></div>
-                        <span className="text-[10px] text-[#007AFF] dark:text-white font-bold tracking-tight">Overview</span>
+                        <span className="text-[10px] text-brand dark:text-white font-bold tracking-tight">Overview</span>
                       </div>
                       <div className="flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-colors">
                         <div className="w-4 h-4 rounded border border-black/10 dark:border-white/20 flex items-center justify-center">
                           <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
                         </div>
-                        <span className="text-[10px] text-black/60 dark:text-white/50 font-semibold">Integrations</span>
+                        <span className="text-[10px] text-black/60 dark:text-white/60 font-semibold">Integrations</span>
                         <span className="ml-auto text-[8px] bg-black/5 dark:bg-white/10 px-1.5 py-0.5 rounded font-bold">14</span>
                       </div>
                       <div className="flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-colors">
                         <div className="w-4 h-4 rounded border border-black/10 dark:border-white/20 flex items-center justify-center">
                           <div className="w-1.5 h-1.5 rounded-full bg-purple-500"></div>
                         </div>
-                        <span className="text-[10px] text-black/60 dark:text-white/50 font-semibold">Workflows</span>
+                        <span className="text-[10px] text-black/60 dark:text-white/60 font-semibold">Workflows</span>
                       </div>
                       <div className="flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-colors mt-auto">
                         <div className="w-5 h-5 rounded-full bg-gradient-to-br from-gray-200 to-gray-400 dark:from-gray-700 dark:to-gray-900 border border-white/20 flex items-center justify-center overflow-hidden">
                            <div className="w-full h-full bg-[url('https://api.dicebear.com/7.x/notionists/svg?seed=Admin&backgroundColor=transparent')] bg-cover bg-center"></div>
                         </div>
-                        <span className="text-[10px] text-black/60 dark:text-white/50 font-semibold">Admin</span>
+                        <span className="text-[10px] text-black/60 dark:text-white/60 font-semibold">Admin</span>
                       </div>
                     </div>
 
@@ -114,14 +114,14 @@ export function About() {
                       <div className="grid grid-cols-3 gap-2 md:gap-4 relative z-10">
                         <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:border-[#007AFF]/30 transition-colors">
                           <div className="flex justify-between items-start mb-2">
-                            <span className="text-[9px] text-black/50 dark:text-white/40 uppercase tracking-widest font-bold">Tools Synced</span>
+                            <span className="text-[9px] text-black/60 dark:text-white/55 uppercase tracking-widest font-bold">Tools Synced</span>
                             <div className="w-4 h-4 rounded-full bg-[#007AFF]/10 flex items-center justify-center">
                               <div className="w-1.5 h-1.5 rounded-full bg-[#007AFF]"></div>
                             </div>
                           </div>
                           <div className="flex items-baseline gap-1">
                             <span className="text-xl md:text-3xl font-bold text-[#1d1d1f] dark:text-white tracking-tight">14</span>
-                            <span className="text-xs text-black/40 dark:text-white/40 font-medium">/14</span>
+                            <span className="text-xs text-black/55 dark:text-white/55 font-medium">/14</span>
                           </div>
                           <div className="w-full h-1 bg-black/5 dark:bg-white/10 rounded-full mt-2 overflow-hidden">
                             <div className="w-full h-full bg-[#007AFF] rounded-full"></div>
@@ -130,13 +130,13 @@ export function About() {
                         
                         <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:border-emerald-500/30 transition-colors relative overflow-hidden">
                           <div className="absolute -right-4 -bottom-4 w-16 h-16 bg-emerald-500/10 rounded-full blur-xl"></div>
-                          <span className="text-[9px] text-black/50 dark:text-white/40 uppercase tracking-widest font-bold block mb-2 relative z-10">Time Saved</span>
-                          <span className="text-xl md:text-3xl font-bold text-[#1d1d1f] dark:text-white tracking-tight block relative z-10">84<span className="text-sm text-black/40 dark:text-white/40 font-medium">h</span></span>
-                          <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold inline-flex items-center gap-1 mt-1 bg-emerald-500/10 px-1.5 py-0.5 rounded relative z-10">↑ This Week</span>
+                          <span className="text-[9px] text-black/60 dark:text-white/55 uppercase tracking-widest font-bold block mb-2 relative z-10">Time Saved</span>
+                          <span className="text-xl md:text-3xl font-bold text-[#1d1d1f] dark:text-white tracking-tight block relative z-10">84<span className="text-sm text-black/55 dark:text-white/55 font-medium">h</span></span>
+                          <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold inline-flex items-center gap-1 mt-1 bg-emerald-500/10 px-1.5 py-0.5 rounded relative z-10">↑ This Week</span>
                         </div>
                         
                         <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-4 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] flex flex-col justify-between">
-                          <span className="text-[9px] text-black/50 dark:text-white/40 uppercase tracking-widest font-bold block">Health</span>
+                          <span className="text-[9px] text-black/60 dark:text-white/55 uppercase tracking-widest font-bold block">Health</span>
                           <div className="flex items-center justify-between">
                             <span className="text-lg md:text-2xl font-bold text-[#1d1d1f] dark:text-white tracking-tight">Clear</span>
                             {/* SVG Circle Progress */}
@@ -146,7 +146,7 @@ export function About() {
                                 <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#007AFF" strokeWidth="3" strokeDasharray="100, 100" />
                               </svg>
                               <div className="absolute inset-0 flex items-center justify-center">
-                                <Check size={10} className="text-[#007AFF]" />
+                                <Check size={10} className="text-brand" />
                               </div>
                             </div>
                           </div>
@@ -158,11 +158,11 @@ export function About() {
                         <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center gap-2">
                             <span className="text-[10px] text-black/70 dark:text-white/70 font-bold uppercase tracking-widest">Manual Tasks</span>
-                            <span className="text-[8px] bg-red-500/10 text-red-500 px-1.5 py-0.5 rounded font-bold border border-red-500/20">Declining</span>
+                            <span className="text-[8px] bg-red-500/10 text-red-700 dark:text-red-400 px-1.5 py-0.5 rounded font-bold border border-red-500/20">Declining</span>
                           </div>
                           <div className="flex gap-1">
-                            <span className="text-[9px] text-black/40 dark:text-white/30 px-2 py-0.5 rounded font-bold hover:bg-black/5 dark:hover:bg-white/[0.04] cursor-pointer transition-colors">7D</span>
-                            <span className="text-[9px] text-[#007AFF] bg-[#007AFF]/10 border border-[#007AFF]/20 px-2 py-0.5 rounded font-bold shadow-sm">30D</span>
+                            <span className="text-[9px] text-black/55 dark:text-white/45 px-2 py-0.5 rounded font-bold hover:bg-black/5 dark:hover:bg-white/[0.04] cursor-pointer transition-colors">7D</span>
+                            <span className="text-[9px] text-brand bg-[#007AFF]/10 border border-[#007AFF]/20 px-2 py-0.5 rounded font-bold shadow-sm">30D</span>
                           </div>
                         </div>
                         <div className="hidden md:block">
@@ -201,7 +201,7 @@ export function About() {
 
                       {/* Task List */}
                       <div className="bg-white/50 dark:bg-white/[0.04] border border-black/5 dark:border-white/10 rounded-xl p-3 md:p-5 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] relative z-10">
-                        <span className="text-[10px] text-black/60 dark:text-white/50 font-bold uppercase tracking-widest block mb-4 flex items-center justify-between">
+                        <span className="text-[10px] text-black/60 dark:text-white/60 font-bold uppercase tracking-widest block mb-4 flex items-center justify-between">
                           Architecture Sync
                           <span className="text-[8px] bg-black/5 dark:bg-white/10 text-black/60 dark:text-white/60 px-1.5 py-0.5 rounded border border-black/5 dark:border-white/10">3 active</span>
                         </span>
@@ -213,7 +213,7 @@ export function About() {
                             </div>
                             <div className="flex-1 flex flex-col">
                               <span className="text-xs text-black/80 dark:text-white/80 font-semibold">WhatsApp ⇄ CRM</span>
-                              <span className="text-[9px] text-black/40 dark:text-white/40 font-medium">Synced 2m ago</span>
+                              <span className="text-[9px] text-black/55 dark:text-white/55 font-medium">Synced 2m ago</span>
                             </div>
                             <span className="text-[9px] text-emerald-700 dark:text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full shadow-sm">Online</span>
                           </div>
@@ -224,9 +224,9 @@ export function About() {
                             </div>
                             <div className="flex-1 flex flex-col">
                               <span className="text-xs text-black/80 dark:text-white/80 font-semibold">Cross-Platform Data Flow</span>
-                              <span className="text-[9px] text-black/40 dark:text-white/40 font-medium">Processing 1.2k records...</span>
+                              <span className="text-[9px] text-black/55 dark:text-white/55 font-medium">Processing 1.2k records...</span>
                             </div>
-                            <span className="text-[9px] text-[#007AFF] font-bold bg-[#007AFF]/10 border border-[#007AFF]/20 px-2 py-0.5 rounded-full shadow-sm flex items-center gap-1">
+                            <span className="text-[9px] text-brand font-bold bg-[#007AFF]/10 border border-[#007AFF]/20 px-2 py-0.5 rounded-full shadow-sm flex items-center gap-1">
                               <div className="w-1.5 h-1.5 rounded-full bg-[#007AFF] animate-spin"></div>
                               Running
                             </span>
@@ -258,9 +258,9 @@ export function About() {
                  <div className="w-1.5 h-1.5 rounded-full bg-black/30 dark:bg-white/30"></div>
                </div>
 
-               <span className="text-[10px] uppercase tracking-widest font-bold text-black/30 dark:text-white/30 mb-4">{t('about.oldWay')}</span>
-               <h3 className="text-4xl md:text-5xl font-sans font-bold text-black/20 dark:text-white/20 tracking-tight line-through decoration-2 mb-4">{t('about.vision')}</h3>
-               <p className="text-black/40 dark:text-white/40 font-medium text-base md:text-lg text-balance">{t('about.chaos.desc')}</p>
+               <span className="text-[10px] uppercase tracking-widest font-bold text-black/55 dark:text-white/55 mb-4">{t('about.oldWay')}</span>
+               <h3 className="text-4xl md:text-5xl font-sans font-bold text-black/45 dark:text-white/45 tracking-tight line-through decoration-2 mb-4">{t('about.vision')}</h3>
+               <p className="text-black/55 dark:text-white/55 font-medium text-base md:text-lg text-balance">{t('about.chaos.desc')}</p>
             </div>
 
             {/* Elegant Divider */}
@@ -277,7 +277,7 @@ export function About() {
                  <div className="w-2 h-2 rounded-full bg-[#007AFF]"></div>
                </div>
 
-               <span className="text-[10px] uppercase tracking-widest font-bold text-[#007AFF] mb-4 relative z-10">{t('about.newStandard')}</span>
+               <span className="text-[10px] uppercase tracking-widest font-bold text-brand mb-4 relative z-10">{t('about.newStandard')}</span>
                <h3 className="text-4xl md:text-5xl font-sans font-bold text-[#1d1d1f] dark:text-white tracking-tight mb-4 relative z-10">{t('about.scale')}</h3>
                <p className="text-black/60 dark:text-white/60 font-medium text-base md:text-lg text-balance relative z-10">{t('about.order.desc')}</p>
             </div>
@@ -294,7 +294,7 @@ export function About() {
                 </svg>
               </div>
 
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#007AFF] mb-3 md:mb-4 z-10">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-brand mb-3 md:mb-4 z-10">
                 {t('about.axis')}
               </span>
               <h3 className="font-sans font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight text-[#1d1d1f] dark:text-white z-10 leading-[1.1] text-balance">

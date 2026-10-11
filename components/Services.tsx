@@ -12,12 +12,12 @@ export function Services() {
         
         {/* Header */}
         <Reveal y={40} duration={0.7} rootMargin="0px 0px -100px 0px" className="mb-12 md:mb-20 flex flex-col items-center text-center">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[#007AFF] mb-4 inline-block border border-black/5 dark:border-white/10 px-4 py-1.5 rounded-full bg-black/5 dark:bg-white/5 shadow-sm">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-brand mb-4 inline-block border border-black/5 dark:border-white/10 px-4 py-1.5 rounded-full bg-black/5 dark:bg-white/5 shadow-sm">
             {t('serv.label')}
           </span>
           <h2 className="font-sans text-[clamp(2rem,5vw,4rem)] leading-[1.05] tracking-tight font-semibold text-[#1d1d1f] dark:text-white max-w-4xl text-balance">
             {t('serv.title1')} <br className="hidden md:block" />
-            <span className="text-black/30 dark:text-white/30">{t('serv.title2')}</span>
+            <span className="text-black/45 dark:text-white/45">{t('serv.title2')}</span>
           </h2>
         </Reveal>
 
@@ -103,7 +103,7 @@ export function Services() {
 
               {/* Content */}
               <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full md:w-2/3 pointer-events-none">
-                <span className="font-mono text-xs font-bold text-[#007AFF] mb-2 block">/01</span>
+                <span className="font-mono text-xs font-bold text-brand mb-2 block">/01</span>
                 <h3 className="font-sans text-xl md:text-2xl font-semibold text-[#1d1d1f] dark:text-white mb-2 md:mb-3 tracking-tight">
                   {t('serv.1.title')}
                 </h3>
@@ -178,7 +178,7 @@ export function Services() {
                   {/* Node 1: Left (Trigger) */}
                   <div className="absolute left-[25%] top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-[#111] border border-black/10 dark:border-white/10 p-2 rounded-md shadow-sm -translate-x-2 md:translate-x-0 md:group-hover:-translate-x-2 transition-transform duration-700 ease-out z-10 flex items-center justify-center">
                      <Database size={12} className="text-[#1d1d1f] dark:text-white/70" />
-                     <div className="absolute -top-6 text-[8px] font-mono text-black/40 dark:text-white/40">Webhook</div>
+                     <div className="absolute -top-6 text-[8px] font-mono text-black/55 dark:text-white/55">Webhook</div>
                   </div>
 
                   {/* Central Node (Processor) */}
@@ -191,13 +191,13 @@ export function Services() {
                   {/* Node 2: Right Top (Action 1) */}
                   <div className="absolute left-[75%] top-[30%] -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-[#111] border border-black/10 dark:border-white/10 p-2 rounded-md shadow-sm translate-x-2 -translate-y-1 md:translate-x-0 md:translate-y-0 md:group-hover:translate-x-2 md:group-hover:-translate-y-1 transition-transform duration-700 ease-out z-10 flex items-center justify-center">
                      <MessageSquare size={12} className="text-[#1d1d1f] dark:text-white/70" />
-                     <div className="absolute left-8 text-[8px] font-mono text-black/40 dark:text-white/40 whitespace-nowrap">Notify Slack</div>
+                     <div className="absolute left-8 text-[8px] font-mono text-black/55 dark:text-white/55 whitespace-nowrap">Notify Slack</div>
                   </div>
 
                   {/* Node 3: Right Bottom (Action 2) */}
                   <div className="absolute left-[75%] top-[70%] -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-[#111] border border-black/10 dark:border-white/10 p-2 rounded-md shadow-sm translate-x-2 translate-y-1 md:translate-x-0 md:translate-y-0 md:group-hover:translate-x-2 md:group-hover:translate-y-1 transition-transform duration-700 ease-out z-10 flex items-center justify-center">
                      <Globe size={12} className="text-[#1d1d1f] dark:text-white/70" />
-                     <div className="absolute left-8 text-[8px] font-mono text-black/40 dark:text-white/40 whitespace-nowrap">Update CRM</div>
+                     <div className="absolute left-8 text-[8px] font-mono text-black/55 dark:text-white/55 whitespace-nowrap">Update CRM</div>
                   </div>
                   
                   {/* Status Indicator */}
@@ -211,7 +211,7 @@ export function Services() {
 
               {/* Content */}
               <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full pointer-events-none">
-                <span className="font-mono text-xs font-bold text-[#007AFF] mb-2 block">/02</span>
+                <span className="font-mono text-xs font-bold text-brand mb-2 block">/02</span>
                 <h3 className="font-sans text-xl md:text-2xl font-semibold text-[#1d1d1f] dark:text-white mb-2 tracking-tight">
                   {t('serv.2.title')}
                 </h3>
@@ -284,7 +284,7 @@ export function Services() {
                         </div>
                         <div className="flex gap-1 relative z-10">
                           <span className="text-[8px] font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">{t('serv.v3.read')}</span>
-                          <span className="text-[8px] font-mono text-black/50 dark:text-white/50 bg-black/5 dark:bg-white/5 px-1.5 py-0.5 rounded border border-black/10 dark:border-white/10">{t('serv.v3.write')}</span>
+                          <span className="text-[8px] font-mono text-black/60 dark:text-white/60 bg-black/5 dark:bg-white/5 px-1.5 py-0.5 rounded border border-black/10 dark:border-white/10">{t('serv.v3.write')}</span>
                         </div>
                       </div>
 
@@ -310,7 +310,7 @@ export function Services() {
 
               {/* Content */}
               <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full pointer-events-none z-10">
-                <span className="font-mono text-xs font-bold text-[#007AFF] mb-2 block">/03</span>
+                <span className="font-mono text-xs font-bold text-brand mb-2 block">/03</span>
                 <h3 className="font-sans text-xl md:text-2xl font-semibold text-[#1d1d1f] dark:text-white mb-2 tracking-tight">
                   {t('serv.3.title')}
                 </h3>
@@ -363,7 +363,7 @@ export function Services() {
                          <div className="w-2 h-2 rounded-full bg-black/10 dark:bg-white/10"></div>
                       </div>
                       <span className="text-[9px] font-mono font-semibold tracking-wider text-[#1d1d1f] dark:text-white/80 uppercase ml-2 flex items-center gap-1.5">
-                        <Sparkles size={10} className="text-[#007AFF]" />
+                        <Sparkles size={10} className="text-brand" />
                         {t('serv.v4.agent')}
                       </span>
                     </div>
@@ -379,7 +379,7 @@ export function Services() {
                          <div className="space-y-1">
                            <div className="flex items-center gap-2">
                              <span className="text-[9px] font-medium text-[#1d1d1f] dark:text-white">ElevaOps AI</span>
-                             <span className="text-[8px] font-mono text-black/40 dark:text-white/40">10:42 AM</span>
+                             <span className="text-[8px] font-mono text-black/55 dark:text-white/55">10:42 AM</span>
                            </div>
                            <p className="text-[10px] text-black/70 dark:text-white/70 leading-relaxed font-mono">
                              {t('serv.v4.msg1')}
@@ -390,7 +390,7 @@ export function Services() {
                       {/* User Message */}
                       <div className="flex gap-3 pt-3 border-t border-black/5 dark:border-white/5 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 delay-150">
                          <div className="w-5 h-5 rounded flex items-center justify-center bg-[#007AFF]/10 shrink-0 mt-0.5 border border-[#007AFF]/20">
-                           <User size={12} className="text-[#007AFF]" />
+                           <User size={12} className="text-brand" />
                          </div>
                          <div className="space-y-1">
                            <div className="flex items-center gap-2">
@@ -420,7 +420,7 @@ export function Services() {
 
               {/* Content */}
               <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full md:w-1/2 pointer-events-none bg-gradient-to-t from-white via-white/80 dark:from-[#0a0a0f] dark:via-[#0a0a0f]/80 to-transparent">
-                <span className="font-mono text-xs font-bold text-[#007AFF] mb-2 block">/04</span>
+                <span className="font-mono text-xs font-bold text-brand mb-2 block">/04</span>
                 <h3 className="font-sans text-xl md:text-2xl font-semibold text-[#1d1d1f] dark:text-white mb-2 md:mb-3 tracking-tight">
                   {t('serv.4.title')}
                 </h3>

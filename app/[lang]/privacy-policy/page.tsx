@@ -21,16 +21,16 @@ export default function PrivacyPolicy() {
         
         <main className="flex-grow pt-40 pb-32 px-6 md:px-12 max-w-4xl mx-auto w-full">
            <div className="mb-16">
-             <Link href="/" className="inline-flex items-center text-sm font-bold uppercase tracking-widest text-[#007AFF] hover:text-[#005bb5] transition-colors mb-8">
+             <Link href="/" className="inline-flex items-center text-sm font-bold uppercase tracking-widest text-brand hover:text-[#005bb5] transition-colors mb-8">
                &larr; Back to Home
              </Link>
              <h1 className="font-sans text-[clamp(2.5rem,5vw,4.5rem)] font-semibold tracking-tighter text-[#1d1d1f] dark:text-white leading-[1.05] mb-4">Privacy Policy</h1>
-             <p className="text-sm md:text-base text-black/50 dark:text-white/50 font-medium">Effective Date: August 2026</p>
+             <p className="text-sm md:text-base text-black/60 dark:text-white/60 font-medium">Effective Date: August 2026</p>
            </div>
            
            <div className="prose prose-lg dark:prose-invert max-w-none text-black/70 dark:text-white/70 
                            prose-headings:text-[#1d1d1f] dark:prose-headings:text-white prose-headings:font-semibold prose-headings:tracking-tight 
-                           prose-a:text-[#007AFF] hover:prose-a:text-[#005bb5] prose-a:transition-colors
+                           prose-a:text-brand hover:prose-a:text-[#005bb5] prose-a:transition-colors
                            prose-p:leading-relaxed prose-li:leading-relaxed">
               
               <p>

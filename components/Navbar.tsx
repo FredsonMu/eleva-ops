@@ -53,13 +53,13 @@ export function Navbar() {
         <div className="flex items-center justify-between px-5 py-3">
           <Link href="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 group cursor-pointer shrink-0">
             <span className="font-sans font-semibold text-xl tracking-tight text-[#1d1d1f] dark:text-white">
-              Eleva<span className="text-black/40 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">Ops</span>
+              Eleva<span className="text-black/55 dark:text-white/55 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">Ops</span>
             </span>
           </Link>
 
           <nav className="hidden md:flex gap-8 items-center text-xs font-bold uppercase tracking-widest text-black/60 dark:text-white/60 shrink-0">
             {links.map(link => (
-              <Link key={link.href} href={link.href} className="hover:text-[#007AFF] dark:hover:text-[#007AFF] transition-colors">{t(link.key)}</Link>
+              <Link key={link.href} href={link.href} className="hover:text-brand dark:hover:text-brand transition-colors">{t(link.key)}</Link>
             ))}
           </nav>
 
@@ -93,7 +93,7 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="py-3 text-sm font-bold uppercase tracking-widest text-[#1d1d1f] dark:text-white hover:text-[#007AFF] dark:hover:text-[#007AFF] border-b border-black/5 dark:border-white/10 transition-colors"
+                className="py-3 text-sm font-bold uppercase tracking-widest text-[#1d1d1f] dark:text-white hover:text-brand dark:hover:text-brand border-b border-black/5 dark:border-white/10 transition-colors"
               >
                 {t(link.key)}
               </Link>
