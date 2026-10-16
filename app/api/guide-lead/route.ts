@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 
   // Honeypot: a field hidden from people. Pretend it worked so bots don't adapt,
   // but don't record anything (and never return a download for it).
-  if (typeof body.company === 'string' && body.company.trim() !== '') {
+  if (typeof body.website === 'string' && body.website.trim() !== '') {
     return NextResponse.json({ ok: false, error: 'Unable to process this request.' }, { status: 400 });
   }
 
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
 
   const result = validateLead(body);
   if (!result.ok) return fail(422, result.error, result.field);
-  const { firstName, email, marketingConsent, tracking } = result.lead;
+  const { firstName, email, companyName, phone, marketingConsent, tracking } = result.lead;
 
   const client = getResend();
   const sheetEnabled = isSheetConfigured();
@@ -88,6 +88,8 @@ export async function POST(request: Request) {
           <h2>New lead: ${escapeHtml(GUIDE.title)}</h2>
           <p><strong>First name:</strong> ${escapeHtml(firstName)}</p>
           <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+          <p><strong>Company:</strong> ${companyName ? escapeHtml(companyName) : '—'}</p>
+          <p><strong>Phone:</strong> ${phone ? escapeHtml(phone) : '—'}</p>
           <p><strong>Marketing consent:</strong> ${marketingConsent ? 'Yes, opted in' : 'No'}</p>
           <p><strong>Submitted:</strong> ${new Date().toISOString()}</p>
           <p><strong>Lead id:</strong> ${leadId}</p>
@@ -109,7 +111,7 @@ export async function POST(request: Request) {
   // (and the download is unlocked) only if at least one of them actually stored it.
   const [savedToSheet, emailed] = await Promise.all([
     sheetEnabled
-      ? appendLeadToSheet({ leadId, firstName, email, marketingConsent, ...tracking })
+      ? appendLeadToSheet({ leadId, firstName, email, companyName, phone, marketingConsent, ...tracking })
       : Promise.resolve(false),
     sendEmail(),
   ]);

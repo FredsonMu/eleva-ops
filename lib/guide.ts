@@ -15,7 +15,7 @@ export const GUIDE = {
 export const TRACKING_PARAMS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'] as const;
 export type Tracking = Partial<Record<(typeof TRACKING_PARAMS)[number], string>>;
 
-export const LIMITS = { firstName: 80, email: 254, tracking: 200 } as const;
+export const LIMITS = { firstName: 80, email: 254, companyName: 120, phone: 40, tracking: 200 } as const;
 
 // Pragmatic check (the browser's type="email" does the same on the client).
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -23,6 +23,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 export type LeadInput = {
   firstName: string;
   email: string;
+  companyName: string;
+  phone: string;
   marketingConsent: boolean;
   tracking: Tracking;
 };
@@ -45,6 +47,15 @@ export function validateLead(body: unknown): LeadValidation {
     return { ok: false, field: 'email', error: 'Please enter a valid email address.' };
   }
 
+  const companyName = typeof data.companyName === 'string' ? data.companyName.trim().replace(/\s+/g, ' ') : '';
+  if (companyName.length > LIMITS.companyName) return { ok: false, error: 'Company name is too long.' };
+
+  // Optional; when present: "+<code> <number>" with 6–20 digits overall.
+  const phone = typeof data.phone === 'string' ? data.phone.trim().replace(/\s+/g, ' ') : '';
+  if (phone && (phone.length > LIMITS.phone || !/^\+?[0-9 ()-]{6,}$/.test(phone) || phone.replace(/\D/g, '').length > 20)) {
+    return { ok: false, error: 'Please enter a valid phone number.' };
+  }
+
   const tracking: Tracking = {};
   const rawTracking = data.tracking && typeof data.tracking === 'object' ? (data.tracking as Record<string, unknown>) : {};
   for (const key of TRACKING_PARAMS) {
@@ -52,5 +63,5 @@ export function validateLead(body: unknown): LeadValidation {
     if (typeof value === 'string' && value.trim()) tracking[key] = value.trim().slice(0, LIMITS.tracking);
   }
 
-  return { ok: true, lead: { firstName, email, marketingConsent: data.marketingConsent === true, tracking } };
+  return { ok: true, lead: { firstName, email, companyName, phone, marketingConsent: data.marketingConsent === true, tracking } };
 }

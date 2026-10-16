@@ -5,6 +5,8 @@ export type SheetLead = {
   leadId: string;
   firstName: string;
   email: string;
+  companyName?: string;
+  phone?: string;
   marketingConsent: boolean;
   utm_source?: string;
   utm_medium?: string;

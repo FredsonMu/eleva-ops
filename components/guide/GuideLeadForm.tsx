@@ -5,6 +5,7 @@ import { ArrowRight, Check, Download, Loader2 } from 'lucide-react';
 import { GUIDE, LIMITS } from '@/lib/guide';
 import { captureTracking, getTracking } from './tracking';
 import { Brand } from '../Brand';
+import { PhoneInput } from '../PhoneInput';
 
 type Status = 'idle' | 'submitting' | 'success';
 type FieldErrors = Partial<Record<'firstName' | 'email', string>>;
@@ -18,7 +19,7 @@ export function GuideLeadForm() {
   const [download, setDownload] = useState<string>(GUIDE.pdf);
   const startedAt = useRef(0);
   const successHeading = useRef<HTMLHeadingElement>(null);
-  const ids = { name: useId(), email: useId(), consent: useId(), error: useId() };
+  const ids = { name: useId(), email: useId(), company: useId(), phone: useId(), consent: useId(), error: useId() };
 
   useEffect(() => {
     startedAt.current = Date.now();
@@ -58,7 +59,9 @@ export function GuideLeadForm() {
           firstName,
           email,
           marketingConsent: data.get('marketingConsent') === 'on',
-          company: String(data.get('company') ?? ''), // honeypot
+          companyName: String(data.get('companyName') ?? '').trim(),
+          phone: String(data.get('phone') ?? ''),
+          website: String(data.get('website') ?? ''), // honeypot
           startedAt: startedAt.current,
           tracking: getTracking(),
         }),
@@ -117,6 +120,21 @@ export function GuideLeadForm() {
   return (
     <form onSubmit={handleSubmit} noValidate aria-describedby={error ? ids.error : undefined} className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
+        <label htmlFor={ids.company} className="text-sm font-semibold text-[#1d1d1f] dark:text-white">
+          Company name <span className="font-normal text-black/45 dark:text-white/45">(optional)</span>
+        </label>
+        <input
+          id={ids.company}
+          name="companyName"
+          type="text"
+          autoComplete="organization"
+          maxLength={LIMITS.companyName}
+          placeholder="Your company"
+          className={`${inputClass} border-black/10 dark:border-white/15`}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
         <label htmlFor={ids.name} className="text-sm font-semibold text-[#1d1d1f] dark:text-white">
           First name
         </label>
@@ -161,10 +179,21 @@ export function GuideLeadForm() {
         )}
       </div>
 
+      <div className="flex flex-col gap-2">
+        <label htmlFor={ids.phone} className="text-sm font-semibold text-[#1d1d1f] dark:text-white">
+          Phone <span className="font-normal text-black/45 dark:text-white/45">(optional)</span>
+        </label>
+        <PhoneInput
+          id={ids.phone}
+          className="h-14 rounded-2xl border border-black/10 dark:border-white/15 bg-white/90 dark:bg-white/[0.04] transition-[border-color,box-shadow] duration-200 focus-within:border-[#007AFF] focus-within:ring-4 focus-within:ring-[#007AFF]/15"
+          inputClassName="px-4 text-base text-[#1d1d1f] dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40"
+        />
+      </div>
+
       {/* Honeypot: invisible to people, tempting to bots. */}
       <div className="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
-        <label htmlFor={`${ids.name}-company`}>Company</label>
-        <input id={`${ids.name}-company`} name="company" type="text" tabIndex={-1} autoComplete="off" />
+        <label htmlFor={`${ids.name}-website`}>Website</label>
+        <input id={`${ids.name}-website`} name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
       <label htmlFor={ids.consent} className="flex items-start gap-3 cursor-pointer rounded-2xl p-1 -m-1">

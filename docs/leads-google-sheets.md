@@ -34,7 +34,7 @@ The site only shows "Your guide is ready." after the lead was actually stored (s
 // Eleva Ops — receives guide leads from elevaops.com and appends them to the "Leads" tab.
 const SECRET = 'PASTE_THE_SECRET_HERE';
 const SHEET_NAME = 'Leads';
-const HEADERS = ['Data', 'Nome', 'Email', 'Aceita marketing', 'Origem', 'Meio', 'Campanha', 'Anúncio', 'Conjunto de anúncios', 'ID da lead'];
+const HEADERS = ['Data', 'Nome', 'Email', 'Aceita marketing', 'Origem', 'Meio', 'Campanha', 'Anúncio', 'Conjunto de anúncios', 'ID da lead', 'Empresa', 'Telefone'];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -55,6 +55,8 @@ function doPost(e) {
       clean(data.utm_content),
       clean(data.utm_term),
       clean(data.leadId),
+      clean(data.companyName),
+      clean(data.phone),
     ]);
     return json({ ok: true });
   } catch (err) {
@@ -115,3 +117,11 @@ Request the guide once at `https://elevaops.com/ai-agents-guide?utm_source=test&
 - Only people with **Aceita marketing = Sim** may receive marketing emails.
 - Keep the sheet shared only with the people who need it.
 - Rows older than **12 months** should be deleted (retention period stated in the Privacy Policy), except people who accepted marketing and haven't unsubscribed.
+
+### Updating an existing script (company and phone columns)
+
+The form now also sends **Empresa** (company) and **Telefone** (phone). If the script was set up
+before this change: paste the new code above over the old one, then *Deploy → Manage deployments →
+Edit → Version: New version → Deploy* (the web app URL stays the same). In an existing sheet, type
+`Empresa` and `Telefone` in the first two empty header cells after `ID da lead`. Until the script is
+updated, leads still arrive by email with all fields; the sheet just won't store the two new ones.
