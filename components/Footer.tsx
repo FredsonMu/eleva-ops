@@ -4,6 +4,7 @@ import { useLanguage } from '@/lib/i18n';
 import Link from 'next/link';
 import { BrandText } from './Brand';
 import { LogoMark } from './LogoMark';
+import { Wordmark } from './Wordmark';
 import { Reveal } from './Reveal';
 
 export function Footer() {
@@ -40,8 +41,9 @@ export function Footer() {
 
         {/* bottom bar */}
         <div className="mt-12 flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <span translate="no" className="notranslate flex items-center gap-2.5 font-sans text-lg font-semibold tracking-tight text-[#1d1d1f] dark:text-white">
-            <LogoMark className="h-6 w-auto" />Eleva<span className="-ml-2.5 text-black/50 dark:text-white/55">Ops</span>
+          <span className="flex items-center gap-3 text-[#1d1d1f] dark:text-white">
+            <LogoMark className="h-6 w-auto" />
+            <Wordmark className="h-4 w-auto" />
           </span>
           <nav className="flex flex-wrap gap-x-6 gap-y-2 text-[14px] text-black/60 dark:text-white/60">
             {links.map(l => (
