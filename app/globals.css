@@ -233,21 +233,202 @@ html {
   .dark .liquid-glass-card { background: rgba(255, 255, 255, 0.12) !important; }
 }
 
-/* "The Path" section (components/Methodology.tsx): scroll-driven progress line and steps. */
-.method-fill {
-  transform: scaleY(0);
-  will-change: transform;
+/* Chaos → order block (components/ChaosToOrder.tsx): progress line of the active step. */
+@keyframes stage-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
-.method-dot {
-  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+.stage-progress {
+  width: 100%;
+  transform-origin: left center;
+  animation: stage-progress linear forwards;
 }
-.method-step.is-active .method-dot {
-  background-color: #0066cc;
-  border-color: #0066cc;
-  color: #fff;
-  box-shadow: 0 0 0 6px rgb(0 122 255 / 0.12);
+
+/* Services tiles (components/Services.tsx): short product loops. The base styles are the
+   finished state (what reduced motion shows); the loops run once the tile is in view. */
+.svc-press, .svc-cursor, .svc-toast, .svc-step, .svc-step-dot, .svc-step-label,
+.svc-file, .svc-row, .svc-msg, .svc-typing, .svc-reply, .svc-chip {
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+  animation-play-state: paused;
 }
-/* Without JS (or before it runs) show the path complete. */
-@media (scripting: none) {
-  .method-fill { transform: scaleY(1); }
+.in-view :is(.svc-press, .svc-cursor, .svc-toast, .svc-step, .svc-step-dot, .svc-step-label,
+.svc-file, .svc-row, .svc-msg, .svc-typing, .svc-reply, .svc-chip) { animation-play-state: running; }
+
+/* 01: cursor glides to the button, clicks, an enquiry arrives */
+.svc-cursor { animation-name: svc-cursor; }
+.svc-press { animation-name: svc-press; }
+.svc-toast { animation-name: svc-toast; }
+@keyframes svc-cursor {
+  0% { transform: translate(110px, 50px); opacity: 0; }
+  10% { opacity: 1; }
+  32% { transform: translate(0, 0); }
+  37% { transform: translate(0, 0) scale(0.85); }
+  42%, 80% { transform: translate(0, 0) scale(1); opacity: 1; }
+  90%, 100% { transform: translate(0, 0); opacity: 0; }
 }
+@keyframes svc-press {
+  0%, 35% { transform: scale(1); box-shadow: 0 0 0 0 rgb(0 122 255 / 0); }
+  39% { transform: scale(0.94); box-shadow: 0 0 0 0 rgb(0 122 255 / 0.35); }
+  50%, 100% { transform: scale(1); box-shadow: 0 0 0 10px rgb(0 122 255 / 0); }
+}
+@keyframes svc-toast {
+  0%, 42% { opacity: 0; transform: translateY(8px) scale(0.96); }
+  50%, 86% { opacity: 1; transform: none; }
+  94%, 100% { opacity: 0; transform: translateY(-4px); }
+}
+
+/* 02: each step completes in turn */
+.svc-step-dot { border-color: #007aff; background: #007aff; }
+.svc-step-label { color: var(--color-ink); }
+.svc-step .svc-step-dot { animation-name: svc-dot; animation-delay: inherit; }
+.svc-step .svc-step-label { animation-name: svc-label; animation-delay: inherit; }
+.svc-step-dot svg { opacity: 1; animation-delay: inherit; }
+@keyframes svc-dot {
+  0%, 8% { background: transparent; border-color: rgb(127 127 127 / 0.35); }
+  14%, 76% { background: #007aff; border-color: #007aff; }
+  86%, 100% { background: transparent; border-color: rgb(127 127 127 / 0.35); }
+}
+@keyframes svc-label {
+  0%, 8% { color: rgb(127 127 127 / 0.7); }
+  14%, 76% { color: var(--brand-text); }
+  86%, 100% { color: rgb(127 127 127 / 0.7); }
+}
+
+/* 03: files drop into the workspace and become rows */
+.svc-file { animation-name: svc-file; }
+.svc-row { animation-name: svc-row; }
+.svc-file { opacity: 0; }
+@keyframes svc-file {
+  0% { opacity: 0; transform: translateY(-14px); }
+  12%, 34% { opacity: 1; transform: none; }
+  50%, 100% { opacity: 0; transform: translateY(56px) scale(0.85); }
+}
+@keyframes svc-row {
+  0%, 40% { opacity: 0.25; background: transparent; }
+  50% { opacity: 1; background: rgb(0 122 255 / 0.08); }
+  62%, 90% { opacity: 1; background: transparent; }
+  100% { opacity: 0.25; }
+}
+
+/* 04: question, typing, answer, booked */
+.svc-typing { opacity: 0; }
+.svc-msg { animation-name: svc-msg; }
+.svc-typing { animation-name: svc-typing; }
+.svc-reply { animation-name: svc-reply; }
+.svc-chip { animation-name: svc-chip; }
+@keyframes svc-msg {
+  0% { opacity: 0; transform: translateY(8px); }
+  8%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes svc-typing {
+  0%, 14% { opacity: 0; }
+  18%, 34% { opacity: 1; }
+  38%, 100% { opacity: 0; }
+}
+@keyframes svc-reply {
+  0%, 36% { opacity: 0; transform: translateY(6px); }
+  42%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; }
+}
+@keyframes svc-chip {
+  0%, 50% { opacity: 0; transform: scale(0.9); }
+  56%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.svc-press, .svc-cursor, .svc-toast, .svc-step, .svc-step-dot, .svc-step-label,
+  .svc-file, .svc-row, .svc-msg, .svc-typing, .svc-reply, .svc-chip) { animation: none !important; }
+}
+.svc-step .svc-step-dot svg {
+  animation: svc-check 6s cubic-bezier(0.22, 1, 0.36, 1) infinite both paused;
+  animation-delay: inherit;
+}
+.in-view .svc-step .svc-step-dot svg { animation-play-state: running; }
+@keyframes svc-check {
+  0%, 8% { opacity: 0; transform: scale(0.5); }
+  14%, 76% { opacity: 1; transform: none; }
+  86%, 100% { opacity: 0; transform: scale(0.5); }
+}
+@media (prefers-reduced-motion: reduce) { .svc-step .svc-step-dot svg { animation: none !important; } }
+
+/* Chaos → order window: rows light up as they are processed, checks and freed blocks pop. */
+@keyframes stage-sweep {
+  0% { background-color: transparent; }
+  30% { background-color: rgb(0 122 255 / 0.07); }
+  100% { background-color: transparent; }
+}
+@keyframes stage-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+@keyframes stage-live {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(0 122 255 / 0.5); }
+  60% { box-shadow: 0 0 0 5px rgb(0 122 255 / 0); }
+}
+.stage-sweep { animation: stage-sweep 0.9s ease-out both; }
+.stage-pop { animation: stage-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.stage-live { animation: stage-live 1.6s ease-out infinite; }
+
+/* Generic in-view loop (6s). Base styles are the finished state; reduced motion keeps it. */
+.loop {
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+  animation-play-state: paused;
+}
+.in-view .loop { animation-play-state: running; }
+@media (prefers-reduced-motion: reduce) { .loop { animation: none !important; } }
+
+/* The Path tiles (components/Methodology.tsx) */
+.pth-meter { transform-origin: left center; animation-name: pth-meter; }
+.pth-pop { animation-name: pth-pop; }
+.pth-stamp { animation-name: pth-stamp; }
+.pth-tick { animation-name: pth-tick; }
+.pth-card { left: calc(2 * (100% - 16px) / 3 + 24px); animation-name: pth-card; }
+.pth-switch { animation-name: pth-switch; }
+.pth-knob { transform: translateX(16px); animation-name: pth-knob; }
+.pth-live { animation-name: pth-live; }
+.pth-line { stroke-dasharray: 1; stroke-dashoffset: 0; animation-name: pth-line; }
+@keyframes pth-meter { 0% { transform: scaleX(0); } 30%, 86% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+@keyframes pth-pop { 0%, 34% { opacity: 0; transform: scale(0.8); } 42%, 88% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes pth-stamp { 0%, 58% { opacity: 0; transform: scale(1.35) rotate(-6deg); } 66%, 90% { opacity: 1; transform: rotate(-6deg); } 100% { opacity: 0; } }
+@keyframes pth-tick { 0%, 12% { opacity: 0; transform: scale(0.4); } 22%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes pth-card {
+  0%, 18% { left: 8px; opacity: 1; }
+  34%, 52% { left: calc((100% - 16px) / 3 + 16px); }
+  68%, 90% { left: calc(2 * (100% - 16px) / 3 + 24px); opacity: 1; }
+  97% { opacity: 0; }
+  100% { left: 8px; opacity: 0; }
+}
+@keyframes pth-switch { 0%, 24% { background-color: rgb(127 127 127 / 0.3); } 32%, 92% { background-color: #007aff; } 100% { background-color: rgb(127 127 127 / 0.3); } }
+@keyframes pth-knob { 0%, 24% { transform: none; } 32%, 92% { transform: translateX(16px); } 100% { transform: none; } }
+@keyframes pth-live { 0%, 30% { opacity: 0; transform: scale(0.9); } 38%, 92% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes pth-line { 0%, 34% { stroke-dashoffset: 1; } 70%, 92% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 1; } }
+
+/* Thesis notes (components/Origin.tsx): the open note is written in, a caret blinks after it. */
+@keyframes note-write {
+  from { clip-path: inset(0 100% 100% 0); opacity: 0.4; }
+  30% { opacity: 1; }
+  to { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+@keyframes note-caret { 50% { opacity: 0; } }
+.note-write { animation: note-write 1.6s steps(28, end) both; }
+.note-caret { animation: note-caret 1s step-end infinite; }
+
+/* Hero (components/Hero.tsx): staggered rise. */
+@keyframes hero-rise { from { opacity: 0; transform: translate3d(0, 14px, 0); } to { opacity: 1; transform: none; } }
+.hero-rise { animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Guide card (components/GuidePopup.tsx): slides in, the cover bobs, steps fade in. */
+@keyframes guide-card-in { from { opacity: 0; transform: translate3d(0, 24px, 0) scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes guide-peek { 0%, 100% { transform: rotate(-8deg) translateY(0); } 50% { transform: rotate(-5deg) translateY(-4px); } }
+@keyframes guide-step-in { from { opacity: 0; transform: translate3d(8px, 0, 0); } to { opacity: 1; transform: none; } }
+.guide-card-in { animation: guide-card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.guide-peek { animation: guide-peek 4s ease-in-out infinite; }
+.guide-step-in { animation: guide-step-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }

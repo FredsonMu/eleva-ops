@@ -9,6 +9,7 @@ import { Contact } from '@/components/Contact';
 import { FAQ } from '@/components/FAQ';
 import { Footer } from '@/components/Footer';
 import { AuroraBackground } from '@/components/AuroraBackground';
+import { GuidePopup } from '@/components/GuidePopup';
 
 // Plain imports on purpose: every section is server-rendered and needed on first load,
 // so `next/dynamic` only added Suspense boundaries that streamed the page in late
@@ -35,6 +36,7 @@ export default function Home() {
         <FAQ />
       </main>
       <Footer />
+      <GuidePopup />
       </div>
     </div>
   );

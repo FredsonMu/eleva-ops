@@ -1,31 +1,28 @@
 'use client';
 import { useState, memo, useId } from 'react';
-import { Plus, Minus } from 'lucide-react';
+import { ArrowUpRight, Plus } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
+import { Reveal } from './Reveal';
 
 const FAQItem = memo(function FAQItem({ question, answer, isOpen, onClick }: { question: string, answer: string, isOpen: boolean, onClick: () => void }) {
   const answerId = useId();
   return (
-    <div className="border-b border-black/10 dark:border-white/20">
-      <button 
+    <div className={`rounded-2xl transition-colors duration-300 ${isOpen ? 'bg-black/[0.04] dark:bg-white/[0.06]' : 'bg-black/[0.02] dark:bg-white/[0.03] hover:bg-black/[0.04] dark:hover:bg-white/[0.05]'}`}>
+      <button
         type="button"
         onClick={onClick}
         aria-expanded={isOpen}
         aria-controls={answerId}
-        className="w-full flex items-center justify-between py-6 md:py-8 text-left group"
+        className="flex w-full items-center justify-between gap-6 px-5 py-5 md:px-6 text-left"
       >
-        <h3 className="font-sans text-xl md:text-2xl font-semibold tracking-tight pr-8 text-[#1d1d1f] dark:text-white group-hover:text-brand transition-colors duration-300">{question}</h3>
-        <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 shadow-sm flex items-center justify-center group-hover:border-[#007AFF] group-hover:bg-[#007AFF] group-hover:text-white transition-colors duration-300 text-black/60 dark:text-white/60">
-          {isOpen ? <Minus size={16} strokeWidth={2.5} aria-hidden="true" /> : <Plus size={16} strokeWidth={2.5} aria-hidden="true" />}
-        </div>
+        <h3 className="font-sans text-base md:text-lg font-semibold tracking-tight text-[#1d1d1f] dark:text-white">{question}</h3>
+        <Plus className={`h-5 w-5 shrink-0 text-black/50 dark:text-white/55 transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`} strokeWidth={2} aria-hidden="true" />
       </button>
-      {isOpen && (
-        <div id={answerId} className="overflow-hidden">
-          <p className="font-sans pb-10 pt-2 text-base md:text-lg text-black/60 dark:text-white/60 font-medium leading-relaxed max-w-4xl">
-            {answer}
-          </p>
+      <div id={answerId} className={`grid transition-[grid-template-rows] duration-500 ease-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+        <div className="overflow-hidden">
+          <p className="px-5 pb-6 md:px-6 text-[15px] md:text-base leading-relaxed text-black/60 dark:text-white/60">{answer}</p>
         </div>
-      )}
+      </div>
     </div>
   );
 });
@@ -34,62 +31,41 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const { t } = useLanguage();
 
-  const faqs = [
-    { question: t('faq.1.q'), answer: t('faq.1.a') },
-    { question: t('faq.2.q'), answer: t('faq.2.a') },
-    { question: t('faq.3.q'), answer: t('faq.3.a') },
-    { question: t('faq.4.q'), answer: t('faq.4.a') },
-    { question: t('faq.5.q'), answer: t('faq.5.a') },
-    { question: t('faq.6.q'), answer: t('faq.6.a') }
-  ];
+  const faqs = ([1, 2, 3, 4, 5, 6] as const).map(n => ({ question: t(`faq.${n}.q` as const), answer: t(`faq.${n}.a` as const) }));
 
   return (
-    <section id="faq" className="py-20 md:py-40 bg-transparent relative overflow-clip">
-      
-      <div className="max-w-6xl mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-24 items-start">
-          
-          <div className="lg:col-span-5 relative lg:self-stretch">
-            <div className="sticky top-40 flex flex-col items-center text-center lg:items-start lg:text-left">
-              <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-brand">
-                  {t('faq.transparency')}
-                </span>
-              </div>
-              
-              <h2 className="font-sans text-[clamp(2.5rem,4vw,4rem)] font-semibold tracking-tighter leading-[1.05] text-[#1d1d1f] dark:text-white text-balance mb-6 md:mb-8">
-                {t('faq.title1')} <br className="hidden md:block" />
-                <span className="text-black/45 dark:text-white/45 mt-2 block">
-                  {t('faq.title2')}
-                </span>
-              </h2>
-              
-              <p className="text-lg md:text-xl text-black/60 dark:text-white/60 font-medium leading-relaxed mb-10 md:mb-12 max-w-sm text-balance">
-                {t('faq.desc')}
-              </p>
-              
-              <div className="flex flex-col items-center lg:items-start gap-4 md:gap-5">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-black/55 dark:text-white/55">{t('faq.notFound')}</span>
-                <a href="mailto:contact@elevaops.com" className="inline-flex items-center justify-center bg-[#1d1d1f] dark:bg-white/10 text-white px-8 py-4 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-[#007AFF] transition-colors duration-300 w-fit shadow-[0_4px_14px_-4px_rgba(0,0,0,0.3)]">
-                  {t('faq.contact')}
-                </a>
-              </div>
-            </div>
-          </div>
-          
-          <div className="lg:col-span-7 flex flex-col border-t border-black/10 dark:border-white/20 mt-10 lg:mt-0">
-            {faqs.map((faq, index) => (
-              <FAQItem 
-                key={index}
-                question={faq.question}
-                answer={faq.answer}
-                isOpen={openIndex === index}
-                onClick={() => setOpenIndex(current => (current === index ? null : index))}
-              />
-            ))}
-          </div>
-          
-        </div>
+    <section id="faq" className="py-16 md:py-24 bg-transparent relative">
+      <div className="max-w-6xl mx-auto px-5 md:px-6">
+        <Reveal y={30} duration={0.7} className="mb-10 md:mb-14 text-center">
+          <span className="text-[13px] font-semibold text-black/45 dark:text-white/45">{t('faq.transparency')}</span>
+          <h2 className="mt-3 font-sans text-[clamp(1.75rem,3.4vw,2.6rem)] leading-[1.15] tracking-tight font-semibold text-[#1d1d1f] dark:text-white text-balance">
+            {t('faq.title1')}{t('faq.title2')}
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl text-base md:text-lg leading-relaxed text-black/55 dark:text-white/55 text-pretty">{t('faq.desc')}</p>
+        </Reveal>
+
+        <Reveal y={30} duration={0.8} className="mx-auto flex max-w-3xl flex-col gap-2.5">
+          {faqs.map((faq, index) => (
+            <FAQItem
+              key={index}
+              question={faq.question}
+              answer={faq.answer}
+              isOpen={openIndex === index}
+              onClick={() => setOpenIndex(current => (current === index ? null : index))}
+            />
+          ))}
+        </Reveal>
+
+        <Reveal y={20} className="mt-10 md:mt-14 flex flex-col items-center gap-4 text-center">
+          <span className="text-[15px] text-black/55 dark:text-white/55">{t('faq.notFound')}</span>
+          <a
+            href="mailto:contact@elevaops.com"
+            className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#1d1d1f] dark:bg-white px-6 text-[14px] font-semibold text-white dark:text-[#020617] transition-colors hover:bg-black dark:hover:bg-white/90"
+          >
+            {t('faq.contact')}
+            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+          </a>
+        </Reveal>
       </div>
     </section>
   );

@@ -3,12 +3,13 @@ import { EMAIL_FROM, TEAM_INBOX, escapeHtml, getResend } from '@/lib/email';
 
 export async function POST(request: Request) {
   try {
-    const { name, email, message } = await request.json();
+    const { name, email, message, phone } = await request.json();
 
     if (
       typeof name !== 'string' || !name.trim() ||
       typeof email !== 'string' || !email.trim() ||
-      typeof message !== 'string' || !message.trim()
+      typeof message !== 'string' || !message.trim() ||
+      (phone !== undefined && (typeof phone !== 'string' || phone.length > 40))
     ) {
       return NextResponse.json(
         { error: 'Missing required fields' },
@@ -35,6 +36,7 @@ export async function POST(request: Request) {
         <h2>Nova Mensagem via Formulário ElevaOps</h2>
         <p><strong>Nome:</strong> ${escapeHtml(name)}</p>
         <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        ${phone ? `<p><strong>Telefone:</strong> ${escapeHtml(phone)}</p>` : ''}
         <br/>
         <p><strong>Mensagem:</strong></p>
         <p>${escapeHtml(message).replace(/\n/g, '<br/>')}</p>

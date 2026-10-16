@@ -1,90 +1,150 @@
 'use client';
-import Image from 'next/image';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { ArrowUp, Clock, FileCheck2, Search } from 'lucide-react';
 import { TypeAnimation } from 'react-type-animation';
-import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
+import { ExcelIcon, GmailIcon, PaperIcon, SheetsIcon, WhatsAppIcon } from './BrandIcons';
+
+// Hero: the brand line with the typed word, then a prompt box (in the spirit of fynk / Notion AI)
+// where visitors describe the task that eats their week, with quick suggestions.
+// Sending the prompt drops it into the contact form below — a real first step, nothing faked.
+
+const TYPE_MS = 38;
 
 export function Hero() {
   const { t, language } = useLanguage();
+  const examples = t('hero.examples').split('|');
+  const chips = t('hero.chips').split('|');
+
+  const [value, setValue] = useState('');
+  const [typed, setTyped] = useState('');
+  const [focused, setFocused] = useState(false);
+  const [reduced, setReduced] = useState(false);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReduced(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  // typed placeholder: writes an example, holds it, then moves to the next one
+  useEffect(() => {
+    if (reduced || focused || value) return;
+    let ex = 0, i = 0, hold = 0;
+    const tick = () => {
+      const text = examples[ex];
+      if (i < text.length) { i += 1; setTyped(text.slice(0, i)); return; }
+      if (++hold > 60) { ex = (ex + 1) % examples.length; i = 0; hold = 0; setTyped(''); }
+    };
+    const id = window.setInterval(tick, TYPE_MS);
+    return () => window.clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reduced, focused, value, language]);
+
+  const send = (e?: FormEvent) => {
+    e?.preventDefault();
+    const text = value.trim();
+    const box = document.getElementById('message') as HTMLTextAreaElement | null;
+    if (box && text) box.value = text;
+    document.getElementById('contact')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+    window.setTimeout(() => (document.getElementById(text ? 'name' : 'message') as HTMLElement | null)?.focus({ preventScroll: true }), reduced ? 0 : 700);
+  };
+
+  const trust = [
+    { Icon: Search, text: t('hero.trust1') },
+    { Icon: FileCheck2, text: t('hero.trust2') },
+    { Icon: Clock, text: t('hero.trust3') },
+  ];
 
   return (
-    <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden bg-transparent min-h-[90vh] flex items-center">
-      
-      {/* Main Content Container (Notion Style Mobile-First padding) */}
-      <div className="w-full max-w-6xl mx-auto px-4 md:px-6 relative z-10 flex flex-col items-center">
-        
-        {/* Center: Sleek Typography Layout */}
-        <div className="relative w-full flex flex-col items-center text-center">
-          
-          <h1 translate="no" className="notranslate font-sans font-semibold text-[clamp(3.5rem,12vw,9.5rem)] leading-[0.9] tracking-tighter text-[#1d1d1f] dark:text-white flex flex-col items-center">
-            <div className="flex items-center justify-center gap-2 md:gap-4">
-              Eleva<span className="text-brand">.</span>
-            </div>
+    <section className="relative bg-transparent pt-32 pb-20 md:pt-40 md:pb-28 min-h-[90vh] flex items-center">
 
-            <div className="text-black/45 dark:text-white/45 mt-2 h-[1.2em]">
-              <TypeAnimation
-                key={language}
-                sequence={[
-                  t('hero.typing1'), 3000,
-                  t('hero.typing2'), 3000,
-                  t('hero.typing3'), 3000,
-                  t('hero.typing4'), 3000,
-                  t('hero.typing5'), 3000,
-                ]}
-                wrapper="span"
-                cursor={true}
-                repeat={Infinity}
-                className="inline-block"
-              />
-            </div>
-          </h1>
-        </div>
-
-        {/* Premium Typographical Description (Cardless) */}
-        <div className="mt-8 md:mt-16 z-20 w-full max-w-3xl flex flex-col items-center text-center px-2">
-          {/* Subtle separator */}
-          <div className="w-12 h-[2px] bg-gradient-to-r from-transparent via-black/10 dark:via-white/20 to-transparent mb-8"></div>
-          
-          <p className="text-[#1d1d1f]/70 dark:text-white/70 font-medium leading-[1.6] md:leading-[1.7] max-w-2xl text-lg md:text-[1.35rem] tracking-tight text-balance">
-            {t('hero.desc1')}
-            <span className="text-brand font-semibold">{t('hero.desc2')}</span>
-          </p>
-
-          {/* Premium Floating Button */}
-          <a href="mailto:contact@elevaops.com" className="mt-10 group relative inline-flex items-center justify-center">
-            {/* Ambient Glow */}
-            <div className="absolute inset-0 bg-[#007AFF]/20 rounded-full blur-md group-hover:bg-[#007AFF]/40 group-hover:scale-110 transition-[transform,opacity,box-shadow] duration-500"></div>
-            
-            {/* Button Surface */}
-            <div className="relative bg-white/90 dark:bg-white/10 border border-black/5 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.06)] group-hover:shadow-[0_8px_30px_rgb(0,122,255,0.15)] px-8 py-3.5 rounded-full flex items-center gap-3 transition-[transform,opacity,box-shadow] duration-300">
-               
-               <span className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#1d1d1f] dark:text-white group-hover:text-brand dark:group-hover:text-brand transition-colors">
-                 {t('hero.startProject')}
-               </span>
-               
-               {/* Arrow Circle */}
-               <div className="w-6 h-6 rounded-full bg-black/5 dark:bg-white/10 group-hover:bg-[#007AFF]/10 flex items-center justify-center transition-colors">
-                 <ArrowRight className="w-3.5 h-3.5 text-[#1d1d1f] dark:text-white group-hover:text-brand dark:group-hover:text-brand group-hover:translate-x-0.5 transition-[transform,opacity,box-shadow]" />
-               </div>
-            </div>
-          </a>
-        </div>
-
-        {/* Clean Static Single Image */}
-        <div className="w-full mt-16 md:mt-24 max-w-5xl mx-auto flex justify-center">
-          <div className="relative w-full aspect-video md:aspect-[21/9] rounded-[24px] md:rounded-[40px] overflow-hidden ios-card border-none shadow-2xl">
-            <Image 
-              src="/hero imagem1.jpg" 
-              alt="Workspace with computers" 
-              fill 
-              sizes="(max-width: 1024px) 100vw, 1024px"
-              className="object-cover" 
-              priority
-              fetchPriority="high"
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center px-5 text-center md:px-6">
+        <h1 translate="no" className="notranslate hero-rise font-sans font-semibold text-[clamp(2.75rem,8vw,6rem)] leading-[0.9] tracking-tighter text-[#1d1d1f] dark:text-white flex flex-col items-center">
+          <span className="flex items-center justify-center gap-2 md:gap-4">
+            Eleva<span className="text-brand">.</span>
+          </span>
+          <span className="text-black/45 dark:text-white/45 mt-2 h-[1.2em]">
+            <TypeAnimation
+              key={language}
+              sequence={[
+                t('hero.typing1'), 3000,
+                t('hero.typing2'), 3000,
+                t('hero.typing3'), 3000,
+                t('hero.typing4'), 3000,
+                t('hero.typing5'), 3000,
+              ]}
+              wrapper="span"
+              cursor={true}
+              repeat={Infinity}
+              className="inline-block"
             />
-          </div>
-        </div>
+          </span>
+        </h1>
 
+        <p className="hero-rise mt-8 md:mt-12 max-w-2xl text-lg md:text-[1.35rem] leading-[1.6] tracking-tight font-medium text-[#1d1d1f]/70 dark:text-white/70 text-balance" style={{ animationDelay: '160ms' }}>
+          {t('hero.desc1')}<span className="text-brand font-semibold">{t('hero.desc2')}</span>
+        </p>
+
+        <ul className="hero-rise mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] font-medium text-black/55 dark:text-white/60" style={{ animationDelay: '220ms' }}>
+          {trust.map(({ Icon, text }) => (
+            <li key={text} className="flex items-center gap-2">
+              <Icon className="h-4 w-4 text-[#007AFF]" strokeWidth={2} aria-hidden="true" />{text}
+            </li>
+          ))}
+        </ul>
+
+        {/* prompt */}
+        <form onSubmit={send} className="hero-rise mt-10 md:mt-12 w-full max-w-3xl" style={{ animationDelay: '300ms' }}>
+          <div className="rounded-[28px] border border-black/[0.06] dark:border-white/10 bg-white/90 dark:bg-[#0f1729]/90 p-3 text-left shadow-[0_24px_60px_-30px_rgba(0,0,0,0.25)] backdrop-blur-xl transition-shadow focus-within:shadow-[0_24px_60px_-24px_rgba(0,90,220,0.35)]">
+            <label htmlFor="hero-prompt" className="sr-only">{t('hero.promptLabel')}</label>
+            <textarea
+              id="hero-prompt"
+              ref={inputRef}
+              rows={2}
+              value={value}
+              onChange={e => setValue(e.target.value)}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) send(e); }}
+              placeholder={reduced || focused ? examples[0] : typed}
+              className="block w-full resize-none bg-transparent px-3 pt-2 text-[16px] md:text-[17px] leading-relaxed text-[#1d1d1f] dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 outline-none"
+            />
+            <div className="mt-2 flex items-center justify-between gap-3 px-1">
+              <span className="flex items-center gap-1.5 pl-2" aria-hidden="true">
+                {[WhatsAppIcon, GmailIcon, SheetsIcon, ExcelIcon, PaperIcon].map((Icon, i) => (
+                  <span key={i} className="flex h-7 w-7 items-center justify-center rounded-full border border-black/[0.06] dark:border-white/10 bg-white dark:bg-white/[0.06]">
+                    <Icon className="h-3.5 w-3.5" />
+                  </span>
+                ))}
+              </span>
+              <button
+                type="submit"
+                aria-label={t('hero.send')}
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-[#007AFF] text-white shadow-[0_8px_20px_-8px_rgba(0,122,255,0.8)] transition-transform hover:scale-105 active:scale-95"
+              >
+                <ArrowUp className="h-5 w-5" strokeWidth={2.5} aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+            <span className="mr-1 text-[11px] font-semibold uppercase tracking-widest text-black/40 dark:text-white/40">{t('hero.orTry')}</span>
+            {chips.map(chip => (
+              <button
+                key={chip}
+                type="button"
+                onClick={() => { setValue(chip); inputRef.current?.focus(); }}
+                className="rounded-full bg-black/[0.05] dark:bg-white/[0.07] px-4 py-2 text-[14px] text-black/70 dark:text-white/75 transition-colors hover:bg-black/[0.09] dark:hover:bg-white/[0.12]"
+              >
+                {chip}
+              </button>
+            ))}
+          </div>
+        </form>
       </div>
     </section>
   );

@@ -1,15 +1,18 @@
 'use client';
 import { useState } from 'react';
 import { useLanguage } from '@/lib/i18n';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check, ChevronDown } from 'lucide-react';
+import { COUNTRIES } from '@/lib/countries';
 import { revealStyle, useInView } from './Reveal';
 
 export function Contact() {
   const { t } = useLanguage();
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [iso, setIso] = useState('PT');
+  const country = COUNTRIES.find(c => c.iso === iso) ?? COUNTRIES[0];
   const [sectionRef, inView] = useInView<HTMLElement>('0px 0px -25% 0px');
   // Staggered reveal: each item waits 0.1s longer than the previous one.
-  const reveal = (i: number) => revealStyle({ y: 60, duration: 1.2, delay: i * 0.1 });
+  const reveal = (i: number) => revealStyle({ y: 30, duration: 0.8, delay: i * 0.1 });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,6 +22,8 @@ export function Contact() {
     const name = (form.elements.namedItem('name') as HTMLInputElement).value;
     const email = (form.elements.namedItem('email') as HTMLInputElement).value;
     const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value;
+    const number = (form.elements.namedItem('phone') as HTMLInputElement).value.trim();
+    const phone = number ? `${country.dial} ${number}` : '';
 
     setFormState('loading');
     
@@ -28,7 +33,7 @@ export function Contact() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({ name, email, phone, message }),
       });
 
       if (!response.ok) {
@@ -47,141 +52,92 @@ export function Contact() {
     }
   };
 
-  return (
-    <section ref={sectionRef} id="contact" className={`py-24 md:py-40 relative z-10 overflow-hidden bg-transparent ${inView ? 'in-view' : ''}`}>
-      
-      {/* Background ambient light */}
-      <div className="absolute top-0 right-0 w-[70vw] h-[70vw] rounded-full bg-[radial-gradient(closest-side,rgba(0,122,255,0.05),rgba(0,122,255,0.03)_45%,transparent)] pointer-events-none translate-x-1/3 -translate-y-1/3"></div>
+  const field = 'w-full rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-white/[0.04] px-4 py-3 text-[15px] text-[#1d1d1f] dark:text-white placeholder:text-black/35 dark:placeholder:text-white/35 outline-none transition-[border-color,box-shadow] focus:border-[#007AFF] focus:shadow-[0_0_0_4px_rgba(0,122,255,0.12)]';
+  const label = 'mb-1.5 block text-[13px] font-medium text-black/65 dark:text-white/65';
 
-      <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative z-10">
-        
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
-          
-          {/* Left Column: Massive Editorial Typography */}
-          <div className="w-full lg:w-5/12 flex flex-col justify-start pt-4 items-center text-center lg:items-start lg:text-left">
-            <div style={reveal(0)} className="reveal mb-6 md:mb-8">
-               <span className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-brand">
-                 {t('contact.label')}
-               </span>
-            </div>
-            
-            <h2 style={reveal(1)} className="reveal font-sans font-semibold text-[clamp(3rem,6vw,6rem)] tracking-tighter leading-[0.95] text-[#1d1d1f] dark:text-white text-balance mb-8">
-              {t('contact.title1')} <br />
-              <span className="text-brand">
-                {t('contact.title2')}
-              </span>
+  return (
+    <section ref={sectionRef} id="contact" className={`py-16 md:py-24 relative z-10 bg-transparent ${inView ? 'in-view' : ''}`}>
+      <div className="max-w-6xl mx-auto px-5 md:px-6">
+        <div style={reveal(0)} className="reveal grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-16 rounded-3xl bg-black/[0.03] dark:bg-white/[0.04] p-6 sm:p-10 md:p-14">
+
+          {/* pitch */}
+          <div>
+            <span className="text-[13px] font-semibold text-black/45 dark:text-white/45">{t('contact.label')}</span>
+            <h2 className="mt-3 font-sans text-[clamp(1.75rem,3.4vw,2.6rem)] leading-[1.15] tracking-tight font-semibold text-[#1d1d1f] dark:text-white text-balance">
+              {t('contact.title1')}<span className="text-black/40 dark:text-white/40">{t('contact.title2')}</span>
             </h2>
-            
-            <p style={reveal(2)} className="reveal text-black/60 dark:text-white/60 font-medium text-lg md:text-xl max-w-md leading-relaxed text-balance">
+            <p className="mt-5 max-w-md text-base md:text-lg leading-relaxed text-black/60 dark:text-white/60 text-pretty">
               {t('contact.desc')}
             </p>
+            <ul className="mt-8 flex flex-col gap-3">
+              {(['contact.p1', 'contact.p2', 'contact.p3'] as const).map(k => (
+                <li key={k} className="flex items-center gap-2.5 text-[15px] font-medium text-[#1d1d1f] dark:text-white">
+                  <Check className="h-4 w-4 shrink-0 text-[#007AFF]" strokeWidth={2.5} aria-hidden="true" />
+                  {t(k)}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Right Column: Awwwards-style Minimalist Form */}
-          <div className="w-full lg:w-7/12 mt-8 lg:mt-0">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-10 md:gap-16 w-full max-w-2xl lg:ml-auto">
-              
-              {/* Name Input */}
-              <div style={reveal(3)} className="reveal relative group">
-                <input 
-                  type="text" 
-                  id="name" 
-                  name="name"
-                  required
-                  placeholder=" "
-                  className="peer w-full bg-transparent border-b-2 border-black/10 dark:border-white/20 py-4 md:py-6 text-2xl md:text-4xl text-[#1d1d1f] dark:text-white font-medium outline-none transition-colors focus:border-[#007AFF] text-center md:text-left"
-                />
-                <label 
-                  htmlFor="name" 
-                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/45 dark:text-white/55 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-brand peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/55 dark:peer-valid:text-white/55 peer-valid:font-bold whitespace-nowrap"
-                >
-                  {t('contact.name')}
-                </label>
+          {/* form card */}
+          <form onSubmit={handleSubmit} className="rounded-2xl border border-black/[0.06] dark:border-white/10 bg-white dark:bg-[#0f1729] p-5 sm:p-7 shadow-[0_24px_48px_-28px_rgba(0,0,0,0.3)]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="name" className={label}>{t('contact.name')}</label>
+                <input type="text" id="name" name="name" required autoComplete="name" className={field} />
               </div>
-              
-              {/* Email Input */}
-              <div style={reveal(4)} className="reveal relative group">
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email"
-                  required
-                  placeholder=" "
-                  className="peer w-full bg-transparent border-b-2 border-black/10 dark:border-white/20 py-4 md:py-6 text-2xl md:text-4xl text-[#1d1d1f] dark:text-white font-medium outline-none transition-colors focus:border-[#007AFF] text-center md:text-left"
-                />
-                <label 
-                  htmlFor="email" 
-                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-1/2 -translate-y-1/2 text-2xl md:text-4xl text-black/45 dark:text-white/55 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-brand peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/55 dark:peer-valid:text-white/55 peer-valid:font-bold whitespace-nowrap"
-                >
-                  {t('contact.email')}
-                </label>
+              <div>
+                <label htmlFor="email" className={label}>{t('contact.email')}</label>
+                <input type="email" id="email" name="email" required autoComplete="email" className={field} />
               </div>
-
-              {/* Message Input */}
-              <div style={reveal(5)} className="reveal relative group mt-4">
-                <textarea 
-                  id="message" 
-                  name="message"
-                  required
-                  rows={1}
-                  placeholder=" "
-                  className="peer w-full bg-transparent border-b-2 border-black/10 dark:border-white/20 py-4 md:py-6 text-2xl md:text-3xl text-[#1d1d1f] dark:text-white font-medium outline-none transition-colors focus:border-[#007AFF] resize-none overflow-hidden min-h-[80px] text-center md:text-left"
-                  onInput={(e) => {
-                    // Auto-resize textarea
-                    const target = e.target as HTMLTextAreaElement;
-                    requestAnimationFrame(() => {
-                      target.style.height = 'auto';
-                      target.style.height = `${target.scrollHeight}px`;
-                    });
-                  }}
-                />
-                <label 
-                  htmlFor="message" 
-                  className="absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-6 -translate-y-1/2 text-2xl md:text-3xl text-black/45 dark:text-white/55 font-medium pointer-events-none transition-[transform,opacity,box-shadow] duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:uppercase peer-focus:tracking-widest peer-focus:text-brand peer-focus:font-bold peer-valid:-top-4 peer-valid:text-xs peer-valid:uppercase peer-valid:tracking-widest peer-valid:text-black/55 dark:peer-valid:text-white/55 peer-valid:font-bold whitespace-nowrap"
-                >
-                  {t('contact.message')}
-                </label>
-              </div>
-
-              {/* Submit Button */}
-              <div style={reveal(6)} className="reveal pt-8 md:pt-12 flex justify-center md:justify-start">
-                <button 
-                  type="submit"
-                  disabled={formState !== 'idle'}
-                  className="group relative inline-flex items-center gap-6 overflow-hidden rounded-full bg-[#1d1d1f] dark:bg-white/10 px-10 py-6 font-semibold text-white transition-[transform,opacity,box-shadow] duration-300 hover:bg-black hover:shadow-[0_10px_40px_rgba(0,122,255,0.2)] disabled:opacity-70"
-                >
-                  <span className="text-lg md:text-xl tracking-tight relative z-10">
-                    {formState === 'idle' && t('contact.submit')}
-                    {formState === 'loading' && t('contact.loading')}
-                    {formState === 'success' && t('contact.success')}
+            </div>
+            <div className="mt-4">
+              <label htmlFor="phone" className={label}>{t('contact.phone')} <span className="text-black/40 dark:text-white/40">{t('contact.optional')}</span></label>
+              <div className="flex rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-white/[0.04] transition-[border-color,box-shadow] focus-within:border-[#007AFF] focus-within:shadow-[0_0_0_4px_rgba(0,122,255,0.12)]">
+                {/* country code: native select (accessible, good on mobile) under a compact country + code label */}
+                <div className="relative flex shrink-0 items-center border-r border-black/10 dark:border-white/10">
+                  <span className="pointer-events-none flex items-center gap-1.5 pl-3.5 pr-2 text-[15px] text-[#1d1d1f] dark:text-white" aria-hidden="true">
+                    <span className="rounded-md bg-black/[0.06] dark:bg-white/10 px-1.5 py-0.5 text-[11px] font-semibold tracking-wide text-black/60 dark:text-white/70">{country.iso}</span>{country.dial}
+                    <ChevronDown className="h-3.5 w-3.5 text-black/40 dark:text-white/40" />
                   </span>
-                  
-                  {formState === 'idle' && (
-                    <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-110">
-                      <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                    </div>
-                  )}
-
-                  {formState === 'loading' && (
-                    <div className="relative z-10 flex h-10 w-10 items-center justify-center">
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    </div>
-                  )}
-
-                  {formState === 'success' && (
-                    <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-green-500/20 text-green-400">
-                      <Check className="h-5 w-5" />
-                    </div>
-                  )}
-                  
-                  {/* Hover Sweep Effect */}
-                  <div className="absolute inset-0 z-0 h-full w-full -translate-x-full bg-[#007AFF] transition-transform duration-500 group-hover:translate-x-0"></div>
-                </button>
+                  <select
+                    aria-label={t('contact.country')}
+                    value={country.iso}
+                    onChange={e => setIso(e.target.value)}
+                    className="absolute inset-0 cursor-pointer opacity-0"
+                  >
+                    {COUNTRIES.map(c => (
+                      <option key={c.iso} value={c.iso}>{c.name} ({c.dial})</option>
+                    ))}
+                  </select>
+                </div>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  autoComplete="tel-national"
+                  inputMode="tel"
+                  pattern="[0-9 ()\-]{6,20}"
+                  title={t('contact.phoneHint')}
+                  placeholder="912 345 678"
+                  className="min-w-0 flex-1 rounded-r-xl bg-transparent px-4 py-3 text-[15px] text-[#1d1d1f] dark:text-white placeholder:text-black/35 dark:placeholder:text-white/35 outline-none"
+                />
               </div>
-
-            </form>
-          </div>
-
+            </div>
+            <div className="mt-4">
+              <label htmlFor="message" className={label}>{t('contact.message')}</label>
+              <textarea id="message" name="message" required rows={5} className={`${field} resize-none`} placeholder={t('contact.placeholder')} />
+            </div>
+            <button
+              type="submit"
+              disabled={formState !== 'idle'}
+              className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#1d1d1f] dark:bg-white px-6 text-[15px] font-semibold text-white dark:text-[#020617] transition-colors hover:bg-black dark:hover:bg-white/90 disabled:opacity-70"
+            >
+              {formState === 'idle' && <>{t('contact.submit')}<ArrowRight className="h-4 w-4" aria-hidden="true" /></>}
+              {formState === 'loading' && <><span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden="true"></span>{t('contact.loading')}</>}
+              {formState === 'success' && <><Check className="h-4 w-4 text-[#28c840]" aria-hidden="true" />{t('contact.success')}</>}
+            </button>
+          </form>
         </div>
       </div>
     </section>

@@ -48,12 +48,10 @@ export function LanguageToggle() {
       <button
         type="button"
         onClick={handleToggle}
-        className="flex items-center gap-2 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 p-1.5 md:px-3 md:py-1.5 rounded-full transition-colors cursor-pointer group pointer-events-auto border border-black/10 dark:border-white/20 shrink-0"
+        className="flex h-10 items-center justify-center rounded-full px-3 text-[13px] font-semibold text-black/70 dark:text-white/75 transition-colors hover:bg-black/[0.05] dark:hover:bg-white/[0.08] cursor-pointer pointer-events-auto shrink-0"
       >
-        <span className="relative w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-white dark:bg-white/5 shadow-sm border border-black/5 dark:border-white/10 shrink-0 text-[8px] font-bold text-[#111111] dark:text-white">
-          {language === 'pt' ? 'PT' : 'EN'}
-        </span>
-        <span className="sr-only lg:not-sr-only text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-[#111111] dark:text-white whitespace-nowrap lg:pr-2">
+        <span aria-hidden="true">{language === 'pt' ? 'PT' : 'EN'}</span>
+        <span className="sr-only">
           {language === 'pt' ? 'Switch to English' : 'Mudar para PT'}
         </span>
       </button>

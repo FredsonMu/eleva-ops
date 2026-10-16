@@ -110,7 +110,7 @@ export function PrivacyPolicyContent() {
   const c = content[language];
 
   return (
-    <div lang={language === 'pt' ? 'pt-PT' : 'en'} className="max-w-5xl mx-auto px-5 md:px-6 pt-36 md:pt-44 pb-24 md:pb-36">
+    <div lang={language === 'pt' ? 'pt-PT' : 'en'} className="max-w-6xl mx-auto px-5 md:px-6 pt-36 md:pt-44 pb-24 md:pb-36">
       <header className="mb-16 md:mb-24">
         <h1 className="font-sans font-semibold tracking-[-0.04em] leading-[1] text-[clamp(2.75rem,8vw,5rem)]">{c.title}</h1>
         <p className="mt-6 text-lg md:text-xl font-medium text-black/60 dark:text-white/65">{c.intro}</p>
