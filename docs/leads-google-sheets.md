@@ -17,7 +17,7 @@ The site only shows "Your guide is ready." after the lead was actually stored (s
 
 ### 1. Create the sheet
 
-1. Go to [sheets.new](https://sheets.new) with the company Google account and name it, e.g. **Eleva Ops – Leads**.
+1. Go to [sheets.new](https://sheets.new) with the Google account that will own the leads (a personal account works) and name it, e.g. **Eleva Ops – Leads**.
 2. *File → Settings → Time zone*: **(GMT+01:00) Lisbon**, so dates are in Portuguese time.
 
 ### 2. Add the script
@@ -93,7 +93,7 @@ function json(obj) {
 
 1. *Deploy → New deployment* → type **Web app**.
 2. *Execute as*: **Me**. *Who has access*: **Anyone** (required so the website can send leads; the secret protects it).
-3. *Deploy*, authorise with the company account, and copy the **Web app URL** (ends in `/exec`).
+3. *Deploy*, authorise with that same Google account, and copy the **Web app URL** (ends in `/exec`).
 
 > If you change the script later, use *Deploy → Manage deployments → Edit → New version*, so the URL stays the same.
 

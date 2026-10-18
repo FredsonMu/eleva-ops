@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { EMAIL_FROM, TEAM_INBOX, escapeHtml, getResend } from '@/lib/email';
 import { GUIDE, validateLead } from '@/lib/guide';
 import { appendLeadToSheet, isSheetConfigured } from '@/lib/leads-sheet';
+import { sendGuideToLead } from '@/lib/guide-email';
 
 // Registers a lead for the "7 AI Agents" guide: appends it to the leads Google Sheet and
 // emails a notification to the team inbox through Resend. The client only unlocks the
@@ -120,5 +121,9 @@ export async function POST(request: Request) {
     return fail(502, 'We couldn’t register your request. Please try again in a moment.');
   }
 
-  return NextResponse.json({ ok: true, leadId, download: GUIDE.pdf });
+  // Copy of the guide in their inbox, so it isn't lost if they close the page. A failure here
+  // doesn't block the on-screen download.
+  const delivered = await sendGuideToLead(email, firstName);
+
+  return NextResponse.json({ ok: true, leadId, download: GUIDE.pdf, emailed: delivered });
 }

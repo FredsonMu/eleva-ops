@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowRight, Check, Download, Loader2, X } from 'lucide-react';
 import { GUIDE, LIMITS } from '@/lib/guide';
 import { useLanguage } from '@/lib/i18n';
@@ -34,6 +35,9 @@ const COPY = {
     consent: 'Also send me occasional emails about automation and AI.',
     privacy: 'Privacy Policy',
     ready: 'Your guide is ready.',
+    inbox: 'We’ve also sent it to your inbox.',
+    nextStep: 'Want help choosing your first agent?',
+    book: 'Book a free diagnosis',
     download: 'Download PDF',
     close: 'Close',
     country: 'Country code',
@@ -51,6 +55,9 @@ const COPY = {
     consent: 'Enviem-me também emails ocasionais sobre automação e IA.',
     privacy: 'Política de Privacidade',
     ready: 'O seu guia está pronto.',
+    inbox: 'Também o enviámos para o seu email.',
+    nextStep: 'Quer ajuda a escolher o primeiro agente?',
+    book: 'Agendar diagnóstico gratuito',
     download: 'Descarregar PDF',
     close: 'Fechar',
     country: 'Indicativo do país',
@@ -76,6 +83,7 @@ export function GuidePopup() {
   const [status, setStatus] = useState<'form' | 'sending' | 'done'>('form');
   const [error, setError] = useState('');
   const [download, setDownload] = useState<string>(GUIDE.pdf);
+  const [emailed, setEmailed] = useState(false);
   const startedAt = useRef(0);
   const formRef = useRef<HTMLFormElement>(null);
   const field = STEPS[index];
@@ -130,6 +138,7 @@ export function GuidePopup() {
         return;
       }
       setDownload(result.download ?? GUIDE.pdf);
+      setEmailed(result.emailed === true);
       setStatus('done');
       writeState({ joined: true });
       window.dispatchEvent(new CustomEvent(LEAD_EVENT, { detail: { leadId: result.leadId } }));
@@ -184,13 +193,20 @@ export function GuidePopup() {
         </div>
 
         {status === 'done' ? (
-          <div className="mt-4 flex items-center justify-between gap-3 rounded-xl bg-[#28c840]/10 px-3 py-2.5" role="status">
-            <span className="flex items-center gap-2 text-[13px] font-semibold text-[#1a9e33] dark:text-[#5fe07a]">
-              <Check className="h-4 w-4" strokeWidth={3} aria-hidden="true" />{c.ready}
-            </span>
-            <a href={download} download={GUIDE.pdfFileName} className="inline-flex items-center gap-1.5 rounded-full bg-[#1d1d1f] dark:bg-white px-3 py-1.5 text-[12px] font-semibold text-white dark:text-[#020617]">
-              <Download className="h-3.5 w-3.5" aria-hidden="true" />{c.download}
-            </a>
+          <div className="guide-step-in mt-4" role="status">
+            <div className="flex items-center justify-between gap-3 rounded-xl bg-[#28c840]/10 px-3 py-2.5">
+              <span className="flex items-center gap-2 text-[13px] font-semibold text-[#1a9e33] dark:text-[#5fe07a]">
+                <Check className="h-4 w-4" strokeWidth={3} aria-hidden="true" />{c.ready}
+              </span>
+              <a href={download} download={GUIDE.pdfFileName} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1d1d1f] dark:bg-white px-3 py-1.5 text-[12px] font-semibold text-white dark:text-[#020617]">
+                <Download className="h-3.5 w-3.5" aria-hidden="true" />{c.download}
+              </a>
+            </div>
+            {emailed && <p className="mt-2 px-1 text-[12px] text-black/55 dark:text-white/55">{c.inbox}</p>}
+            <Link href="/#contact" onClick={close} className="mt-3 flex flex-col gap-1 rounded-xl border border-black/[0.08] dark:border-white/10 px-3 py-2.5 text-[13px] transition-colors hover:bg-black/[0.03] dark:hover:bg-white/[0.05]">
+              <span className="text-black/70 dark:text-white/75">{c.nextStep}</span>
+              <span className="flex items-center gap-1 font-semibold text-brand">{c.book}<ArrowRight className="h-3.5 w-3.5" aria-hidden="true" /></span>
+            </Link>
           </div>
         ) : (
           <form ref={formRef} onSubmit={submit} noValidate className="mt-4">

@@ -17,6 +17,7 @@ export function GuideLeadForm() {
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [download, setDownload] = useState<string>(GUIDE.pdf);
+  const [emailed, setEmailed] = useState(false);
   const startedAt = useRef(0);
   const successHeading = useRef<HTMLHeadingElement>(null);
   const ids = { name: useId(), email: useId(), company: useId(), phone: useId(), consent: useId(), error: useId() };
@@ -76,6 +77,7 @@ export function GuideLeadForm() {
       }
 
       setDownload(result.download ?? GUIDE.pdf);
+      setEmailed(result.emailed === true);
       setStatus('success');
       // Single, post-validation signal for analytics (e.g. a future Meta Pixel "Lead" event,
       // using leadId as the event id to deduplicate with the Conversions API).
@@ -99,7 +101,7 @@ export function GuideLeadForm() {
           Your guide is ready.
         </h3>
         <p className="mt-3 text-base md:text-lg text-black/60 dark:text-white/60 font-medium">
-          Thank you. Download your copy below.
+          {emailed ? 'Thank you. Download it below — we’ve also sent a copy to your inbox.' : 'Thank you. Download your copy below.'}
         </p>
         <a
           href={download}
@@ -110,6 +112,19 @@ export function GuideLeadForm() {
           Download the Guide
         </a>
         <p className="mt-4 text-xs font-medium text-black/55 dark:text-white/55">PDF · 10 pages · 190 KB</p>
+
+        {/* next step */}
+        <div className="mt-10 w-full border-t border-black/[0.08] dark:border-white/10 pt-8">
+          <p className="font-sans text-lg font-semibold tracking-tight text-[#1d1d1f] dark:text-white">Want help choosing your first agent?</p>
+          <p className="mt-2 text-sm leading-relaxed text-black/60 dark:text-white/60">Tell us one task your team repeats every week. The diagnosis is free and there’s no commitment.</p>
+          <Link
+            href="/#contact"
+            className="group mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#1d1d1f] dark:bg-white px-6 text-[14px] font-semibold text-white dark:text-[#020617] transition-colors hover:bg-black dark:hover:bg-white/90"
+          >
+            Book a free diagnosis
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     );
   }
