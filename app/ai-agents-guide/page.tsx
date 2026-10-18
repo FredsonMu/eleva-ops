@@ -39,7 +39,7 @@ const DIAGNOSIS_HREF = 'mailto:contact@elevaops.com?subject=Free%20Diagnosis%20%
 
 const included = [
   { icon: Bot, text: 'Seven practical AI agent use cases for your business', visual: 'agents' },
-  { icon: Building2, text: 'Real-world company examples', visual: 'companies' },
+  { icon: Building2, text: 'Business examples for sales, onboarding and reporting', visual: 'companies' },
   { icon: Workflow, text: 'Three complete workflow examples', visual: 'workflows' },
   { icon: ListChecks, text: 'A business readiness checklist', visual: 'checklist' },
   { icon: Gauge, text: 'A simple Automation Opportunity Score', visual: 'score' },

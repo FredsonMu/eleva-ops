@@ -3,7 +3,7 @@
 export const GUIDE = {
   path: '/ai-agents-guide',
   title: '7 AI Agents Your Business Could Be Using Right Now',
-  pdf: '/guides/7-ai-agents-your-business-could-be-using-right-now.pdf',
+  pdf: '/guides/eleva-ops-7-ai-agents-guide.pdf',
   pdfFileName: '7 AI Agents Your Business Could Be Using Right Now - Eleva Ops.pdf',
   cover: '/guides/ai-agents-guide-cover.webp',
   coverWidth: 1190,

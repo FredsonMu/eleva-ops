@@ -109,7 +109,7 @@ export function GuideLeadForm() {
           <Download className="h-5 w-5" aria-hidden="true" />
           Download the Guide
         </a>
-        <p className="mt-4 text-xs font-medium text-black/55 dark:text-white/55">PDF · 17 MB</p>
+        <p className="mt-4 text-xs font-medium text-black/55 dark:text-white/55">PDF · 10 pages · 190 KB</p>
       </div>
     );
   }
