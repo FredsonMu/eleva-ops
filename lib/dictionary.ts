@@ -237,5 +237,6 @@ export const dict = {
   'footer.contact': { pt: 'Falar com a Equipa', en: 'Talk with the Team' },
   'footer.avail': { pt: 'Estúdio Disponível', en: 'Studio Available' },
   'footer.desc': { pt: 'Aceitamos um número muito reduzido de desafios complexos por mês para garantir que resolvemos o problema a 100%.', en: 'We accept a very small number of complex challenges per month to ensure we solve the problem 100%.' },
+  'footer.cookies': { pt: 'Cookies', en: 'Cookie settings' },
   'footer.rights': { pt: '© 2026 Eleva Ops. Focados no seu crescimento.', en: '© 2026 Eleva Ops. Focused on your growth.' },
 } as const;

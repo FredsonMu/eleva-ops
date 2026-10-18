@@ -3,6 +3,8 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { HtmlLangSync, LanguageProvider } from '@/lib/i18n';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { CookieBanner } from '@/components/CookieBanner';
+import { MetaPixel } from '@/components/MetaPixel';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -152,6 +154,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <LanguageProvider>
             <HtmlLangSync />
             {children}
+            <CookieBanner />
+            <MetaPixel />
           </LanguageProvider>
         </ThemeProvider>
       </body>

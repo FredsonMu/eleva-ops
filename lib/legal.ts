@@ -10,5 +10,5 @@ export const LEGAL = {
   address: null as string | null,
   /** Company registration / tax number (NIPC). */
   registrationNumber: null as string | null,
-  effectiveDate: '11 October 2026',
+  effectiveDate: '18 October 2026',
 } as const;

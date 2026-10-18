@@ -6,7 +6,7 @@ import { Brand } from '../Brand';
 
 // Short Privacy Policy in English and Portuguese (follows the site's language toggle).
 // Aligned with the GDPR, Portuguese Law 58/2019 and Law 41/2004 (cookies and marketing).
-// Keep it in sync with what the site actually does (e.g. if a Pixel is ever added).
+// Keep it in sync with what the site actually does (Meta Pixel only after consent).
 
 type Section = { title: string; body: ReactNode[] };
 
@@ -39,12 +39,15 @@ const content: Record<'en' | 'pt', { title: string; intro: string; updated: stri
       },
       {
         title: 'Cookies',
-        body: ['We don’t use cookies. We only save your light or dark theme choice on your device.'],
+        body: [
+          'If you accept, we use the Meta Pixel, which sets cookies so we can measure which ads lead to guide requests. It only loads after you click Accept, and you can change your choice at any time from “Cookie settings” at the bottom of the page.',
+          'Without your consent we use no cookies. We only save your theme and cookie choices on your device.',
+        ],
       },
       {
         title: 'Who we share it with',
         body: [
-          'Only Vercel (website hosting), Resend (email delivery) and Google (Google Sheets, where we keep the list of guide requests), which act on our behalf. When they process data outside the EU, they do so with the safeguards required by the GDPR. We never sell your data.',
+          'Only Vercel (website hosting), Resend (email delivery) and Google (Google Sheets, where we keep the list of guide requests), which act on our behalf, and, only if you accept cookies, Meta Platforms (ad measurement). When they process data outside the EU, they do so with the safeguards required by the GDPR. We never sell your data.',
         ],
       },
       {
@@ -83,12 +86,15 @@ const content: Record<'en' | 'pt', { title: string; intro: string; updated: stri
       },
       {
         title: 'Cookies',
-        body: ['Não usamos cookies. Apenas guardamos no seu dispositivo a sua escolha de tema claro ou escuro.'],
+        body: [
+          'Se aceitar, usamos o Píxel da Meta, que coloca cookies para medirmos que anúncios levam a pedidos de guias. Só é carregado depois de clicar em Aceitar, e pode mudar a sua escolha a qualquer momento em “Cookies”, no fundo da página.',
+          'Sem o seu consentimento não usamos cookies. Apenas guardamos no seu dispositivo as suas escolhas de tema e de cookies.',
+        ],
       },
       {
         title: 'Com quem partilhamos',
         body: [
-          'Apenas com a Vercel (alojamento do website), a Resend (envio de emails) e a Google (Google Sheets, onde guardamos a lista de pedidos de guias), que atuam em nosso nome. Quando tratam dados fora da UE, fazem-no com as garantias exigidas pelo RGPD. Nunca vendemos os seus dados.',
+          'Apenas com a Vercel (alojamento do website), a Resend (envio de emails) e a Google (Google Sheets, onde guardamos a lista de pedidos de guias), que atuam em nosso nome, e, apenas se aceitar cookies, a Meta Platforms (medição de anúncios). Quando tratam dados fora da UE, fazem-no com as garantias exigidas pelo RGPD. Nunca vendemos os seus dados.',
         ],
       },
       {

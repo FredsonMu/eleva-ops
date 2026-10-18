@@ -7,6 +7,7 @@ import { useLanguage } from '@/lib/i18n';
 import { captureTracking, getTracking } from './guide/tracking';
 import { LEAD_EVENT } from './guide/GuideLeadForm';
 import { PhoneInput } from './PhoneInput';
+import { CONSENT_EVENT, getConsent } from '@/lib/consent';
 
 // Small corner card for the "7 AI Agents" guide. The cover peeks out of the top edge, and the
 // sign-up asks the same fields as the guide page (email, first name, company, phone) one at a
@@ -86,6 +87,7 @@ export function GuidePopup() {
     let done = false;
     const show = () => {
       if (done) return;
+      if (getConsent() === null) { window.addEventListener(CONSENT_EVENT, show, { once: true }); return; }
       done = true;
       startedAt.current = Date.now();
       captureTracking();

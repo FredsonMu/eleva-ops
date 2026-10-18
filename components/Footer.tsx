@@ -6,6 +6,7 @@ import { BrandText } from './Brand';
 import { LogoMark } from './LogoMark';
 import { Wordmark } from './Wordmark';
 import { Reveal } from './Reveal';
+import { openConsentSettings } from '@/lib/consent';
 
 export function Footer() {
   const { t } = useLanguage();
@@ -49,6 +50,7 @@ export function Footer() {
             {links.map(l => (
               <Link key={l.href} href={l.href} className="transition-colors hover:text-[#1d1d1f] dark:hover:text-white">{l.label}</Link>
             ))}
+            <button type="button" onClick={openConsentSettings} className="transition-colors hover:text-[#1d1d1f] dark:hover:text-white">{t('footer.cookies')}</button>
             <a href="https://www.instagram.com/elevaops/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 transition-colors hover:text-[#1d1d1f] dark:hover:text-white">
               <Instagram className="h-4 w-4" aria-hidden="true" />Instagram
             </a>
