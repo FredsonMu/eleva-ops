@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Check, Download, Loader2, X } from 'lucide-react';
-import { GUIDE, LIMITS } from '@/lib/guide';
+import { GUIDES, LIMITS } from '@/lib/guide';
 import { useLanguage } from '@/lib/i18n';
 import { captureTracking, getTracking } from './guide/tracking';
 import { LEAD_EVENT } from './guide/GuideLeadForm';
@@ -47,7 +47,7 @@ const COPY = {
   },
   pt: {
     label: 'Guia gratuito',
-    title: '7 agentes de IA que a sua empresa pode usar já.',
+    title: '7 agentes de IA que a sua empresa já pode começar a utilizar.',
     q: { email: 'O seu email', firstName: 'O seu primeiro nome', companyName: 'Nome da empresa (opcional)', phone: 'Telefone (opcional)' },
     next: 'Continuar',
     send: 'Receber o guia',
@@ -76,13 +76,15 @@ function writeState(state: { closedAt?: number; joined?: boolean }) {
 
 export function GuidePopup() {
   const { language } = useLanguage();
-  const c = COPY[language === 'pt' ? 'pt' : 'en'];
+  const lang = language === 'pt' ? 'pt' : 'en';
+  const c = COPY[lang];
+  const guide = GUIDES[lang];
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
   const [values, setValues] = useState<Record<Field, string>>({ email: '', firstName: '', companyName: '', phone: '' });
   const [status, setStatus] = useState<'form' | 'sending' | 'done'>('form');
   const [error, setError] = useState('');
-  const [download, setDownload] = useState<string>(GUIDE.pdf);
+  const [download, setDownload] = useState<string>(guide.pdf);
   const [emailed, setEmailed] = useState(false);
   const startedAt = useRef(0);
   const formRef = useRef<HTMLFormElement>(null);
@@ -128,7 +130,7 @@ export function GuidePopup() {
       const response = await fetch('/api/guide-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...all, marketingConsent: consent, website, startedAt: startedAt.current, tracking: getTracking() }),
+        body: JSON.stringify({ ...all, marketingConsent: consent, language: lang, website, startedAt: startedAt.current, tracking: getTracking() }),
       });
       const result = await response.json().catch(() => null);
       if (!response.ok || !result?.ok) {
@@ -137,7 +139,7 @@ export function GuidePopup() {
         if (result?.field) setIndex(STEPS.indexOf(result.field as Field));
         return;
       }
-      setDownload(result.download ?? GUIDE.pdf);
+      setDownload(result.download ?? guide.pdf);
       setEmailed(result.emailed === true);
       setStatus('done');
       writeState({ joined: true });
@@ -173,7 +175,7 @@ export function GuidePopup() {
       <div className="relative rounded-2xl border border-black/[0.08] dark:border-white/10 bg-white dark:bg-[#0f1729] p-4 pt-5 shadow-[0_24px_60px_-20px_rgba(0,30,90,0.35)]">
         {/* the guide peeks out of the card */}
         <div className="guide-peek absolute -top-9 left-4 w-14 rotate-[-8deg]" aria-hidden="true">
-          <Image src={GUIDE.cover} alt="" width={GUIDE.coverWidth} height={GUIDE.coverHeight} sizes="56px" className="rounded-[4px] shadow-[0_10px_20px_-8px_rgba(0,0,0,0.45)]" />
+          <Image src={guide.cover} alt="" width={guide.coverWidth} height={guide.coverHeight} sizes="56px" className="rounded-[4px] shadow-[0_10px_20px_-8px_rgba(0,0,0,0.45)]" />
         </div>
 
         <button
@@ -198,7 +200,7 @@ export function GuidePopup() {
               <span className="flex items-center gap-2 text-[13px] font-semibold text-[#1a9e33] dark:text-[#5fe07a]">
                 <Check className="h-4 w-4" strokeWidth={3} aria-hidden="true" />{c.ready}
               </span>
-              <a href={download} download={GUIDE.pdfFileName} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1d1d1f] dark:bg-white px-3 py-1.5 text-[12px] font-semibold text-white dark:text-[#020617]">
+              <a href={download} download={guide.pdfFileName} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1d1d1f] dark:bg-white px-3 py-1.5 text-[12px] font-semibold text-white dark:text-[#020617]">
                 <Download className="h-3.5 w-3.5" aria-hidden="true" />{c.download}
               </a>
             </div>

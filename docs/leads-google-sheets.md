@@ -1,14 +1,14 @@
 # Leads table in Google Sheets
 
-Every request for the guide at `/ai-agents-guide` is added as a new row to a Google Sheet.
+Every request for the guide (English at `/ai-agents-guide`, Portuguese at `/guia-agentes-ia`, or the homepage card) is added as a new row to a Google Sheet.
 The team still receives an email notification for each lead (Resend), when it is configured.
 
 The site only shows "Your guide is ready." after the lead was actually stored (sheet and/or email).
 
 ## Columns
 
-| Data | Nome | Email | Aceita marketing | Origem | Meio | Campanha | Anúncio | Conjunto de anúncios | ID da lead |
-|---|---|---|---|---|---|---|---|---|---|
+| Data | Nome | Email | Aceita marketing | Origem | Meio | Campanha | Anúncio | Conjunto de anúncios | ID da lead | Empresa | Telefone | Idioma |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
 - **Aceita marketing**: `Sim` only if the person ticked the optional box. Only these people may receive marketing emails.
 - **Origem / Meio / Campanha / Anúncio / Conjunto**: the `utm_source`, `utm_medium`, `utm_campaign`, `utm_content` and `utm_term` of the ad link (empty for direct visits).
@@ -34,7 +34,7 @@ The site only shows "Your guide is ready." after the lead was actually stored (s
 // Eleva Ops — receives guide leads from elevaops.com and appends them to the "Leads" tab.
 const SECRET = 'PASTE_THE_SECRET_HERE';
 const SHEET_NAME = 'Leads';
-const HEADERS = ['Data', 'Nome', 'Email', 'Aceita marketing', 'Origem', 'Meio', 'Campanha', 'Anúncio', 'Conjunto de anúncios', 'ID da lead', 'Empresa', 'Telefone'];
+const HEADERS = ['Data', 'Nome', 'Email', 'Aceita marketing', 'Origem', 'Meio', 'Campanha', 'Anúncio', 'Conjunto de anúncios', 'ID da lead', 'Empresa', 'Telefone', 'Idioma'];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -57,6 +57,7 @@ function doPost(e) {
       clean(data.leadId),
       clean(data.companyName),
       clean(data.phone),
+      clean(data.language),
     ]);
     return json({ ok: true });
   } catch (err) {
