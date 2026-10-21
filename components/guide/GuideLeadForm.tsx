@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Check, Download, Loader2 } from 'lucide-react';
+import { ArrowRight, Check, Download, Loader2, Mail } from 'lucide-react';
 import { GUIDES, LIMITS, otherLang } from '@/lib/guide';
 import { useLanguage } from '@/lib/i18n';
 import { captureTracking, getTracking } from './tracking';
@@ -17,7 +17,7 @@ const COPY = {
   en: {
     noName: 'Please enter your first name.', noEmail: 'Please enter your email.', badEmail: 'Please enter a valid email address.',
     generic: 'Something went wrong. Please try again.', offline: 'We couldn’t reach the server. Check your connection and try again.',
-    ready: 'Your guide is ready.', thanks: 'Thank you. Download your copy below.', thanksInbox: 'Thank you. Download it below — we’ve also sent a copy to your inbox.',
+    ready: 'Check your inbox.', sentTo: 'We’ve sent the guide to', spam: 'It usually arrives within a minute. Not there? Check your spam or promotions folder.', fallbackTitle: 'Your guide is ready.', thanks: 'We couldn’t email it right now, so download your copy below.',
     download: 'Download the Guide', other: 'Also available in Portuguese',
     helpTitle: 'Want help choosing your first agent?', helpBody: 'Tell us one task your team repeats every week. The diagnosis is free and there’s no commitment.', book: 'Book a free diagnosis',
     company: 'Company name', optional: '(optional)', companyPh: 'Your company', name: 'First name', namePh: 'Your first name', email: 'Email', emailPh: 'you@example.com',
@@ -28,7 +28,7 @@ const COPY = {
   pt: {
     noName: 'Introduza o seu primeiro nome.', noEmail: 'Introduza o seu email.', badEmail: 'Introduza um email válido.',
     generic: 'Algo correu mal. Tente novamente.', offline: 'Não foi possível contactar o servidor. Verifique a ligação e tente novamente.',
-    ready: 'O seu guia está pronto.', thanks: 'Obrigado. Descarregue o seu exemplar abaixo.', thanksInbox: 'Obrigado. Descarregue-o abaixo — também enviámos uma cópia para o seu email.',
+    ready: 'Verifique o seu email.', sentTo: 'Enviámos o guia para', spam: 'Normalmente chega em menos de um minuto. Não está lá? Veja a pasta de spam ou de promoções.', fallbackTitle: 'O seu guia está pronto.', thanks: 'Não conseguimos enviá-lo por email agora, por isso pode descarregá-lo abaixo.',
     download: 'Descarregar o guia', other: 'Também disponível em inglês',
     helpTitle: 'Quer ajuda a escolher o primeiro agente?', helpBody: 'Diga-nos uma tarefa que a sua equipa repete todas as semanas. O diagnóstico é gratuito e sem compromisso.', book: 'Agendar diagnóstico gratuito',
     company: 'Nome da empresa', optional: '(opcional)', companyPh: 'A sua empresa', name: 'Primeiro nome', namePh: 'O seu primeiro nome', email: 'Email', emailPh: 'nome@empresa.pt',
@@ -49,6 +49,7 @@ export function GuideLeadForm() {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [download, setDownload] = useState<string>(guide.pdf);
   const [emailed, setEmailed] = useState(false);
+  const [sentTo, setSentTo] = useState('');
   const startedAt = useRef(0);
   const successHeading = useRef<HTMLHeadingElement>(null);
   const ids = { name: useId(), email: useId(), company: useId(), phone: useId(), consent: useId(), error: useId() };
@@ -110,6 +111,7 @@ export function GuideLeadForm() {
 
       setDownload(result.download ?? guide.pdf);
       setEmailed(result.emailed === true);
+      setSentTo(email);
       setStatus('success');
       // Single, post-validation signal for analytics (e.g. a future Meta Pixel "Lead" event,
       // using leadId as the event id to deduplicate with the Conversions API).
@@ -126,14 +128,23 @@ export function GuideLeadForm() {
         <div className="relative mb-7">
           <span className="absolute inset-0 rounded-full bg-[#007AFF]/20 animate-ping [animation-iteration-count:2]" aria-hidden="true"></span>
           <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[#007AFF] text-white shadow-[0_12px_32px_-8px_rgba(0,122,255,0.6)]">
-            <Check className="h-8 w-8" strokeWidth={2.5} aria-hidden="true" />
+            {emailed ? <Mail className="h-7 w-7" strokeWidth={2.2} aria-hidden="true" /> : <Check className="h-8 w-8" strokeWidth={2.5} aria-hidden="true" />}
           </span>
         </div>
         <h3 ref={successHeading} tabIndex={-1} className="font-sans text-3xl md:text-4xl font-semibold tracking-tight text-[#1d1d1f] dark:text-white outline-none">
-          {c.ready}
+          {emailed ? c.ready : c.fallbackTitle}
         </h3>
+        {emailed ? (
+          <>
+            <p className="mt-3 text-base md:text-lg text-black/60 dark:text-white/60 font-medium">
+              {c.sentTo} <span className="font-semibold text-[#1d1d1f] dark:text-white break-all">{sentTo}</span>.
+            </p>
+            <p className="mt-2 max-w-sm text-sm leading-relaxed text-black/50 dark:text-white/50">{c.spam}</p>
+          </>
+        ) : (
+          <>
         <p className="mt-3 text-base md:text-lg text-black/60 dark:text-white/60 font-medium">
-          {emailed ? c.thanksInbox : c.thanks}
+          {c.thanks}
         </p>
         <a
           href={download}
@@ -147,6 +158,8 @@ export function GuideLeadForm() {
         <a href={other.pdf} download={other.pdfFileName} className="mt-2 text-xs font-semibold text-brand underline underline-offset-2 hover:no-underline">
           {c.other}
         </a>
+          </>
+        )}
 
         {/* next step */}
         <div className="mt-10 w-full border-t border-black/[0.08] dark:border-white/10 pt-8">

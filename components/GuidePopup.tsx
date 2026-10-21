@@ -35,7 +35,8 @@ const COPY = {
     consent: 'Also send me occasional emails about automation and AI.',
     privacy: 'Privacy Policy',
     ready: 'Your guide is ready.',
-    inbox: 'We’ve also sent it to your inbox.',
+    sent: 'Sent! Check your inbox.',
+    inbox: 'Not there in a minute? Check spam or promotions.',
     nextStep: 'Want help choosing your first agent?',
     book: 'Book a free diagnosis',
     download: 'Download PDF',
@@ -55,7 +56,8 @@ const COPY = {
     consent: 'Enviem-me também emails ocasionais sobre automação e IA.',
     privacy: 'Política de Privacidade',
     ready: 'O seu guia está pronto.',
-    inbox: 'Também o enviámos para o seu email.',
+    sent: 'Enviado! Verifique o seu email.',
+    inbox: 'Não chegou num minuto? Veja o spam ou as promoções.',
     nextStep: 'Quer ajuda a escolher o primeiro agente?',
     book: 'Agendar diagnóstico gratuito',
     download: 'Descarregar PDF',
@@ -198,11 +200,11 @@ export function GuidePopup() {
           <div className="guide-step-in mt-4" role="status">
             <div className="flex items-center justify-between gap-3 rounded-xl bg-[#28c840]/10 px-3 py-2.5">
               <span className="flex items-center gap-2 text-[13px] font-semibold text-[#1a9e33] dark:text-[#5fe07a]">
-                <Check className="h-4 w-4" strokeWidth={3} aria-hidden="true" />{c.ready}
+                <Check className="h-4 w-4" strokeWidth={3} aria-hidden="true" />{emailed ? c.sent : c.ready}
               </span>
-              <a href={download} download={guide.pdfFileName} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1d1d1f] dark:bg-white px-3 py-1.5 text-[12px] font-semibold text-white dark:text-[#020617]">
+              {!emailed && <a href={download} download={guide.pdfFileName} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1d1d1f] dark:bg-white px-3 py-1.5 text-[12px] font-semibold text-white dark:text-[#020617]">
                 <Download className="h-3.5 w-3.5" aria-hidden="true" />{c.download}
-              </a>
+              </a>}
             </div>
             {emailed && <p className="mt-2 px-1 text-[12px] text-black/55 dark:text-white/55">{c.inbox}</p>}
             <Link href="/#contact" onClick={close} className="mt-3 flex flex-col gap-1 rounded-xl border border-black/[0.08] dark:border-white/10 px-3 py-2.5 text-[13px] transition-colors hover:bg-black/[0.03] dark:hover:bg-white/[0.05]">
