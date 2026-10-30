@@ -8,9 +8,10 @@ import { ThemeToggle } from './ThemeToggle';
 import { Wordmark } from './Wordmark';
 
 const links = [
-  { href: '/#servicos', key: 'nav.expertise' },
-  { href: '/#metodo', key: 'nav.method' },
-  { href: '/#equipa', key: 'nav.team' },
+  { href: '/solutions', key: 'nav.expertise' },
+  { href: '/method', key: 'nav.method' },
+  { href: '/about', key: 'nav.about' },
+  { href: '/guides', key: 'nav.guides' },
 ] as const;
 
 export function Navbar() {
@@ -66,7 +67,7 @@ export function Navbar() {
             <ThemeToggle />
             <LanguageToggle />
             <Link
-              href="/#contact"
+              href="/contact"
               className="ml-1 hidden md:inline-flex h-10 items-center rounded-full bg-[#1d1d1f] dark:bg-white px-5 text-[14px] font-medium text-white dark:text-[#020617] transition-colors hover:bg-black dark:hover:bg-white/90"
             >
               {t('nav.contact')}
@@ -98,7 +99,7 @@ export function Navbar() {
               </Link>
             ))}
             <Link
-              href="/#contact"
+              href="/contact"
               onClick={() => setMenuOpen(false)}
               className="mt-4 rounded-full bg-[#1d1d1f] dark:bg-white px-5 py-3.5 text-center text-[15px] font-medium text-white dark:text-[#020617] transition-colors hover:bg-black"
             >

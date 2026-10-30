@@ -286,7 +286,7 @@ export function GuideLanding() {
                 {c.closing}
               </p>
               <Link
-                href="/#contact"
+                href="/contact"
                 className="group mt-6 inline-flex min-h-12 items-center gap-2 rounded-full border border-black/10 dark:border-white/20 px-6 text-[12px] font-bold uppercase tracking-[0.14em] text-[#1d1d1f] dark:text-white transition-colors hover:border-[#007AFF] hover:text-brand"
               >
                 {c.book}

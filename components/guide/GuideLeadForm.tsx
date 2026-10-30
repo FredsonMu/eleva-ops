@@ -2,7 +2,7 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Check, Download, Loader2, Mail } from 'lucide-react';
-import { GUIDES, LIMITS, otherLang } from '@/lib/guide';
+import { getEdition, LIMITS, otherEdition, type GuideId, type GuideLang } from '@/lib/guide';
 import { useLanguage } from '@/lib/i18n';
 import { captureTracking, getTracking } from './tracking';
 import { Brand } from '../Brand';
@@ -38,12 +38,11 @@ const COPY = {
   },
 } as const;
 
-export function GuideLeadForm() {
+export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, companyPlaceholder }: { guideId?: GuideId; forceLang?: GuideLang; companyLabel?: string; companyPlaceholder?: string } = {}) {
   const { language } = useLanguage();
-  const lang = language === 'pt' ? 'pt' : 'en';
+  const { edition: guide, lang } = getEdition(guideId, forceLang ?? (language === 'pt' ? 'pt' : 'en'));
   const c = COPY[lang];
-  const guide = GUIDES[lang];
-  const other = GUIDES[otherLang(lang)];
+  const other = otherEdition(guideId, lang);
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
@@ -93,6 +92,7 @@ export function GuideLeadForm() {
           email,
           marketingConsent: data.get('marketingConsent') === 'on',
           language: lang,
+          guideId,
           companyName: String(data.get('companyName') ?? '').trim(),
           phone: String(data.get('phone') ?? ''),
           website: String(data.get('website') ?? ''), // honeypot
@@ -115,7 +115,7 @@ export function GuideLeadForm() {
       setStatus('success');
       // Single, post-validation signal for analytics (e.g. a future Meta Pixel "Lead" event,
       // using leadId as the event id to deduplicate with the Conversions API).
-      window.dispatchEvent(new CustomEvent(LEAD_EVENT, { detail: { leadId: result.leadId } }));
+      window.dispatchEvent(new CustomEvent(LEAD_EVENT, { detail: { leadId: result.leadId, guide: result.guide } }));
     } catch {
       setError(c.offline);
       setStatus('idle');
@@ -155,9 +155,11 @@ export function GuideLeadForm() {
           {c.download}
         </a>
         <p className="mt-4 text-xs font-medium text-black/55 dark:text-white/55">{guide.pdfInfo}</p>
-        <a href={other.pdf} download={other.pdfFileName} className="mt-2 text-xs font-semibold text-brand underline underline-offset-2 hover:no-underline">
-          {c.other}
-        </a>
+        {other && (
+          <a href={other.pdf} download={other.pdfFileName} className="mt-2 text-xs font-semibold text-brand underline underline-offset-2 hover:no-underline">
+            {c.other}
+          </a>
+        )}
           </>
         )}
 
@@ -166,7 +168,7 @@ export function GuideLeadForm() {
           <p className="font-sans text-lg font-semibold tracking-tight text-[#1d1d1f] dark:text-white">{c.helpTitle}</p>
           <p className="mt-2 text-sm leading-relaxed text-black/60 dark:text-white/60">{c.helpBody}</p>
           <Link
-            href="/#contact"
+            href="/contact"
             className="group mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#1d1d1f] dark:bg-white px-6 text-[14px] font-semibold text-white dark:text-[#020617] transition-colors hover:bg-black dark:hover:bg-white/90"
           >
             {c.book}
@@ -184,7 +186,7 @@ export function GuideLeadForm() {
     <form onSubmit={handleSubmit} noValidate aria-describedby={error ? ids.error : undefined} className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
         <label htmlFor={ids.company} className="text-sm font-semibold text-[#1d1d1f] dark:text-white">
-          {c.company} <span className="font-normal text-black/45 dark:text-white/45">{c.optional}</span>
+          {companyLabel ?? c.company} <span className="font-normal text-black/45 dark:text-white/45">{c.optional}</span>
         </label>
         <input
           id={ids.company}
@@ -192,7 +194,7 @@ export function GuideLeadForm() {
           type="text"
           autoComplete="organization"
           maxLength={LIMITS.companyName}
-          placeholder={c.companyPh}
+          placeholder={companyPlaceholder ?? c.companyPh}
           className={`${inputClass} border-black/10 dark:border-white/15`}
         />
       </div>

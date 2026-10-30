@@ -2,7 +2,9 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowUp, Clock, FileCheck2, Search } from 'lucide-react';
 import { TypeAnimation } from 'react-type-animation';
+import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/i18n';
+import { PREFILL_KEY } from './Contact';
 import { ExcelIcon, GmailIcon, PaperIcon, SheetsIcon, WhatsAppIcon } from './BrandIcons';
 
 // Hero: the brand line with the typed word, then a prompt box (in the spirit of fynk / Notion AI)
@@ -21,6 +23,7 @@ export function Hero() {
   const [focused, setFocused] = useState(false);
   const [reduced, setReduced] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -48,6 +51,11 @@ export function Hero() {
     e?.preventDefault();
     const text = value.trim();
     const box = document.getElementById('message') as HTMLTextAreaElement | null;
+    if (!box) {
+      try { if (text) sessionStorage.setItem(PREFILL_KEY, text); } catch { /* storage blocked */ }
+      router.push('/contact');
+      return;
+    }
     if (box && text) box.value = text;
     document.getElementById('contact')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
     window.setTimeout(() => (document.getElementById(text ? 'name' : 'message') as HTMLElement | null)?.focus({ preventScroll: true }), reduced ? 0 : 700);

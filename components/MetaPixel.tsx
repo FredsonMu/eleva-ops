@@ -47,8 +47,9 @@ export function MetaPixel() {
     start();
     const onConsent = () => start();
     const onLead = (e: Event) => {
-      const leadId = (e as CustomEvent<{ leadId?: string }>).detail?.leadId;
-      if (active.current) window.fbq?.('track', 'Lead', { content_name: '7 AI Agents Guide' }, leadId ? { eventID: leadId } : undefined);
+      const detail = (e as CustomEvent<{ leadId?: string; guide?: string }>).detail;
+      const leadId = detail?.leadId;
+      if (active.current) window.fbq?.('track', 'Lead', { content_name: detail?.guide ?? '7 AI Agents' }, leadId ? { eventID: leadId } : undefined);
     };
     window.addEventListener(CONSENT_EVENT, onConsent);
     window.addEventListener(LEAD_EVENT, onLead);

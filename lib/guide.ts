@@ -1,7 +1,26 @@
-// "7 AI Agents" lead magnet, in English and Portuguese: shared by both landing pages, the
-// homepage card and /api/guide-lead.
+// Free guides (lead magnets): one entry per guide, with an edition per language it exists in.
+// Shared by the landing pages, the homepage card, the delivery email and /api/guide-lead.
+// To add a guide: add its PDF/cover under /public, an entry in CATALOG and a landing page.
 
 export type GuideLang = 'en' | 'pt';
+export type GuideId = 'ai-agents' | 'ai-lawyers';
+
+export type GuideEdition = {
+  path: string;
+  title: string;
+  pdf: string;
+  pdfFileName: string;
+  pdfInfo: string;
+  cover: string;
+  coverWidth: number;
+  coverHeight: number;
+  emailCover: string;
+  ogImage: string;
+  /** Overrides for the delivery email (defaults are the AI agents texts). */
+  emailItems?: readonly string[];
+  emailHelpTitle?: string;
+  emailHelpBody?: string;
+};
 
 export const GUIDES = {
   en: {
@@ -33,6 +52,47 @@ export const GUIDES = {
 /** English edition (kept for older imports). */
 export const GUIDE = GUIDES.en;
 
+const LAWYERS_PT: GuideEdition = {
+  path: '/guia-ia-advogados',
+  title: 'IA para advogados: 10 exemplos práticos para o trabalho à volta do processo',
+  pdf: '/guides/eleva-ops-ia-para-advogados.pdf',
+  pdfFileName: 'IA para advogados - Eleva Ops.pdf',
+  pdfInfo: 'PDF · 25 páginas',
+  cover: '/guides/ia-advogados-capa.webp',
+  coverWidth: 1190,
+  coverHeight: 1682,
+  emailCover: '/email/guide-cover-advogados.jpg',
+  ogImage: '/guides/ia-advogados-og.png',
+  emailItems: [
+    'Dez tarefas delimitadas, da consulta à pesquisa jurídica',
+    'Para cada uma: material fictício, o pedido à IA, um resultado ilustrativo e a revisão do advogado',
+    'As regras de verificação que a investigação publicada recomenda',
+  ],
+  emailHelpTitle: 'Quer aplicar isto no seu escritório?',
+  emailHelpBody: 'Responda a este email com uma tarefa que se repete no seu escritório, ou marque um diagnóstico gratuito. Ajudamos a escolher onde a IA ajuda, com que ferramentas e onde a revisão do advogado tem de ficar.',
+};
+
+export const CATALOG: Record<GuideId, { name: string; editions: Partial<Record<GuideLang, GuideEdition>> }> = {
+  'ai-agents': { name: '7 AI Agents', editions: GUIDES },
+  'ai-lawyers': { name: 'IA para advogados', editions: { pt: LAWYERS_PT } },
+};
+
+export const asGuideId = (value: unknown): GuideId => (value === 'ai-lawyers' ? 'ai-lawyers' : 'ai-agents');
+
+/** The edition in the requested language, or the first one the guide has. */
+export function getEdition(id: GuideId, lang: GuideLang): { edition: GuideEdition; lang: GuideLang } {
+  const editions = CATALOG[id].editions;
+  const found = editions[lang];
+  if (found) return { edition: found, lang };
+  const fallback = (Object.keys(editions) as GuideLang[])[0];
+  return { edition: editions[fallback]!, lang: fallback };
+}
+
+/** The same guide in the other language, when it exists. */
+export function otherEdition(id: GuideId, lang: GuideLang): GuideEdition | null {
+  return CATALOG[id].editions[otherLang(lang)] ?? null;
+}
+
 export const otherLang = (lang: GuideLang): GuideLang => (lang === 'pt' ? 'en' : 'pt');
 
 // Attribution parameters kept from the ad click through to the lead.
@@ -51,6 +111,7 @@ export type LeadInput = {
   phone: string;
   marketingConsent: boolean;
   language: GuideLang;
+  guideId: GuideId;
   tracking: Tracking;
 };
 
@@ -84,7 +145,8 @@ export function leadLanguage(body: unknown): GuideLang {
 }
 
 export function validateLead(body: unknown): LeadValidation {
-  const language = leadLanguage(body);
+  const guideId = asGuideId(body && typeof body === 'object' ? (body as Record<string, unknown>).guideId : undefined);
+  const language = getEdition(guideId, leadLanguage(body)).lang;
   const m = MESSAGES[language];
   if (!body || typeof body !== 'object') return { ok: false, error: m.invalid };
   const data = body as Record<string, unknown>;
@@ -115,5 +177,5 @@ export function validateLead(body: unknown): LeadValidation {
     if (typeof value === 'string' && value.trim()) tracking[key] = value.trim().slice(0, LIMITS.tracking);
   }
 
-  return { ok: true, lead: { firstName, email, companyName, phone, marketingConsent: data.marketingConsent === true, language, tracking } };
+  return { ok: true, lead: { firstName, email, companyName, phone, marketingConsent: data.marketingConsent === true, language, guideId, tracking } };
 }

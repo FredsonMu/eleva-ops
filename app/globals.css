@@ -432,3 +432,18 @@ html {
 .guide-card-in { animation: guide-card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .guide-peek { animation: guide-peek 4s ease-in-out infinite; }
 .guide-step-in { animation: guide-step-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Solutions page (components/SolutionsDetail.tsx): platform tabs and views cycle every 6s. */
+.sol-tab { animation-name: sol-tab; }
+.sol-view { animation-name: sol-view; }
+@keyframes sol-tab {
+  0%, 30% { transform: translateY(0); }
+  34%, 63% { transform: translateY(2rem); }
+  67%, 96% { transform: translateY(4rem); }
+  100% { transform: translateY(0); }
+}
+@keyframes sol-view {
+  0%, 29% { opacity: 1; transform: none; }
+  33%, 96% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: none; }
+}

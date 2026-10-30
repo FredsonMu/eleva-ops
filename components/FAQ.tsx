@@ -59,7 +59,7 @@ export function FAQ() {
         <Reveal y={20} className="mt-10 md:mt-14 flex flex-col items-center gap-4 text-center">
           <span className="text-[15px] text-black/55 dark:text-white/55">{t('faq.notFound')}</span>
           <a
-            href="mailto:contact@elevaops.com"
+            href="/contact"
             className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#1d1d1f] dark:bg-white px-6 text-[14px] font-semibold text-white dark:text-[#020617] transition-colors hover:bg-black dark:hover:bg-white/90"
           >
             {t('faq.contact')}

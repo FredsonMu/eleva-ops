@@ -1,5 +1,5 @@
 import { EMAIL_FROM, TEAM_INBOX, escapeHtml, getResend } from './email';
-import { GUIDES, otherLang, type GuideLang } from './guide';
+import { getEdition, otherEdition, type GuideId, type GuideLang } from './guide';
 
 // Delivery email for the guide: sent to the person who requested it, right after the lead is
 // recorded. It's transactional (they asked for it), so it carries no marketing content; replies
@@ -44,12 +44,16 @@ const COPY = {
 
 const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Helvetica,Arial,sans-serif";
 
-export function buildGuideEmail(firstName: string, lang: GuideLang = 'en') {
+export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', guideId: GuideId = 'ai-agents') {
+  const { edition: guide, lang } = getEdition(guideId, requested);
   const c = COPY[lang];
-  const guide = GUIDES[lang];
+  const other = otherEdition(guideId, lang);
+  const items = guide.emailItems ?? c.items;
+  const helpTitle = guide.emailHelpTitle ?? c.helpTitle;
+  const helpBody = guide.emailHelpBody ?? c.helpBody;
   const pdfUrl = `${SITE}${guide.pdf}`;
-  const otherPdfUrl = `${SITE}${GUIDES[otherLang(lang)].pdf}`;
-  const diagnosisUrl = `${SITE}/#contact`;
+  const otherPdfUrl = other ? `${SITE}${other.pdf}` : '';
+  const diagnosisUrl = `${SITE}/contact`;
   const name = escapeHtml(firstName);
   const title = escapeHtml(guide.title);
 
@@ -102,18 +106,18 @@ export function buildGuideEmail(firstName: string, lang: GuideLang = 'en') {
           <!-- what's inside -->
           <tr><td style="padding:28px 36px 8px;">
             <p style="margin:0 0 10px;font-size:14px;font-weight:600;color:#1d1d1f;">${c.inside}</p>
-            ${c.items
+            ${items
               .map(item => `<p style="margin:0 0 8px;font-size:15px;line-height:1.5;color:#5f5f66;"><span style="color:#007AFF;font-weight:700;">✓</span>&nbsp;&nbsp;${item}</p>`)
               .join('')}
-            <p style="margin:14px 0 0;font-size:13px;line-height:1.5;color:#8e8e93;">${c.other.replace('{url}', otherPdfUrl)}</p>
+            ${other ? `<p style="margin:14px 0 0;font-size:13px;line-height:1.5;color:#8e8e93;">${c.other.replace('{url}', otherPdfUrl)}</p>` : ''}
           </td></tr>
 
           <!-- next step: soft panel, like the website -->
           <tr><td style="padding:24px 24px 28px;">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f5f5f7;border-radius:18px;">
               <tr><td style="padding:24px;">
-                <p style="margin:0;font-size:17px;line-height:1.35;font-weight:600;color:#1d1d1f;">${c.helpTitle}</p>
-                <p style="margin:8px 0 16px;font-size:15px;line-height:1.55;color:#5f5f66;">${c.helpBody}</p>
+                <p style="margin:0;font-size:17px;line-height:1.35;font-weight:600;color:#1d1d1f;">${helpTitle}</p>
+                <p style="margin:8px 0 16px;font-size:15px;line-height:1.55;color:#5f5f66;">${helpBody}</p>
                 <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
                   <td style="background:#1d1d1f;border-radius:999px;">
                     <a href="${diagnosisUrl}" style="display:inline-block;padding:11px 20px;font-size:14px;font-weight:600;color:#ffffff;text-decoration:none;font-family:${FONT};">${c.book}</a>
@@ -145,11 +149,10 @@ export function buildGuideEmail(firstName: string, lang: GuideLang = 'en') {
     pdfUrl,
     '',
     `${c.inside}:`,
-    ...c.items.map(i => `- ${i}`),
+    ...items.map(i => `- ${i}`),
     '',
-    strip(c.other.replace('{url}', '')) + ' ' + otherPdfUrl,
-    '',
-    `${c.helpTitle} ${c.helpBody}`,
+    ...(other ? [strip(c.other.replace('{url}', '')) + ' ' + otherPdfUrl, ''] : []),
+    `${helpTitle} ${helpBody}`,
     diagnosisUrl,
     '',
     c.footer.replace('{site}', 'elevaops.com'),
@@ -158,10 +161,10 @@ export function buildGuideEmail(firstName: string, lang: GuideLang = 'en') {
   return { subject: c.subject(guide.title), html, text };
 }
 
-export async function sendGuideToLead(to: string, firstName: string, lang: GuideLang = 'en'): Promise<boolean> {
+export async function sendGuideToLead(to: string, firstName: string, lang: GuideLang = 'en', guideId: GuideId = 'ai-agents'): Promise<boolean> {
   const client = getResend();
   if (!client) return false;
-  const { subject, html, text } = buildGuideEmail(firstName, lang);
+  const { subject, html, text } = buildGuideEmail(firstName, lang, guideId);
   try {
     const { error } = await client.emails.send({ from: EMAIL_FROM, to, replyTo: TEAM_INBOX, subject, html, text });
     if (error) {

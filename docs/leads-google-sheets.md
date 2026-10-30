@@ -7,8 +7,8 @@ The site only shows "Your guide is ready." after the lead was actually stored (s
 
 ## Columns
 
-| Data | Nome | Email | Aceita marketing | Origem | Meio | Campanha | Anúncio | Conjunto de anúncios | ID da lead | Empresa | Telefone | Idioma |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Data | Nome | Email | Aceita marketing | Origem | Meio | Campanha | Anúncio | Conjunto de anúncios | ID da lead | Empresa | Telefone | Idioma | Guia |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
 - **Aceita marketing**: `Sim` only if the person ticked the optional box. Only these people may receive marketing emails.
 - **Origem / Meio / Campanha / Anúncio / Conjunto**: the `utm_source`, `utm_medium`, `utm_campaign`, `utm_content` and `utm_term` of the ad link (empty for direct visits).
@@ -34,7 +34,7 @@ The site only shows "Your guide is ready." after the lead was actually stored (s
 // Eleva Ops — receives guide leads from elevaops.com and appends them to the "Leads" tab.
 const SECRET = 'PASTE_THE_SECRET_HERE';
 const SHEET_NAME = 'Leads';
-const HEADERS = ['Data', 'Nome', 'Email', 'Aceita marketing', 'Origem', 'Meio', 'Campanha', 'Anúncio', 'Conjunto de anúncios', 'ID da lead', 'Empresa', 'Telefone', 'Idioma'];
+const HEADERS = ['Data', 'Nome', 'Email', 'Aceita marketing', 'Origem', 'Meio', 'Campanha', 'Anúncio', 'Conjunto de anúncios', 'ID da lead', 'Empresa', 'Telefone', 'Idioma', 'Guia'];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -58,6 +58,7 @@ function doPost(e) {
       clean(data.companyName),
       clean(data.phone),
       clean(data.language),
+      clean(data.guide),
     ]);
     return json({ ok: true });
   } catch (err) {

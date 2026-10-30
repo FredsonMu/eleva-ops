@@ -7,14 +7,14 @@ import { Reveal } from './Reveal';
 
 const CYCLE_MS = 4000;
 
-export function Team() {
+export function Team({ part = 'all' }: { part?: 'all' | 'commitment' | 'people' } = {}) {
   const { t } = useLanguage();
 
   // The photos already carry each name and role.
   const members = [
-    { name: 'Eduardo', role: t('team.m1.role'), focus: t('team.m1.focus'), img: '/team/eduardo.webp' },
-    { name: 'Fredson', role: t('team.m2.role'), focus: t('team.m2.focus'), img: '/team/fredson.webp' },
-    { name: 'Miguel', role: t('team.m3.role'), focus: t('team.m3.focus'), img: '/team/miguel.webp' },
+    { name: 'Eduardo', role: t('team.m1.role'), focus: t('team.m1.focus'), skills: t('team.m1.skills'), img: '/team/eduardo.webp' },
+    { name: 'Fredson', role: t('team.m2.role'), focus: t('team.m2.focus'), skills: t('team.m2.skills'), img: '/team/fredson.webp' },
+    { name: 'Miguel', role: t('team.m3.role'), focus: t('team.m3.focus'), skills: t('team.m3.skills'), img: '/team/miguel.webp' },
   ];
 
   // one person on stage at a time; moves on every CYCLE_MS while visible and not hovered
@@ -40,11 +40,11 @@ export function Team() {
   }, [playing, active]);
 
   return (
-    <section className="pt-12 pb-24 md:pt-20 md:pb-40 bg-transparent overflow-hidden">
+    <section className={`${part === 'all' ? 'pt-12 pb-24 md:pt-20 md:pb-40' : 'py-12 md:py-20'} bg-transparent overflow-hidden`}>
       <div className="max-w-6xl mx-auto px-5 md:px-6">
 
         {/* Our commitment: one soft panel, the promise and three plain facts */}
-        <Reveal y={28} duration={0.8} className="rounded-2xl bg-black/[0.03] dark:bg-white/[0.04] px-6 py-12 md:px-16 md:py-20 text-center">
+        {part !== 'people' && <Reveal y={28} duration={0.8} className="rounded-2xl bg-black/[0.03] dark:bg-white/[0.04] px-6 py-12 md:px-16 md:py-20 text-center">
           <span className="text-[11px] font-semibold uppercase tracking-widest text-black/45 dark:text-white/45">{t('team.label')}</span>
           <h3 className="mx-auto mt-4 max-w-3xl font-sans text-[clamp(1.75rem,3.4vw,2.6rem)] font-semibold leading-[1.15] tracking-tight text-[#1d1d1f] dark:text-white text-balance">
             {t('team.quote')}
@@ -58,10 +58,10 @@ export function Team() {
               </li>
             ))}
           </ul>
-        </Reveal>
+        </Reveal>}
 
         {/* The team: the list of people on one side, the active portrait on a soft panel on the other */}
-        <Reveal y={30} duration={0.8} className="mt-24 md:mt-40">
+        {part !== 'commitment' && <Reveal y={30} duration={0.8} className={part === 'all' ? 'mt-24 md:mt-40' : ''}>
           <div
             id="equipa"
             ref={stageRef}
@@ -94,6 +94,11 @@ export function Team() {
                       <span className={`grid transition-[grid-template-rows] duration-500 ease-out ${on ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
                         <span className="overflow-hidden">
                           <span className="block pt-2 text-[15px] leading-relaxed text-black/60 dark:text-white/60">{m.focus}</span>
+                          <span className="flex flex-wrap gap-1.5 pt-3">
+                            {m.skills.split('|').map(sk => (
+                              <span key={sk} className="rounded-full bg-[#007AFF]/[0.08] px-2.5 py-1 text-[12px] font-medium text-brand">{sk}</span>
+                            ))}
+                          </span>
                         </span>
                       </span>
                       <span className="mt-3 block h-[2px] w-full overflow-hidden rounded-full bg-black/[0.06] dark:bg-white/10">
@@ -134,7 +139,7 @@ export function Team() {
               </div>
             </div>
           </div>
-        </Reveal>
+        </Reveal>}
       </div>
     </section>
   );

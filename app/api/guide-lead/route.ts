@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { EMAIL_FROM, TEAM_INBOX, escapeHtml, getResend } from '@/lib/email';
-import { GUIDES, leadLanguage, validateLead } from '@/lib/guide';
+import { CATALOG, getEdition, leadLanguage, validateLead } from '@/lib/guide';
 import { appendLeadToSheet, isSheetConfigured } from '@/lib/leads-sheet';
 import { sendGuideToLead } from '@/lib/guide-email';
 
@@ -84,8 +84,8 @@ export async function POST(request: Request) {
 
   const result = validateLead(body);
   if (!result.ok) return fail(422, result.error, result.field);
-  const { firstName, email, companyName, phone, marketingConsent, language, tracking } = result.lead;
-  const guide = GUIDES[language];
+  const { firstName, email, companyName, phone, marketingConsent, language, guideId, tracking } = result.lead;
+  const guide = getEdition(guideId, language).edition;
 
   const client = getResend();
   const sheetEnabled = isSheetConfigured();
@@ -136,7 +136,7 @@ export async function POST(request: Request) {
   // (and the download is unlocked) only if at least one of them actually stored it.
   const [savedToSheet, emailed] = await Promise.all([
     sheetEnabled
-      ? appendLeadToSheet({ leadId, firstName, email, companyName, phone, marketingConsent, language: language === 'pt' ? 'PT' : 'EN', ...tracking })
+      ? appendLeadToSheet({ leadId, firstName, email, companyName, phone, marketingConsent, language: language === 'pt' ? 'PT' : 'EN', guide: CATALOG[guideId].name, ...tracking })
       : Promise.resolve(false),
     sendEmail(),
   ]);
@@ -147,7 +147,7 @@ export async function POST(request: Request) {
 
   // Copy of the guide in their inbox, so it isn't lost if they close the page. A failure here
   // doesn't block the on-screen download.
-  const delivered = await sendGuideToLead(email, firstName, language);
+  const delivered = await sendGuideToLead(email, firstName, language, guideId);
 
-  return NextResponse.json({ ok: true, leadId, download: guide.pdf, emailed: delivered });
+  return NextResponse.json({ ok: true, leadId, download: guide.pdf, emailed: delivered, guide: CATALOG[guideId].name });
 }

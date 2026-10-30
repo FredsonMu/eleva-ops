@@ -135,7 +135,7 @@ export function Methodology() {
 
         <Reveal y={20} className="mt-20 md:mt-28 flex justify-center">
           <a
-            href="mailto:contact@elevaops.com"
+            href="/contact"
             className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#1d1d1f] dark:bg-white px-6 text-[14px] font-semibold text-white dark:text-[#020617] transition-colors hover:bg-black dark:hover:bg-white/90"
           >
             {t('meth.cta')}

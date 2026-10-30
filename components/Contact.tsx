@@ -1,14 +1,25 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLanguage } from '@/lib/i18n';
 import { ArrowRight, Check, ChevronDown } from 'lucide-react';
 import { COUNTRIES } from '@/lib/countries';
 import { revealStyle, useInView } from './Reveal';
 
+// The homepage prompt hands its text over through sessionStorage.
+export const PREFILL_KEY = 'eleva-contact-prefill';
+
 export function Contact() {
   const { t } = useLanguage();
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>('idle');
   const [iso, setIso] = useState('PT');
+  useEffect(() => {
+    let text: string | null = null;
+    try { text = sessionStorage.getItem(PREFILL_KEY); sessionStorage.removeItem(PREFILL_KEY); } catch { /* storage blocked */ }
+    if (!text) return;
+    const box = document.getElementById('message') as HTMLTextAreaElement | null;
+    if (box) box.value = text;
+    document.getElementById('name')?.focus({ preventScroll: true });
+  }, []);
   const country = COUNTRIES.find(c => c.iso === iso) ?? COUNTRIES[0];
   const [sectionRef, inView] = useInView<HTMLElement>('0px 0px -25% 0px');
   // Staggered reveal: each item waits 0.1s longer than the previous one.

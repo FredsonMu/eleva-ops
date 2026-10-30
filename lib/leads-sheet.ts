@@ -9,6 +9,7 @@ export type SheetLead = {
   phone?: string;
   marketingConsent: boolean;
   language?: string;
+  guide?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;

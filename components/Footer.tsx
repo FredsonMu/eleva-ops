@@ -11,9 +11,11 @@ import { openConsentSettings } from '@/lib/consent';
 export function Footer() {
   const { t } = useLanguage();
   const links = [
-    { href: '/#servicos', label: t('nav.expertise') },
-    { href: '/#metodo', label: t('nav.method') },
-    { href: '/#equipa', label: t('nav.team') },
+    { href: '/solutions', label: t('nav.expertise') },
+    { href: '/method', label: t('nav.method') },
+    { href: '/about', label: t('nav.about') },
+    { href: '/guides', label: t('nav.guides') },
+    { href: '/contact', label: t('nav.contactPage') },
     { href: '/privacy-policy', label: 'Privacy Policy' },
   ];
 
@@ -29,7 +31,7 @@ export function Footer() {
             </h2>
             <p className="mx-auto mt-5 max-w-lg text-base md:text-lg leading-relaxed text-black/60 dark:text-white/60 text-pretty">{t('footer.desc')}</p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link href="/#contact" className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#1d1d1f] dark:bg-white px-6 text-[15px] font-semibold text-white dark:text-[#020617] transition-colors hover:bg-black dark:hover:bg-white/90">
+              <Link href="/contact" className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#1d1d1f] dark:bg-white px-6 text-[15px] font-semibold text-white dark:text-[#020617] transition-colors hover:bg-black dark:hover:bg-white/90">
                 {t('footer.contact')}
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
               </Link>

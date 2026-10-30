@@ -6,7 +6,7 @@ import { ChaosToOrder } from './ChaosToOrder';
 import { Reveal } from './Reveal';
 import { ExcelIcon, GmailIcon, PaperIcon, SheetsIcon, WhatsAppIcon } from './BrandIcons';
 
-export function About() {
+export function About({ withStage = true }: { withStage?: boolean } = {}) {
   const { t } = useLanguage();
 
   return (
@@ -89,7 +89,7 @@ export function About() {
         </div>
 
         {/* Old way → new standard → outcome, as a bento row */}
-        <ChaosToOrder />
+        {withStage && <ChaosToOrder />}
       </div>
     </section>
   );

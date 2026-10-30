@@ -11,15 +11,16 @@ import { useLanguage } from '@/lib/i18n';
 const win = tileWindow;
 const bar = tileBar;
 
-export function Services() {
+export function Services({ header = true }: { header?: boolean } = {}) {
   const { t } = useLanguage();
   const title = (key: Parameters<typeof t>[0]) => `${t(key).replace(/\s*\n\s*/, ' ')}.`;
 
   return (
-    <section id="servicos" className="relative bg-transparent pt-24 md:pt-32 pb-32 md:pb-40 overflow-hidden">
+    <section id="servicos" className={`relative bg-transparent ${header ? 'pt-24 md:pt-32' : 'pt-10 md:pt-14'} pb-20 md:pb-28 overflow-hidden`}>
       <div className="w-full max-w-6xl mx-auto px-5 md:px-6">
 
         {/* Header */}
+        {header && (
         <Reveal y={30} duration={0.7} className="mb-12 md:mb-20 flex flex-col items-center text-center">
           <h2 className="text-[clamp(1.75rem,3.4vw,2.6rem)] leading-[1.15] tracking-tight font-sans font-semibold text-[#1d1d1f] dark:text-white max-w-3xl text-balance">
             {t('serv.title')}
@@ -28,11 +29,12 @@ export function Services() {
             {t('serv.intro')}
           </p>
         </Reveal>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 lg:gap-x-8 gap-y-12 md:gap-y-16">
 
           {/* 01 · A site that turns visits into enquiries */}
-          <Tile title={title('serv.1.title')} desc={t('serv.1.desc')} delay={0}>
+          <Tile id="websites" title={title('serv.1.title')} desc={t('serv.1.desc')} delay={0}>
             <div className={`${win} relative w-[78%] max-w-[340px] translate-y-6 overflow-visible`}>
               <div className="flex items-center gap-1.5 border-b border-black/[0.06] dark:border-white/10 px-3 py-2">
                 <span className="h-2 w-2 rounded-full bg-black/15 dark:bg-white/20"></span>
@@ -55,7 +57,7 @@ export function Services() {
           </Tile>
 
           {/* 02 · Steps that run by themselves */}
-          <Tile title={title('serv.2.title')} desc={t('serv.2.desc')} delay={0.1}>
+          <Tile id="automation" title={title('serv.2.title')} desc={t('serv.2.desc')} delay={0.1}>
             <div className={`${win} mb-auto mt-auto w-[78%] max-w-[320px] px-4 py-3`}>
               {(['serv.v2.s1', 'serv.v2.s2', 'serv.v2.s3', 'serv.v2.s4'] as const).map((k, i) => (
                 <div key={k} className="svc-step relative flex items-center gap-3 py-2" style={{ animationDelay: `${i * 0.6}s` }}>
@@ -71,7 +73,7 @@ export function Services() {
           </Tile>
 
           {/* 03 · Scattered files land in one place */}
-          <Tile title={title('serv.3.title')} desc={t('serv.3.desc')} delay={0}>
+          <Tile id="platforms" title={title('serv.3.title')} desc={t('serv.3.desc')} delay={0}>
             <div className="absolute inset-x-0 top-6 flex justify-center gap-2">
               {['clients.xlsx', 'notes.pdf', 'orders.csv'].map((f, i) => (
                 <span key={f} className="svc-file rounded-lg border border-black/[0.08] dark:border-white/10 bg-white dark:bg-[#16203a] px-2.5 py-1 text-[10px] font-semibold text-black/60 dark:text-white/60 shadow-sm" style={{ animationDelay: `${i * 0.2}s` }}>{f}</span>
@@ -100,7 +102,7 @@ export function Services() {
           </Tile>
 
           {/* 04 · An assistant that answers and books */}
-          <Tile title={title('serv.4.title')} desc={t('serv.4.desc')} delay={0.1}>
+          <Tile id="ai-agents" title={title('serv.4.title')} desc={t('serv.4.desc')} delay={0.1}>
             <div className="mb-auto mt-auto flex w-[80%] max-w-[330px] flex-col gap-2.5">
               <span className="svc-msg self-start rounded-2xl rounded-bl-md border border-black/[0.06] dark:border-white/10 bg-white dark:bg-[#16203a] px-3.5 py-2 text-[12px] text-[#1d1d1f] dark:text-white shadow-sm">
                 {t('serv.v4.q')}

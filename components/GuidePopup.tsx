@@ -145,7 +145,7 @@ export function GuidePopup() {
       setEmailed(result.emailed === true);
       setStatus('done');
       writeState({ joined: true });
-      window.dispatchEvent(new CustomEvent(LEAD_EVENT, { detail: { leadId: result.leadId } }));
+      window.dispatchEvent(new CustomEvent(LEAD_EVENT, { detail: { leadId: result.leadId, guide: result.guide } }));
     } catch {
       setError(c.offline);
       setStatus('form');
@@ -207,7 +207,7 @@ export function GuidePopup() {
               </a>}
             </div>
             {emailed && <p className="mt-2 px-1 text-[12px] text-black/55 dark:text-white/55">{c.inbox}</p>}
-            <Link href="/#contact" onClick={close} className="mt-3 flex flex-col gap-1 rounded-xl border border-black/[0.08] dark:border-white/10 px-3 py-2.5 text-[13px] transition-colors hover:bg-black/[0.03] dark:hover:bg-white/[0.05]">
+            <Link href="/contact" onClick={close} className="mt-3 flex flex-col gap-1 rounded-xl border border-black/[0.08] dark:border-white/10 px-3 py-2.5 text-[13px] transition-colors hover:bg-black/[0.03] dark:hover:bg-white/[0.05]">
               <span className="text-black/70 dark:text-white/75">{c.nextStep}</span>
               <span className="flex items-center gap-1 font-semibold text-brand">{c.book}<ArrowRight className="h-3.5 w-3.5" aria-hidden="true" /></span>
             </Link>

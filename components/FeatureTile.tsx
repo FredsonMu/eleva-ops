@@ -13,6 +13,7 @@ export function FeatureTile({
   desc,
   footer,
   delay = 0,
+  id,
 }: {
   children: ReactNode;
   eyebrow?: string;
@@ -20,10 +21,11 @@ export function FeatureTile({
   desc: string;
   footer?: ReactNode;
   delay?: number;
+  id?: string;
 }) {
   return (
     <Reveal y={28} duration={0.8} delay={delay} rootMargin="0px 0px -60px 0px" className="flex flex-col">
-      <figure className="relative flex h-60 md:h-72 items-end justify-center overflow-hidden rounded-2xl bg-black/[0.03] dark:bg-white/[0.04]" aria-hidden="true">
+      <figure id={id} className="scroll-mt-28 relative flex h-60 md:h-72 items-end justify-center overflow-hidden rounded-2xl bg-black/[0.03] dark:bg-white/[0.04]" aria-hidden="true">
         {children}
       </figure>
       {eyebrow && <span className="mt-6 text-[11px] font-semibold uppercase tracking-widest text-black/45 dark:text-white/45">{eyebrow}</span>}
