@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import { PageShell } from '@/components/PageShell';
-import { PageHeader } from '@/components/PageHeader';
-import { Team } from '@/components/Team';
+import { AboutView } from '@/components/AboutView';
 import { Origin } from '@/components/Origin';
-import { AboutPrinciples } from '@/components/AboutPrinciples';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -14,9 +12,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <PageShell>
-      <PageHeader label="page.about.label" title="page.about.title" />
-      <Team part="people" />
-      <AboutPrinciples />
+      <AboutView />
       <Origin />
     </PageShell>
   );

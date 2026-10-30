@@ -1,5 +1,6 @@
 'use client';
-import { Check, MousePointer2 } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, Check, MousePointer2 } from 'lucide-react';
 import { Reveal } from './Reveal';
 import { FeatureTile as Tile, tileBar, tileWindow } from './FeatureTile';
 import { useLanguage } from '@/lib/i18n';
@@ -11,7 +12,7 @@ import { useLanguage } from '@/lib/i18n';
 const win = tileWindow;
 const bar = tileBar;
 
-export function Services({ header = true }: { header?: boolean } = {}) {
+export function Services({ header = true, more = false }: { header?: boolean; more?: boolean } = {}) {
   const { t } = useLanguage();
   const title = (key: Parameters<typeof t>[0]) => `${t(key).replace(/\s*\n\s*/, ' ')}.`;
 
@@ -123,6 +124,13 @@ export function Services({ header = true }: { header?: boolean } = {}) {
           </Tile>
 
         </div>
+        {more && (
+          <div className="mt-12 md:mt-16 flex justify-center">
+            <Link href="/solutions" className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#1d1d1f] dark:bg-white px-6 text-[14px] font-semibold text-white dark:text-[#020617] transition-colors hover:bg-black dark:hover:bg-white/90">
+              {t('serv.more')}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

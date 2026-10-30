@@ -11,6 +11,7 @@ export const dict = {
   'prev.s2': { pt: 'Ligamos as suas ferramentas para que as tarefas repetitivas corram sozinhas.', en: 'We connect your tools so repetitive tasks run by themselves.' },
   'prev.s3': { pt: 'Software à medida: um só lugar para clientes, equipa e operação.', en: 'Custom software: one place for clients, team and operations.' },
   'prev.s4': { pt: 'Assistentes que respondem, qualificam e marcam, com a sua equipa no controlo.', en: 'Assistants that answer, qualify and book, with your team in control.' },
+  'serv.more': { pt: 'Ver todas as soluções em detalhe', en: 'See every solution in detail' },
   'prev.more': { pt: 'Saber mais', en: 'Learn more' },
   'prev.howWeWork': { pt: 'Ver como trabalhamos', en: 'See how we work' },
   'guides.label': { pt: 'Guias gratuitos', en: 'Free guides' },

@@ -14,6 +14,13 @@ type Lang = 'en' | 'pt';
 
 const COPY = {
   en: {
+    how: 'How it works',
+    steps: [
+      ['Visitor lands from search or an ad', 'Clear page, one call to action', 'Enquiry arrives in your system, ready to answer'],
+      ['Something happens (a form, an email, a payment)', 'The workflow runs the agreed steps', 'People only approve what needs a decision'],
+      ['We map the information you use today', 'One shared place replaces scattered files', 'Each person sees what they need, up to date'],
+      ['A client asks a question', 'The agent answers from your own information', 'It books or hands over to your team'],
+    ],
     jump: 'Jump to',
     why: 'Why it exists',
     build: 'What we build',
@@ -57,6 +64,13 @@ const COPY = {
     },
   },
   pt: {
+    how: 'Como funciona',
+    steps: [
+      ['O visitante chega pela pesquisa ou por um anúncio', 'Página clara, uma só ação', 'O pedido entra no seu sistema, pronto a responder'],
+      ['Algo acontece (um formulário, um email, um pagamento)', 'O fluxo corre os passos acordados', 'As pessoas só aprovam o que exige decisão'],
+      ['Mapeamos a informação que usa hoje', 'Um lugar partilhado substitui ficheiros soltos', 'Cada pessoa vê o que precisa, sempre atualizado'],
+      ['Um cliente faz uma pergunta', 'O agente responde com a informação da sua empresa', 'Marca ou passa à sua equipa'],
+    ],
     jump: 'Ir para',
     why: 'Porque existe',
     build: 'O que construímos',
@@ -262,6 +276,22 @@ export function SolutionsDetail() {
                     <span className="font-semibold text-brand">{c.fit}</span> {sv.fit}
                   </p>
                 </div>
+              </Reveal>
+              {/* how it works: three steps with a line that fills in turn */}
+              <Reveal y={20} className="mt-8 md:mt-10">
+                <p className="text-[11px] font-semibold uppercase tracking-widest text-black/40 dark:text-white/40">{c.how}</p>
+                <ol className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                  {c.steps[i].map((st, k) => (
+                    <li key={st} className="flex gap-3 sm:block">
+                      <span className="mt-2 block h-[2px] w-8 shrink-0 overflow-hidden rounded-full bg-black/[0.08] dark:bg-white/10 sm:mt-0 sm:w-full">
+                        <span className="loop pth-meter block h-full w-full rounded-full bg-[#007AFF]" style={{ animationDelay: `${k * 0.7}s` }}></span>
+                      </span>
+                      <span className="text-[15px] leading-snug text-black/70 dark:text-white/75 sm:mt-3 sm:block">
+                        <span className="mr-1.5 font-mono text-[12px] font-bold text-brand">0{k + 1}</span>{st}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
               </Reveal>
             </section>
           );

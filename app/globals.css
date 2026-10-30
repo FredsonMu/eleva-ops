@@ -447,3 +447,29 @@ html {
   33%, 96% { opacity: 0; transform: translateY(6px); }
   100% { opacity: 1; transform: none; }
 }
+
+/* About page (components/AboutView.tsx): moving line of words and vision highlights. */
+@keyframes about-marquee { to { transform: translateX(-50%); } }
+.about-marquee-track { animation: about-marquee 40s linear infinite; }
+.about-marquee:hover .about-marquee-track { animation-play-state: paused; }
+.about-hi {
+  background: linear-gradient(#007aff, #007aff) left bottom / 0% 3px no-repeat;
+  transition: color 0.6s ease, background-size 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: inherit;
+}
+.is-lit .about-hi { color: var(--color-ink); background-size: 100% 3px; }
+@media (prefers-reduced-motion: reduce) { .about-marquee-track { animation: none; } }
+
+/* About team cards: the active card lifts, its photo drifts and its details slide up; the
+   others rest dimmed. Mobile shows every caption (the row moves instead). */
+.team-card { transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.7s ease, opacity 0.7s ease; }
+.team-photo { transition: transform 3.5s ease-out; }
+.team-card.is-on .team-photo { transform: scale(1.06); }
+.team-caption { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease; }
+@media (min-width: 768px) {
+  .team-card { opacity: 0.72; }
+  .team-card.is-on { opacity: 1; transform: translateY(-10px); box-shadow: 0 30px 60px -30px rgba(0, 40, 120, 0.5); }
+  .team-caption { transform: translateY(calc(100% + 12px)); opacity: 0; }
+  .team-card.is-on .team-caption { transform: none; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .team-photo { transition: none; } }
