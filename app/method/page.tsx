@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { PageShell } from '@/components/PageShell';
+import { MethodHero } from '@/components/hero/MethodHero';
 import { Methodology } from '@/components/Methodology';
 import { Team } from '@/components/Team';
-import { FAQ } from '@/components/FAQ';
 import { MethodExtras } from '@/components/MethodExtras';
 
 export const metadata: Metadata = {
@@ -11,15 +11,14 @@ export const metadata: Metadata = {
   alternates: { canonical: '/method' },
 };
 
+// The FAQ lives on /contact, next to the form, where the doubts it answers come up.
 export default function MethodPage() {
   return (
     <PageShell>
-      <div className="pt-20 md:pt-28">
-        <Methodology />
-      </div>
+      <MethodHero />
+      <Methodology header={false} />
       <Team part="commitment" />
       <MethodExtras />
-      <FAQ />
     </PageShell>
   );
 }

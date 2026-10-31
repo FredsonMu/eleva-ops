@@ -1,5 +1,4 @@
 'use client';
-import { Check } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { Reveal } from './Reveal';
 
@@ -26,14 +25,9 @@ export function MethodExtras() {
     <Reveal key={title} y={24} delay={i * 0.08} className="h-full">
       <div className="h-full rounded-3xl bg-black/[0.03] dark:bg-white/[0.04] p-6 sm:p-10">
         <h2 className="font-sans text-[clamp(1.4rem,2.4vw,1.9rem)] leading-[1.2] tracking-tight font-semibold text-[#1d1d1f] dark:text-white">{title}</h2>
-        <ul className="mt-6 flex flex-col gap-3">
-          {items.map((it, k) => (
-            <li key={it} className="flex items-start gap-3 text-[15px] leading-relaxed text-black/70 dark:text-white/75">
-              <span className="loop pth-tick mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#007AFF]" style={{ animationDelay: `${k * 0.3}s` }}>
-                <Check className="h-3 w-3 text-white" strokeWidth={3.5} aria-hidden="true" />
-              </span>
-              {it}
-            </li>
+        <ul className="mt-6 flex flex-col border-t border-black/[0.08] dark:border-white/10">
+          {items.map(it => (
+            <li key={it} className="border-b border-black/[0.08] dark:border-white/10 py-3 text-[15px] leading-relaxed text-black/70 dark:text-white/75">{it}</li>
           ))}
         </ul>
       </div>

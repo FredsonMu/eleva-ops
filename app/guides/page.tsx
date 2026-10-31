@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { PageShell } from '@/components/PageShell';
-import { PageHeader } from '@/components/PageHeader';
+import { GuidesHero } from '@/components/hero/GuidesHero';
 import { GuidesSection } from '@/components/GuidesSection';
 
 export const metadata: Metadata = {
@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 export default function GuidesPage() {
   return (
     <PageShell>
-      <PageHeader label="guides.label" title="page.guides.title" lead="page.guides.lead" />
-      <GuidesSection heading={false} />
+      <GuidesHero />
+      <GuidesSection heading={false} layout="rows" />
     </PageShell>
   );
 }

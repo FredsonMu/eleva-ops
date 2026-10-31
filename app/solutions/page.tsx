@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { PageShell } from '@/components/PageShell';
-import { PageHeader } from '@/components/PageHeader';
+import { SolutionsHero } from '@/components/hero/SolutionsHero';
 import { SolutionsDetail } from '@/components/SolutionsDetail';
-import { ChaosStage } from '@/components/ChaosStage';
 
 export const metadata: Metadata = {
   title: 'Solutions',
@@ -10,12 +9,12 @@ export const metadata: Metadata = {
   alternates: { canonical: '/solutions' },
 };
 
+// Ends on the "not sure which one you need?" call to action; the chaos → order stage is on the homepage.
 export default function SolutionsPage() {
   return (
     <PageShell>
-      <PageHeader label="page.solutions.label" title="page.solutions.title" lead="page.solutions.lead" />
+      <SolutionsHero />
       <SolutionsDetail />
-      <ChaosStage />
     </PageShell>
   );
 }

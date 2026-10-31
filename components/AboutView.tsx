@@ -11,15 +11,12 @@ import { Reveal, useInView } from './Reveal';
 
 const COPY = {
   en: {
-    label: 'About us',
-    title: 'We build the systems so leaders can go back to leading.',
-    marquee: ['Fewer tools', 'More time', 'Systems that work', 'Built around your process', 'People stay in control'],
-    visionLabel: 'Our vision',
+    visionLabel: 'Why we exist',
     vision: [
-      'We saw brilliant leaders working like robots to keep their companies afloat: ',
-      { h: 'copying data' }, ', ', { h: 'chasing documents' }, ' and answering the same questions every day. ',
-      'So we build the websites, systems and AI agents that take that work off their plate, ',
-      'so they can get back to ', { h: 'clients' }, ', ', { h: 'their team' }, ' and ', { h: 'growth' }, '.',
+      'In most companies we visit, managers spend part of the week ',
+      { h: 'copying data' }, ', ', { h: 'chasing documents' }, ' and answering the same questions. ',
+      'We build the websites, internal systems and AI agents that handle that work, ',
+      'so the time goes back to ', { h: 'clients' }, ', ', { h: 'the team' }, ' and ', { h: 'planning' }, '.',
     ],
     teamLabel: 'The team',
     teamTitle: 'Small team. Direct contact.',
@@ -33,15 +30,12 @@ const COPY = {
     ],
   },
   pt: {
-    label: 'Sobre nós',
-    title: 'Construímos os sistemas para que os líderes possam voltar a liderar.',
-    marquee: ['Menos ferramentas', 'Mais tempo', 'Sistemas que funcionam', 'Feito à medida do seu processo', 'As pessoas mantêm o controlo'],
-    visionLabel: 'A nossa visão',
+    visionLabel: 'Porque existimos',
     vision: [
-      'Víamos líderes brilhantes a trabalhar como robôs para manter as empresas de pé: ',
-      { h: 'a copiar dados' }, ', ', { h: 'a perseguir documentos' }, ' e a responder às mesmas perguntas todos os dias. ',
-      'Por isso construímos os websites, sistemas e agentes de IA que lhes tiram esse trabalho, ',
-      'para que voltem aos ', { h: 'clientes' }, ', à ', { h: 'equipa' }, ' e ao ', { h: 'crescimento' }, '.',
+      'Na maioria das empresas que visitamos, quem gere passa parte da semana ',
+      { h: 'a copiar dados' }, ', ', { h: 'a procurar documentos' }, ' e a responder às mesmas perguntas. ',
+      'Construímos os websites, sistemas internos e agentes de IA que tratam desse trabalho, ',
+      'para que o tempo volte aos ', { h: 'clientes' }, ', à ', { h: 'equipa' }, ' e ao ', { h: 'planeamento' }, '.',
     ],
     teamLabel: 'A equipa',
     teamTitle: 'Equipa pequena. Contacto direto.',
@@ -107,30 +101,8 @@ export function AboutView() {
   let hi = 0;
   return (
     <>
-      {/* opening */}
-      <section className="pt-32 md:pt-44">
-        <Reveal y={24} duration={0.7} className="mx-auto max-w-3xl px-5 md:px-6 text-center">
-          <span className="text-[13px] font-semibold text-black/45 dark:text-white/45">{c.label}</span>
-          <h1 className="mt-3 font-sans text-[clamp(2.2rem,5vw,3.6rem)] leading-[1.08] tracking-tight font-semibold text-[#1d1d1f] dark:text-white text-balance">{c.title}</h1>
-        </Reveal>
-        {/* moving line of words */}
-        <div className="about-marquee mt-12 md:mt-16 overflow-hidden border-y border-black/[0.06] dark:border-white/10 py-4" aria-hidden="true">
-          <div className="about-marquee-track flex w-max gap-10 whitespace-nowrap">
-            {[0, 1].map(k => (
-              <div key={k} className="flex gap-10">
-                {c.marquee.map(w => (
-                  <span key={w} className="flex items-center gap-10 text-[clamp(1.1rem,2vw,1.5rem)] font-semibold tracking-tight text-black/25 dark:text-white/25">
-                    {w}<span className="h-1.5 w-1.5 rounded-full bg-[#007AFF]"></span>
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* vision: key words light up as the paragraph comes into view */}
-      <section className="py-16 md:py-24">
+      {/* vision: key words light up as the paragraph comes into view (the opening is AboutHero) */}
+      <section className="pt-20 pb-16 md:pt-28 md:pb-24">
         <div className="mx-auto max-w-4xl px-5 md:px-6">
           <span className="text-[13px] font-semibold text-black/45 dark:text-white/45">{c.visionLabel}</span>
           <p ref={visionRef} className={`mt-4 font-sans text-[clamp(1.4rem,2.8vw,2.2rem)] leading-[1.35] tracking-tight font-semibold text-black/35 dark:text-white/35 ${visionIn ? 'is-lit' : ''}`}>

@@ -11,7 +11,8 @@ import { ExcelIcon, GmailIcon, WhatsAppIcon } from './BrandIcons';
 
 const TITLE = 'font-sans text-[clamp(1.75rem,3.4vw,2.6rem)] leading-[1.15] tracking-tight font-semibold text-[#1d1d1f] dark:text-white text-balance';
 
-export function Methodology() {
+// `header` is off on /method, where MethodHero carries the page title.
+export function Methodology({ header = true }: { header?: boolean } = {}) {
   const { t } = useLanguage();
 
   const steps = ([1, 2, 3, 4] as const).map(n => ({
@@ -103,15 +104,17 @@ export function Methodology() {
   ];
 
   return (
-    <section id="metodo" className="relative bg-transparent pt-16 pb-24 md:pt-24 md:pb-36 z-10">
+    <section id="metodo" className={`relative bg-transparent ${header ? 'pt-16 md:pt-24' : 'pt-20 md:pt-28'} pb-24 md:pb-36 z-10`}>
       <div className="max-w-6xl mx-auto px-5 md:px-6">
 
-        <Reveal y={30} duration={0.7} className="mb-16 md:mb-24 flex flex-col items-center text-center">
-          <h2 className={`${TITLE} max-w-3xl`}>{t('meth.title1')}</h2>
-          <p className="mt-5 max-w-xl text-base md:text-lg leading-relaxed text-black/55 dark:text-white/55 text-pretty">
-            {t('meth.subtitle')}
-          </p>
-        </Reveal>
+        {header && (
+          <Reveal y={30} duration={0.7} className="mb-16 md:mb-24 flex flex-col items-center text-center">
+            <h2 className={`${TITLE} max-w-3xl`}>{t('meth.title1')}</h2>
+            <p className="mt-5 max-w-xl text-base md:text-lg leading-relaxed text-black/55 dark:text-white/55 text-pretty">
+              {t('meth.subtitle')}
+            </p>
+          </Reveal>
+        )}
 
         <ol className="flex flex-col gap-20 md:gap-32">
           {steps.map((s, i) => (

@@ -1,16 +1,17 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useLanguage } from '@/lib/i18n';
 import { ArrowRight, Check, ChevronDown } from 'lucide-react';
 import { COUNTRIES } from '@/lib/countries';
+import { CONTACT_EVENT, PREFILL_KEY } from '@/lib/contact';
 import { revealStyle, useInView } from './Reveal';
 
-// The homepage prompt hands its text over through sessionStorage.
-export const PREFILL_KEY = 'eleva-contact-prefill';
+const TEAM = ['eduardo', 'fredson', 'miguel'];
 
 export function Contact() {
   const { t } = useLanguage();
-  const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [formState, setFormState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [iso, setIso] = useState('PT');
   useEffect(() => {
     let text: string | null = null;
@@ -53,13 +54,10 @@ export function Contact() {
 
       setFormState('success');
       form.reset(); // Clear the form
-      
-      // Reset button state after 4 seconds
-      setTimeout(() => setFormState('idle'), 4000);
+      window.dispatchEvent(new CustomEvent(CONTACT_EVENT));
     } catch (error) {
       console.error(error);
-      setFormState('idle'); // Should probably add an error state later, but idle is fine for now
-      alert(t('contact.error'));
+      setFormState('error');
     }
   };
 
@@ -74,23 +72,40 @@ export function Contact() {
           {/* pitch */}
           <div>
             <span className="text-[13px] font-semibold text-black/45 dark:text-white/45">{t('contact.label')}</span>
-            <h2 className="mt-3 font-sans text-[clamp(1.75rem,3.4vw,2.6rem)] leading-[1.15] tracking-tight font-semibold text-[#1d1d1f] dark:text-white text-balance">
+            <h1 className="mt-3 font-sans text-[clamp(1.75rem,3.4vw,2.6rem)] leading-[1.15] tracking-tight font-semibold text-[#1d1d1f] dark:text-white text-balance">
               {t('contact.title1')}<span className="text-black/40 dark:text-white/40">{t('contact.title2')}</span>
-            </h2>
+            </h1>
             <p className="mt-5 max-w-md text-base md:text-lg leading-relaxed text-black/60 dark:text-white/60 text-pretty">
               {t('contact.desc')}
             </p>
-            <ul className="mt-8 flex flex-col gap-3">
+            <ul className="mt-8 flex flex-col border-t border-black/[0.08] dark:border-white/10">
               {(['contact.p1', 'contact.p2', 'contact.p3'] as const).map(k => (
-                <li key={k} className="flex items-center gap-2.5 text-[15px] font-medium text-[#1d1d1f] dark:text-white">
-                  <Check className="h-4 w-4 shrink-0 text-[#007AFF]" strokeWidth={2.5} aria-hidden="true" />
+                <li key={k} className="border-b border-black/[0.08] dark:border-white/10 py-3 text-[15px] font-medium text-[#1d1d1f] dark:text-white">
                   {t(k)}
                 </li>
               ))}
             </ul>
+            {/* real faces next to the form: the people who will read the message */}
+            <div className="mt-8 flex items-center gap-3">
+              <span className="flex -space-x-2.5" aria-hidden="true">
+                {TEAM.map(name => (
+                  <Image key={name} src={`/team/${name}.webp`} alt="" width={40} height={40} className="h-10 w-10 rounded-full object-cover object-top ring-2 ring-[#f6f6f7] dark:ring-[#0b1220] bg-[#bfe3fb]" />
+                ))}
+              </span>
+              <span className="max-w-[16rem] text-[14px] leading-snug text-black/60 dark:text-white/60">{t('contact.team')}</span>
+            </div>
           </div>
 
-          {/* form card */}
+          {formState === 'success' ? (
+            <div role="status" className="flex flex-col items-start rounded-2xl border border-black/[0.06] dark:border-white/10 bg-white dark:bg-[#0f1729] p-6 sm:p-8 shadow-[0_24px_48px_-28px_rgba(0,0,0,0.3)]">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#28c840]/15">
+                <Check className="h-5 w-5 text-[#1a9e33] dark:text-[#5fe07a]" strokeWidth={3} aria-hidden="true" />
+              </span>
+              <p className="mt-5 font-sans text-xl font-semibold tracking-tight text-[#1d1d1f] dark:text-white">{t('contact.sentTitle')}</p>
+              <p className="mt-2 text-[15px] leading-relaxed text-black/60 dark:text-white/60">{t('contact.sentDesc')}</p>
+              <button type="button" onClick={() => setFormState('idle')} className="mt-6 text-[14px] font-semibold text-brand">{t('contact.sendAnother')}</button>
+            </div>
+          ) : (
           <form onSubmit={handleSubmit} className="rounded-2xl border border-black/[0.06] dark:border-white/10 bg-white dark:bg-[#0f1729] p-5 sm:p-7 shadow-[0_24px_48px_-28px_rgba(0,0,0,0.3)]">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -139,16 +154,20 @@ export function Contact() {
               <label htmlFor="message" className={label}>{t('contact.message')}</label>
               <textarea id="message" name="message" required rows={5} className={`${field} resize-none`} placeholder={t('contact.placeholder')} />
             </div>
+            {formState === 'error' && (
+              <p role="alert" className="mt-4 rounded-xl bg-[#ff5f57]/10 px-4 py-3 text-[14px] text-[#c4302b] dark:text-[#ff8a84]">{t('contact.error')}</p>
+            )}
             <button
               type="submit"
-              disabled={formState !== 'idle'}
+              disabled={formState === 'loading'}
               className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#1d1d1f] dark:bg-white px-6 text-[15px] font-semibold text-white dark:text-[#020617] transition-colors hover:bg-black dark:hover:bg-white/90 disabled:opacity-70"
             >
-              {formState === 'idle' && <>{t('contact.submit')}<ArrowRight className="h-4 w-4" aria-hidden="true" /></>}
-              {formState === 'loading' && <><span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden="true"></span>{t('contact.loading')}</>}
-              {formState === 'success' && <><Check className="h-4 w-4 text-[#28c840]" aria-hidden="true" />{t('contact.success')}</>}
+              {formState === 'loading'
+                ? <><span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden="true"></span>{t('contact.loading')}</>
+                : <>{t('contact.submit')}<ArrowRight className="h-4 w-4" aria-hidden="true" /></>}
             </button>
           </form>
+          )}
         </div>
       </div>
     </section>

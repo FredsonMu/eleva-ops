@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import { Check } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/lib/i18n';
 import { Reveal } from './Reveal';
@@ -52,8 +51,7 @@ export function Team({ part = 'all' }: { part?: 'all' | 'commitment' | 'people' 
           {/* Commitments taken from the FAQ answers — no invented testimonials or figures. */}
           <ul className="mt-8 md:mt-10 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-x-8">
             {(['team.c1', 'team.c2', 'team.c3'] as const).map(key => (
-              <li key={key} className="flex items-center gap-2 text-[15px] font-medium text-black/70 dark:text-white/75">
-                <Check className="h-4 w-4 shrink-0 text-[#007AFF]" strokeWidth={2.5} aria-hidden="true" />
+              <li key={key} className="text-[15px] font-medium text-black/70 dark:text-white/75">
                 {t(key)}
               </li>
             ))}
