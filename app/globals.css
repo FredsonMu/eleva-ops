@@ -11,8 +11,7 @@
 
 @theme {
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
-}
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;}
 
 @layer utilities {
   .text-balance {
@@ -448,17 +447,13 @@ html {
   100% { opacity: 1; transform: none; }
 }
 
-/* About page (components/AboutView.tsx): moving line of words and vision highlights. */
-@keyframes about-marquee { to { transform: translateX(-50%); } }
-.about-marquee-track { animation: about-marquee 40s linear infinite; }
-.about-marquee:hover .about-marquee-track { animation-play-state: paused; }
+/* About page (components/AboutView.tsx): vision highlights. */
 .about-hi {
   background: linear-gradient(#007aff, #007aff) left bottom / 0% 3px no-repeat;
   transition: color 0.6s ease, background-size 0.8s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: inherit;
 }
 .is-lit .about-hi { color: var(--color-ink); background-size: 100% 3px; }
-@media (prefers-reduced-motion: reduce) { .about-marquee-track { animation: none; } }
 
 /* About team cards: the active card lifts, its photo drifts and its details slide up; the
    others rest dimmed. Mobile shows every caption (the row moves instead). */

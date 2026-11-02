@@ -1,15 +1,15 @@
 'use client';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { ArrowUp, Clock, FileCheck2, Search } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { TypeAnimation } from 'react-type-animation';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/i18n';
-import { PREFILL_KEY } from './Contact';
-import { ExcelIcon, GmailIcon, PaperIcon, SheetsIcon, WhatsAppIcon } from './BrandIcons';
+import { PREFILL_KEY } from '@/lib/contact';
+import { ToolLogos } from './ToolLogos';
 
-// Hero: the brand line with the typed word, then a prompt box (in the spirit of fynk / Notion AI)
-// where visitors describe the task that eats their week, with quick suggestions.
-// Sending the prompt drops it into the contact form below — a real first step, nothing faked.
+// Hero: the brand line with the typed word, what we do in one line, then a prompt box where visitors describe the task to solve,
+// with quick suggestions, and the tools we integrate with. Sending the prompt opens the
+// contact form with the text filled in.
 
 const TYPE_MS = 38;
 
@@ -61,16 +61,13 @@ export function Hero() {
     window.setTimeout(() => (document.getElementById(text ? 'name' : 'message') as HTMLElement | null)?.focus({ preventScroll: true }), reduced ? 0 : 700);
   };
 
-  const trust = [
-    { Icon: Search, text: t('hero.trust1') },
-    { Icon: FileCheck2, text: t('hero.trust2') },
-    { Icon: Clock, text: t('hero.trust3') },
-  ];
+  const trust = [t('hero.trust1'), t('hero.trust2'), t('hero.trust3')];
 
   return (
-    <section className="relative bg-transparent pt-32 pb-20 md:pt-40 md:pb-28 min-h-[90vh] flex items-center">
+    <section className="relative bg-transparent pt-32 pb-16 md:pt-40 md:pb-24 min-h-[90vh] flex items-center">
 
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center px-5 text-center md:px-6">
+        {/* The brand line with the typed word; the sentence below says plainly what we do. */}
         <h1 translate="no" className="notranslate hero-rise font-sans font-semibold text-[clamp(2.75rem,8vw,6rem)] leading-[0.9] tracking-tighter text-[#1d1d1f] dark:text-white flex flex-col items-center">
           <span className="flex items-center justify-center gap-2 md:gap-4">
             Eleva<span className="text-brand">.</span>
@@ -93,14 +90,14 @@ export function Hero() {
           </span>
         </h1>
 
-        <p className="hero-rise mt-8 md:mt-12 max-w-2xl text-lg md:text-[1.35rem] leading-[1.6] tracking-tight font-medium text-[#1d1d1f]/70 dark:text-white/70 text-balance" style={{ animationDelay: '160ms' }}>
-          {t('hero.desc1')}<span className="text-brand font-semibold">{t('hero.desc2')}</span>
+        <p className="hero-rise mt-8 md:mt-12 max-w-2xl text-lg md:text-xl leading-[1.6] tracking-tight text-black/60 dark:text-white/65 text-balance" style={{ animationDelay: '160ms' }}>
+          {t('hero.desc1')}{t('hero.desc2')}
         </p>
 
-        <ul className="hero-rise mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] font-medium text-black/55 dark:text-white/60" style={{ animationDelay: '220ms' }}>
-          {trust.map(({ Icon, text }) => (
+        <ul className="hero-rise mt-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[13px] font-medium text-black/55 dark:text-white/60" style={{ animationDelay: '220ms' }}>
+          {trust.map((text, i) => (
             <li key={text} className="flex items-center gap-2">
-              <Icon className="h-4 w-4 text-[#007AFF]" strokeWidth={2} aria-hidden="true" />{text}
+              {i > 0 && <span className="text-black/25 dark:text-white/25" aria-hidden="true">·</span>}{text}
             </li>
           ))}
         </ul>
@@ -121,14 +118,7 @@ export function Hero() {
               placeholder={reduced || focused ? examples[0] : typed}
               className="block w-full resize-none bg-transparent px-3 pt-2 text-[16px] md:text-[17px] leading-relaxed text-[#1d1d1f] dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 outline-none"
             />
-            <div className="mt-2 flex items-center justify-between gap-3 px-1">
-              <span className="flex items-center gap-1.5 pl-2" aria-hidden="true">
-                {[WhatsAppIcon, GmailIcon, SheetsIcon, ExcelIcon, PaperIcon].map((Icon, i) => (
-                  <span key={i} className="flex h-7 w-7 items-center justify-center rounded-full border border-black/[0.06] dark:border-white/10 bg-white dark:bg-white/[0.06]">
-                    <Icon className="h-3.5 w-3.5" />
-                  </span>
-                ))}
-              </span>
+            <div className="mt-2 flex items-center justify-end gap-3 px-1">
               <button
                 type="submit"
                 aria-label={t('hero.send')}
@@ -153,6 +143,8 @@ export function Hero() {
             ))}
           </div>
         </form>
+
+        <ToolLogos label={t('hero.tools')} className="hero-rise mt-16 md:mt-20 w-full" />
       </div>
     </section>
   );

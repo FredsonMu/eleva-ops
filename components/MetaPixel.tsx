@@ -3,10 +3,12 @@ import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { CONSENT_EVENT, getConsent } from '@/lib/consent';
 import { LEAD_EVENT } from './guide/GuideLeadForm';
+import { CONTACT_EVENT } from '@/lib/contact';
 
 // Meta Pixel, loaded only after the visitor accepts marketing cookies (GDPR / Law 41/2004).
-// Sends PageView on every page and Lead only when a guide lead was actually stored, using the
-// lead id as eventID so it can be deduplicated with a future Conversions API.
+// Sends PageView on every page, Lead only when a guide lead was actually stored (using the
+// lead id as eventID so it can be deduplicated with a future Conversions API), and Contact
+// when the contact form was sent successfully.
 
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? '3261345990742691';
 
@@ -51,11 +53,16 @@ export function MetaPixel() {
       const leadId = detail?.leadId;
       if (active.current) window.fbq?.('track', 'Lead', { content_name: detail?.guide ?? '7 AI Agents' }, leadId ? { eventID: leadId } : undefined);
     };
+    const onContact = () => {
+      if (active.current) window.fbq?.('track', 'Contact');
+    };
     window.addEventListener(CONSENT_EVENT, onConsent);
     window.addEventListener(LEAD_EVENT, onLead);
+    window.addEventListener(CONTACT_EVENT, onContact);
     return () => {
       window.removeEventListener(CONSENT_EVENT, onConsent);
       window.removeEventListener(LEAD_EVENT, onLead);
+      window.removeEventListener(CONTACT_EVENT, onContact);
     };
   }, []);
 

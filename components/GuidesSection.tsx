@@ -21,7 +21,8 @@ const BLURB: Record<GuideId, { en?: string; pt?: string; tag: { en?: string; pt?
   },
 };
 
-export function GuidesSection({ heading = true }: { heading?: boolean }) {
+// `rows` (on /guides): one open row per guide, cover beside the text, no boxed card.
+export function GuidesSection({ heading = true, layout = 'cards' }: { heading?: boolean; layout?: 'cards' | 'rows' }) {
   const { language, t } = useLanguage();
   const lang = language === 'pt' ? 'pt' : 'en';
   const guides = ORDER.flatMap(id => {
@@ -41,6 +42,34 @@ export function GuidesSection({ heading = true }: { heading?: boolean }) {
           </Reveal>
         )}
 
+        {layout === 'rows' ? (
+          <ol className="border-t border-black/[0.08] dark:border-white/10">
+            {guides.map(({ id, edition }, i) => (
+              <li key={id} className="border-b border-black/[0.08] dark:border-white/10">
+                <Reveal y={24} delay={i * 0.08}>
+                  <Link href={edition.path} className="group grid grid-cols-[88px_1fr] items-center gap-5 py-8 sm:grid-cols-[120px_1fr_auto] sm:gap-8 md:py-10">
+                    <Image
+                      src={edition.cover}
+                      alt=""
+                      width={edition.coverWidth}
+                      height={edition.coverHeight}
+                      sizes="120px"
+                      className="h-auto w-full -rotate-3 rounded-sm shadow-[0_18px_30px_-16px_rgba(0,30,90,0.45)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1 group-hover:rotate-0"
+                    />
+                    <span className="min-w-0">
+                      <span className="text-[12px] font-semibold text-black/45 dark:text-white/45">{BLURB[id].tag[lang]} · PDF</span>
+                      <span className="mt-1.5 block font-sans text-lg md:text-2xl font-semibold leading-snug tracking-tight text-[#1d1d1f] dark:text-white text-balance">{edition.title}</span>
+                      <span className="mt-2 hidden text-[15px] leading-relaxed text-black/60 dark:text-white/60 sm:block">{BLURB[id][lang]}</span>
+                    </span>
+                    <span className="col-span-2 inline-flex w-fit items-center gap-2 rounded-full bg-[#1d1d1f] dark:bg-white px-5 py-3 text-[14px] font-semibold text-white dark:text-[#020617] transition-colors group-hover:bg-black dark:group-hover:bg-white/90 sm:col-span-1">
+                      {t('guides.cta')}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                    </span>
+                  </Link>
+                </Reveal>
+              </li>
+            ))}
+          </ol>
+        ) : (
         <div className={`grid grid-cols-1 gap-4 md:gap-6 ${guides.length > 1 ? 'md:grid-cols-2' : 'mx-auto max-w-xl'}`}>
           {guides.map(({ id, edition }, i) => (
             <Reveal key={id} y={28} delay={i * 0.08} className="h-full">
@@ -67,6 +96,7 @@ export function GuidesSection({ heading = true }: { heading?: boolean }) {
             </Reveal>
           ))}
         </div>
+        )}
       </div>
     </section>
   );

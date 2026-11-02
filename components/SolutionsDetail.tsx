@@ -5,6 +5,8 @@ import { useLanguage } from '@/lib/i18n';
 import { Reveal } from './Reveal';
 import { tileBar, tileWindow } from './FeatureTile';
 import { ExcelIcon, GmailIcon, SheetsIcon, WhatsAppIcon } from './BrandIcons';
+import { PREFILL_KEY } from '@/lib/contact';
+import { ToolLogos } from './ToolLogos';
 
 // /solutions: one row per service — why it exists, what we build, when it fits — next to a
 // larger looping product moment. Loops reuse the CSS in globals.css (`.loop`, `.svc-*`,
@@ -15,31 +17,31 @@ type Lang = 'en' | 'pt';
 const COPY = {
   en: {
     how: 'How it works',
+    stages: ['Input', 'Process', 'Result'],
     steps: [
       ['Visitor lands from search or an ad', 'Clear page, one call to action', 'Enquiry arrives in your system, ready to answer'],
       ['Something happens (a form, an email, a payment)', 'The workflow runs the agreed steps', 'People only approve what needs a decision'],
       ['We map the information you use today', 'One shared place replaces scattered files', 'Each person sees what they need, up to date'],
       ['A client asks a question', 'The agent answers from your own information', 'It books or hands over to your team'],
     ],
-    jump: 'Jump to',
     why: 'Why it exists',
     build: 'What we build',
     fit: 'A good fit if',
     services: [
       {
-        id: 'websites', tag: 'Presence & Conversion', title: 'A website that brings in clients, not just visits.',
-        why: 'Most sites look fine but don’t turn visits into enquiries. Yours should work like your best salesperson.',
+        id: 'websites', tag: 'Websites', title: 'Websites built to generate enquiries.',
+        why: 'Many sites get visits but few enquiries: unclear pages, slow loading and forms that go nowhere. We build around one goal and measure it.',
         build: ['Fast websites and landing pages built around one goal', 'Forms that land straight in your systems', 'Campaign pages with tracking, in EN and PT'],
         fit: 'your site gets visits but few real enquiries, or you’re launching a campaign.',
       },
       {
-        id: 'automation', tag: 'Smart Automation', title: 'Steps that run by themselves, every time.',
+        id: 'automation', tag: 'Automation', title: 'Processes that run without manual steps.',
         why: 'Copying data and sending the same emails eats hours and causes mistakes. A system can do it reliably.',
         build: ['Connections between the tools you already use', 'Rules, reminders and approvals where a person decides', 'Clear logs of what ran and when'],
         fit: 'your team repeats the same steps every week or things fall between tools.',
       },
       {
-        id: 'platforms', tag: 'Internal Platforms', title: 'One place for clients, projects and team.',
+        id: 'platforms', tag: 'Internal platforms', title: 'One place for clients, projects and team.',
         why: 'When information lives in spreadsheets and chats, nobody has the full picture.',
         build: ['Client portals and dashboards made for your process', 'One shared record per client, project or order', 'Roles and permissions for each person'],
         fit: 'you manage your operation in spreadsheets, or software you pay for doesn’t fit.',
@@ -52,9 +54,10 @@ const COPY = {
       },
     ],
     toolsTitle: 'We connect the tools you already use.',
-    toolsLead: 'No need to start from zero: we build around what already works in your business.',
-    tools: ['Website & forms', 'Calendars', 'CRM', 'Invoicing', 'Documents', 'Team chat'],
+    toolsLead: 'We build around what already works in your business. If a tool has an API, we can integrate it.',
+    tools: 'Some of the tools we work with',
     cta: 'Not sure which one you need?', ctaBtn: 'Book a free diagnosis',
+    talk: 'Talk to us about this', interest: 'I’m interested in: ',
     scene: {
       enquiry: 'New enquiry · Brightwell Clinic', crm: 'Added to CRM', book: 'Book a call', name: 'Name', email: 'Email',
       flow: ['Form received', 'Client created in CRM', 'Contract sent for signature', 'Invoice issued', 'Team notified'],
@@ -65,31 +68,31 @@ const COPY = {
   },
   pt: {
     how: 'Como funciona',
+    stages: ['Entrada', 'Processo', 'Resultado'],
     steps: [
       ['O visitante chega pela pesquisa ou por um anúncio', 'Página clara, uma só ação', 'O pedido entra no seu sistema, pronto a responder'],
       ['Algo acontece (um formulário, um email, um pagamento)', 'O fluxo corre os passos acordados', 'As pessoas só aprovam o que exige decisão'],
       ['Mapeamos a informação que usa hoje', 'Um lugar partilhado substitui ficheiros soltos', 'Cada pessoa vê o que precisa, sempre atualizado'],
       ['Um cliente faz uma pergunta', 'O agente responde com a informação da sua empresa', 'Marca ou passa à sua equipa'],
     ],
-    jump: 'Ir para',
     why: 'Porque existe',
     build: 'O que construímos',
     fit: 'Faz sentido se',
     services: [
       {
-        id: 'websites', tag: 'Presença & Conversão', title: 'Um site que traz clientes, não só visitas.',
-        why: 'A maioria dos sites parece bem mas não transforma visitas em pedidos. O seu deve trabalhar como o melhor vendedor.',
+        id: 'websites', tag: 'Websites', title: 'Websites feitos para gerar pedidos.',
+        why: 'Muitos sites têm visitas mas poucos pedidos: páginas pouco claras, carregamento lento e formulários que não chegam a ninguém. Construímos à volta de um objetivo e medimos o resultado.',
         build: ['Websites e landing pages rápidos, com um objetivo claro', 'Formulários que entram direto nos seus sistemas', 'Páginas de campanha com medição, em PT e EN'],
         fit: 'o seu site tem visitas mas poucos pedidos reais, ou vai lançar uma campanha.',
       },
       {
-        id: 'automation', tag: 'Automação Inteligente', title: 'Passos que correm sozinhos, sempre.',
+        id: 'automation', tag: 'Automação', title: 'Processos que correm sem passos manuais.',
         why: 'Copiar dados e enviar os mesmos emails consome horas e gera erros. Um sistema faz isso com fiabilidade.',
         build: ['Ligações entre as ferramentas que já usa', 'Regras, lembretes e aprovações onde uma pessoa decide', 'Registos claros do que correu e quando'],
         fit: 'a sua equipa repete os mesmos passos todas as semanas ou há coisas que se perdem entre ferramentas.',
       },
       {
-        id: 'platforms', tag: 'Plataformas Internas', title: 'Um só lugar para clientes, projetos e equipa.',
+        id: 'platforms', tag: 'Plataformas internas', title: 'Um só lugar para clientes, projetos e equipa.',
         why: 'Quando a informação vive em folhas de cálculo e conversas, ninguém tem a visão completa.',
         build: ['Portais de clientes e painéis feitos para o seu processo', 'Um registo partilhado por cliente, projeto ou encomenda', 'Perfis e permissões para cada pessoa'],
         fit: 'gere a operação em folhas de cálculo, ou o software que paga não encaixa.',
@@ -102,9 +105,10 @@ const COPY = {
       },
     ],
     toolsTitle: 'Ligamos as ferramentas que já usa.',
-    toolsLead: 'Não é preciso começar do zero: construímos à volta do que já funciona na sua empresa.',
-    tools: ['Site e formulários', 'Calendários', 'CRM', 'Faturação', 'Documentos', 'Chat da equipa'],
+    toolsLead: 'Construímos à volta do que já funciona na sua empresa. Se uma ferramenta tem API, conseguimos integrá-la.',
+    tools: 'Algumas das ferramentas com que trabalhamos',
     cta: 'Não sabe qual precisa?', ctaBtn: 'Agendar diagnóstico gratuito',
+    talk: 'Falar sobre esta solução', interest: 'Tenho interesse em: ',
     scene: {
       enquiry: 'Novo pedido · Clínica Brightwell', crm: 'Adicionado ao CRM', book: 'Marcar chamada', name: 'Nome', email: 'Email',
       flow: ['Formulário recebido', 'Cliente criado no CRM', 'Contrato enviado para assinatura', 'Fatura emitida', 'Equipa notificada'],
@@ -238,6 +242,9 @@ function AgentScene({ s }: { s: Scene }) {
 
 const SCENES = [WebsiteScene, AutomationScene, PlatformScene, AgentScene];
 
+// The scenes and their copy are also used by the /solutions hero (components/hero/SolutionsHero.tsx).
+export { COPY as SOLUTIONS_COPY, SCENES as SOLUTION_SCENES };
+
 export function SolutionsDetail() {
   const { language } = useLanguage();
   const lang: Lang = language === 'pt' ? 'pt' : 'en';
@@ -245,14 +252,8 @@ export function SolutionsDetail() {
 
   return (
     <>
-      {/* quick links */}
-      <nav aria-label={c.jump} className="mx-auto mt-6 flex max-w-3xl flex-wrap justify-center gap-2 px-5">
-        {c.services.map(sv => (
-          <a key={sv.id} href={`#${sv.id}`} className="rounded-full bg-black/[0.05] dark:bg-white/[0.07] px-4 py-2 text-[14px] text-black/70 dark:text-white/75 transition-colors hover:bg-black/[0.09] dark:hover:bg-white/[0.12]">{sv.tag}</a>
-        ))}
-      </nav>
-
-      <div className="max-w-6xl mx-auto px-5 md:px-6 py-14 md:py-20 flex flex-col gap-16 md:gap-24">
+      {/* the hero's floating chips link to each section below */}
+      <div className="max-w-6xl mx-auto px-5 md:px-6 py-20 md:py-28 flex flex-col gap-16 md:gap-24">
         {c.services.map((sv, i) => {
           const Scene = SCENES[i];
           return (
@@ -265,33 +266,42 @@ export function SolutionsDetail() {
                   <span className="text-[13px] font-semibold text-black/45 dark:text-white/45">0{i + 1} · {sv.tag}</span>
                   <h2 className="mt-3 font-sans text-[clamp(1.75rem,3.4vw,2.6rem)] leading-[1.15] tracking-tight font-semibold text-[#1d1d1f] dark:text-white text-balance">{sv.title}</h2>
                   <p className="mt-4 text-base md:text-[17px] leading-relaxed text-black/65 dark:text-white/65 text-pretty">{sv.why}</p>
-                  <ul className="mt-6 flex flex-col gap-2.5">
+                  <ul className="mt-6 flex flex-col border-t border-black/[0.08] dark:border-white/10">
                     {sv.build.map(b => (
-                      <li key={b} className="flex items-start gap-2.5 text-[15px] leading-snug text-[#1d1d1f] dark:text-white/90">
-                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#007AFF]" strokeWidth={2.5} aria-hidden="true" />{b}
-                      </li>
+                      <li key={b} className="border-b border-black/[0.08] dark:border-white/10 py-2.5 text-[15px] leading-snug text-[#1d1d1f] dark:text-white/90">{b}</li>
                     ))}
                   </ul>
                   <p className="mt-6 border-l-2 border-[#007AFF] pl-4 text-[14px] leading-relaxed text-black/60 dark:text-white/65">
                     <span className="font-semibold text-brand">{c.fit}</span> {sv.fit}
                   </p>
+                  {/* ask at the moment of interest; the contact form opens with the service filled in */}
+                  <Link
+                    href="/contact"
+                    onClick={() => { try { sessionStorage.setItem(PREFILL_KEY, `${c.interest}${sv.tag}. `); } catch { /* storage blocked */ } }}
+                    className="group mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-black/10 dark:border-white/15 bg-white/80 dark:bg-white/[0.06] px-5 text-[14px] font-semibold text-[#1d1d1f] dark:text-white transition-colors hover:bg-white dark:hover:bg-white/10"
+                  >
+                    {c.talk}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                  </Link>
                 </div>
               </Reveal>
-              {/* how it works: three steps with a line that fills in turn */}
+              {/* how it works: one quiet card, input → process → result, split by hairlines */}
               <Reveal y={20} className="mt-8 md:mt-10">
-                <p className="text-[11px] font-semibold uppercase tracking-widest text-black/40 dark:text-white/40">{c.how}</p>
-                <ol className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-                  {c.steps[i].map((st, k) => (
-                    <li key={st} className="flex gap-3 sm:block">
-                      <span className="mt-2 block h-[2px] w-8 shrink-0 overflow-hidden rounded-full bg-black/[0.08] dark:bg-white/10 sm:mt-0 sm:w-full">
-                        <span className="loop pth-meter block h-full w-full rounded-full bg-[#007AFF]" style={{ animationDelay: `${k * 0.7}s` }}></span>
-                      </span>
-                      <span className="text-[15px] leading-snug text-black/70 dark:text-white/75 sm:mt-3 sm:block">
-                        <span className="mr-1.5 font-mono text-[12px] font-bold text-brand">0{k + 1}</span>{st}
-                      </span>
-                    </li>
-                  ))}
-                </ol>
+                <div className="overflow-hidden rounded-2xl bg-white/70 dark:bg-white/[0.03] ring-1 ring-black/[0.07] dark:ring-white/10">
+                  <p className="border-b border-black/[0.06] dark:border-white/10 px-5 py-3 text-[13px] font-semibold text-[#1d1d1f] dark:text-white">{c.how}</p>
+                  <ol className="grid grid-cols-1 divide-y divide-black/[0.06] dark:divide-white/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+                    {c.steps[i].map((st, k) => (
+                      <li key={st} className="relative px-5 py-4 sm:py-5">
+                        <span className="text-[12px] font-medium text-black/45 dark:text-white/45">{c.stages[k]}</span>
+                        <p className="mt-1 text-[15px] leading-snug text-[#1d1d1f] dark:text-white/90">{st}</p>
+                        {k < 2 && (
+                          <span className="absolute -bottom-3 left-5 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-white dark:bg-[#0f1729] ring-1 ring-black/[0.08] dark:ring-white/15 sm:-right-3 sm:bottom-auto sm:left-auto sm:top-1/2 sm:-translate-y-1/2" aria-hidden="true">
+                            <ArrowRight className="h-3 w-3 rotate-90 text-black/50 dark:text-white/55 sm:rotate-0" />
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
               </Reveal>
             </section>
           );
@@ -304,14 +314,7 @@ export function SolutionsDetail() {
           <Reveal y={28} className="rounded-3xl bg-black/[0.03] dark:bg-white/[0.04] px-6 py-12 md:px-14 md:py-16 text-center">
             <h2 className="mx-auto max-w-2xl font-sans text-[clamp(1.6rem,3vw,2.2rem)] leading-[1.2] tracking-tight font-semibold text-[#1d1d1f] dark:text-white text-balance">{c.toolsTitle}</h2>
             <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-black/55 dark:text-white/55">{c.toolsLead}</p>
-            <div className="mt-8 flex flex-wrap justify-center gap-2.5">
-              {[WhatsAppIcon, GmailIcon, SheetsIcon, ExcelIcon].map((Icon, i) => (
-                <span key={i} className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white dark:bg-white/[0.06] shadow-[0_6px_16px_-10px_rgba(0,0,0,0.3)]"><Icon className="h-5 w-5" /></span>
-              ))}
-              {c.tools.map(tl => (
-                <span key={tl} className="flex h-11 items-center rounded-2xl bg-white dark:bg-white/[0.06] px-4 text-[14px] font-medium text-black/70 dark:text-white/75 shadow-[0_6px_16px_-10px_rgba(0,0,0,0.3)]">{tl}</span>
-              ))}
-            </div>
+            <ToolLogos label={c.tools} className="mt-10" />
             <div className="mt-10 flex flex-col items-center gap-3">
               <span className="text-[15px] text-black/55 dark:text-white/55">{c.cta}</span>
               <Link href="/contact" className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#1d1d1f] dark:bg-white px-6 text-[14px] font-semibold text-white dark:text-[#020617] transition-colors hover:bg-black dark:hover:bg-white/90">
