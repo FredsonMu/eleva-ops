@@ -257,5 +257,6 @@ export const dict = {
   'footer.contact': { pt: 'Pedir diagnóstico gratuito', en: 'Request a free diagnosis' },
   'footer.desc': { pt: 'Analisamos o processo atual, dizemos o que vale a pena resolver primeiro e enviamos uma proposta com âmbito e preço fechados.', en: 'We review your current process, tell you what is worth fixing first and send a proposal with a fixed scope and price.' },
   'footer.cookies': { pt: 'Cookies', en: 'Cookie settings' },
+  'footer.privacy': { pt: 'Política de Privacidade', en: 'Privacy Policy' },
   'footer.rights': { pt: '© 2026 Eleva Ops.', en: '© 2026 Eleva Ops.' },
 } as const;

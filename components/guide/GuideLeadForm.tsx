@@ -58,6 +58,12 @@ const COPY = {
   },
 } as const;
 
+// Main button looks: the guides keep the blue call to action; the manual (short form) uses the
+// site's dark pill so it matches the rest of its page.
+const BUTTON_BASE = 'inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full px-5 sm:px-8 whitespace-nowrap transition-[background-color,transform,opacity] duration-200 active:scale-[0.98]';
+const BRAND_BUTTON = 'bg-[#007AFF] text-[13px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.14em] text-white shadow-[0_14px_34px_-10px_rgba(0,122,255,0.65)] hover:bg-[#0066dd]';
+const NEUTRAL_BUTTON = 'bg-[#1d1d1f] dark:bg-white text-[16px] font-semibold text-white dark:text-[#020617] hover:bg-black dark:hover:bg-white/90';
+
 // `variant="short"`: first name, email and team size only (three required fields, nothing
 // optional), for pages where every extra field costs sign-ups. Errors show as soon as a field
 // is left, not only on submit.
@@ -197,7 +203,7 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
         <a
           href={download}
           download={guide.pdfFileName}
-          className="mt-8 inline-flex min-h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-[#007AFF] px-5 sm:px-8 text-[13px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.14em] whitespace-nowrap text-white shadow-[0_14px_34px_-10px_rgba(0,122,255,0.65)] transition-[background-color,transform] duration-200 hover:bg-[#0066dd] active:scale-[0.98]"
+          className={`mt-8 ${BUTTON_BASE} sm:w-auto ${short ? NEUTRAL_BUTTON : BRAND_BUTTON}`}
         >
           <Download className="h-5 w-5" aria-hidden="true" />
           {copy?.download ?? c.download}
@@ -301,9 +307,10 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
       </div>
 
       {short && (
-        <fieldset aria-describedby={fieldErrors.teamSize ? `${ids.team}-error` : undefined} className="flex flex-col gap-2">
+        <fieldset aria-describedby={fieldErrors.teamSize ? `${ids.team}-error` : undefined} className="@container flex flex-col gap-2">
           <legend className="mb-2 text-sm font-semibold text-[#1d1d1f] dark:text-white">{copy?.teamSizeLabel ?? c.teamSize}</legend>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          {/* Four in a row only when the card itself is wide enough (container query), not the screen. */}
+          <div className="grid grid-cols-2 @md:grid-cols-4 gap-2">
             {TEAM_SIZES.map(size => (
               <label key={size} className="relative cursor-pointer">
                 <input
@@ -367,7 +374,7 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="group mt-1 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-[#007AFF] px-5 sm:px-8 text-[13px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.14em] whitespace-nowrap text-white shadow-[0_14px_34px_-10px_rgba(0,122,255,0.65)] transition-[background-color,transform,opacity] duration-200 hover:bg-[#0066dd] active:scale-[0.98] disabled:opacity-80 disabled:cursor-wait"
+        className={`group mt-1 ${BUTTON_BASE} ${short ? NEUTRAL_BUTTON : BRAND_BUTTON} disabled:opacity-80 disabled:cursor-wait`}
       >
         {status === 'submitting' ? (
           <>
