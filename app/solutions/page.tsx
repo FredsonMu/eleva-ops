@@ -4,8 +4,8 @@ import { SolutionsHero } from '@/components/hero/SolutionsHero';
 import { SolutionsDetail } from '@/components/SolutionsDetail';
 
 export const metadata: Metadata = {
-  title: 'Solutions',
-  description: 'Websites, custom software, automations and AI agents, designed around the way your business works.',
+  title: 'Soluções',
+  description: 'Websites, software à medida, automações e agentes de IA, desenhados à volta de como o seu negócio trabalha.',
   alternates: { canonical: '/solutions' },
 };
 

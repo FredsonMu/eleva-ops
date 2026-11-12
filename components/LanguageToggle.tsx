@@ -11,7 +11,7 @@ const HALF_MS = 400;
 export function LanguageToggle() {
   const { language, toggleLanguage } = useLanguage();
   const [phase, setPhase] = useState<Phase>('idle');
-  const [targetLang, setTargetLang] = useState<'pt' | 'en'>('en');
+  const [targetLang, setTargetLang] = useState<'pt' | 'en'>('pt');
   const timers = useRef<number[]>([]);
 
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
@@ -70,7 +70,7 @@ export function LanguageToggle() {
         <div className="flex items-center gap-4" role="status">
           <div className="w-10 h-10 rounded-full border border-white/20 border-t-white animate-spin"></div>
           <span className="text-white font-sans text-xl font-medium tracking-tight">
-            {targetLang === 'en' ? 'Translating to English...' : 'Traduzindo para Português...'}
+            {targetLang === 'en' ? 'Translating to English...' : 'A traduzir para português...'}
           </span>
         </div>
       </div>

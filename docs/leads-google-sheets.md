@@ -34,7 +34,7 @@ The site only shows "Your guide is ready." after the lead was actually stored (s
 // Eleva Ops — receives guide leads from elevaops.com and appends them to the "Leads" tab.
 const SECRET = 'PASTE_THE_SECRET_HERE';
 const SHEET_NAME = 'Leads';
-const HEADERS = ['Data', 'Nome', 'Email', 'Aceita marketing', 'Origem', 'Meio', 'Campanha', 'Anúncio', 'Conjunto de anúncios', 'ID da lead', 'Empresa', 'Telefone', 'Idioma', 'Guia'];
+const HEADERS = ['Data', 'Nome', 'Email', 'Aceita marketing', 'Origem', 'Meio', 'Campanha', 'Anúncio', 'Conjunto de anúncios', 'ID da lead', 'Empresa', 'Telefone', 'Idioma', 'Guia', 'Pessoas'];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -59,6 +59,7 @@ function doPost(e) {
       clean(data.phone),
       clean(data.language),
       clean(data.guide),
+      clean(data.teamSize),
     ]);
     return json({ ok: true });
   } catch (err) {
@@ -127,3 +128,11 @@ before this change: paste the new code above over the old one, then *Deploy → 
 Edit → Version: New version → Deploy* (the web app URL stays the same). In an existing sheet, type
 `Empresa` and `Telefone` in the first two empty header cells after `ID da lead`. Until the script is
 updated, leads still arrive by email with all fields; the sheet just won't store the two new ones.
+
+### Updating an existing script (team size column)
+
+The manual's form (`/manual`) also sends **Pessoas**: the size of the firm (`1-2`, `3-5`, `6-10`
+or `10+`). It is the qualifying field: firms with 3 to 10 people are the audience for LegalOps.
+Update the script the same way as above (paste the new code, deploy a new version) and type
+`Pessoas` in the first empty header cell after `Guia`. Until then the value still arrives in the
+notification email as "Team size".

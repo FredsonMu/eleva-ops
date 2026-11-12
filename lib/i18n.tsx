@@ -13,15 +13,15 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-// Every page load starts in English. The visitor's choice is kept in memory while they
+// Every page load starts in Portuguese (the site's main language). The visitor's choice is kept in memory while they
 // browse the site (client-side navigation, back/forward) and is not stored on the device.
 // A page can start in another language by wrapping itself in a nested provider with
-// `initialLanguage` (e.g. the Portuguese guide page); that subtree then owns <html lang>.
-export function LanguageProvider({ children, initialLanguage = 'en', scoped = false }: { children: React.ReactNode; initialLanguage?: Language; scoped?: boolean }) {
+// `initialLanguage` (e.g. the English guide page); that subtree then owns <html lang>.
+export function LanguageProvider({ children, initialLanguage = 'pt', scoped = false }: { children: React.ReactNode; initialLanguage?: Language; scoped?: boolean }) {
   const [language, setLanguage] = useState<Language>(initialLanguage);
 
   const toggleLanguage = useCallback(() => {
-    setLanguage(prev => (prev === 'en' ? 'pt' : 'en'));
+    setLanguage(prev => (prev === 'pt' ? 'en' : 'pt'));
   }, []);
 
   const t = useCallback((key: keyof typeof dict) => {

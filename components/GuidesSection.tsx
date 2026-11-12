@@ -8,8 +8,12 @@ import { Reveal } from './Reveal';
 
 // Free guides available in the current language, newest first. Used on the homepage and on
 // /guides. Each card leads to the guide's own landing page.
-const ORDER: GuideId[] = ['ai-lawyers', 'ai-agents'];
+const ORDER: GuideId[] = ['manual-prazos', 'ai-lawyers', 'ai-agents'];
 const BLURB: Record<GuideId, { en?: string; pt?: string; tag: { en?: string; pt?: string } }> = {
+  'manual-prazos': {
+    pt: 'Quanto tempo perde o seu escritório entre tarefas? Um método para o medir e quatro princípios para o reduzir.',
+    tag: { pt: 'Para escritórios de advogados' },
+  },
   'ai-lawyers': {
     pt: '10 exemplos práticos para usar IA no trabalho à volta do processo, sempre com a revisão do advogado.',
     tag: { pt: 'Para escritórios de advogados' },
@@ -70,7 +74,7 @@ export function GuidesSection({ heading = true, layout = 'cards' }: { heading?: 
             ))}
           </ol>
         ) : (
-        <div className={`grid grid-cols-1 gap-4 md:gap-6 ${guides.length > 1 ? 'md:grid-cols-2' : 'mx-auto max-w-xl'}`}>
+        <div className={`grid grid-cols-1 gap-4 md:gap-6 ${guides.length > 2 ? 'md:grid-cols-3' : guides.length > 1 ? 'md:grid-cols-2' : 'mx-auto max-w-xl'}`}>
           {guides.map(({ id, edition }, i) => (
             <Reveal key={id} y={28} delay={i * 0.08} className="h-full">
               <Link href={edition.path} className="group flex h-full flex-col overflow-hidden rounded-3xl bg-black/[0.03] dark:bg-white/[0.04] transition-colors hover:bg-black/[0.05] dark:hover:bg-white/[0.07]">

@@ -3,14 +3,16 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Check, Download, Loader2, X } from 'lucide-react';
-import { GUIDES, LIMITS } from '@/lib/guide';
+import { CATALOG, GUIDES, LIMITS } from '@/lib/guide';
 import { useLanguage } from '@/lib/i18n';
 import { captureTracking, getTracking } from './guide/tracking';
 import { LEAD_EVENT } from './guide/GuideLeadForm';
 import { PhoneInput } from './PhoneInput';
 import { CONSENT_EVENT, getConsent } from '@/lib/consent';
 
-// Small corner card for the "7 AI Agents" guide. The cover peeks out of the top edge, and the
+// Small corner card. In Portuguese (the site's main language) it presents the manual "Entre
+// prazos e processos" and leads to its page, where the form is. In English it keeps the inline
+// sign-up for the "7 AI Agents" guide: The cover peeks out of the top edge, and the
 // sign-up asks the same fields as the guide page (email, first name, company, phone) one at a
 // time, so the card stays one line tall. It slides in after 45% scroll or 40s and stays away for
 // 14 days once closed (for good once someone signs up). Posts to the same /api/guide-lead
@@ -169,6 +171,41 @@ export function GuidePopup() {
   }
 
   if (!open) return null;
+
+  if (lang === 'pt') {
+    const manual = CATALOG['manual-prazos'].editions.pt!;
+    return (
+      <aside aria-label="Manual gratuito" className="guide-card-in fixed inset-x-3 bottom-3 z-[80] sm:inset-x-auto sm:bottom-5 sm:right-5 sm:w-[360px]">
+        <div className="relative rounded-2xl border border-black/[0.08] dark:border-white/10 bg-white dark:bg-[#0f1729] p-4 pt-5 shadow-[0_24px_60px_-20px_rgba(0,30,90,0.35)]">
+          <div className="guide-peek absolute -top-9 left-4 w-14 rotate-[-8deg]" aria-hidden="true">
+            <Image src={manual.cover} alt="" width={manual.coverWidth} height={manual.coverHeight} sizes="56px" className="rounded-[4px] shadow-[0_10px_20px_-8px_rgba(0,0,0,0.45)]" />
+          </div>
+          <button
+            type="button"
+            onClick={close}
+            aria-label={c.close}
+            className="absolute right-2.5 top-2.5 flex h-7 w-7 items-center justify-center rounded-full text-black/45 dark:text-white/50 transition-colors hover:bg-black/[0.05] dark:hover:bg-white/10"
+          >
+            <X className="h-3.5 w-3.5" aria-hidden="true" />
+          </button>
+          <div className="pl-[68px] pr-6">
+            <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest text-brand">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#007AFF]"></span>Manual gratuito
+            </span>
+            <p className="mt-1 text-[14px] font-semibold leading-snug text-[#1d1d1f] dark:text-white">Quanto tempo perde o seu escritório entre tarefas?</p>
+          </div>
+          <p className="mt-3 text-[13px] leading-relaxed text-black/60 dark:text-white/60">Para escritórios de advogados: um método para medir esse tempo e quatro princípios para o reduzir.</p>
+          <Link
+            href={manual.path}
+            onClick={close}
+            className="mt-3 flex h-10 items-center justify-center gap-1.5 rounded-full bg-[#007AFF] text-[13px] font-semibold text-white transition-colors hover:bg-[#0066dd]"
+          >
+            Receber o manual<ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </Link>
+        </div>
+      </aside>
+    );
+  }
 
   const inputClass = 'guide-step-in min-w-0 flex-1 bg-transparent text-[14px] text-[#1d1d1f] dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 outline-none';
 

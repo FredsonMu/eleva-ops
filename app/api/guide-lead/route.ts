@@ -4,7 +4,7 @@ import { CATALOG, getEdition, leadLanguage, validateLead } from '@/lib/guide';
 import { appendLeadToSheet, isSheetConfigured } from '@/lib/leads-sheet';
 import { sendGuideToLead } from '@/lib/guide-email';
 
-// Registers a lead for the "7 AI Agents" guide: appends it to the leads Google Sheet and
+// Registers a lead for one of the free guides (or the manual): appends it to the leads Google Sheet and
 // emails a notification to the team inbox through Resend. The client only unlocks the
 // download when this route answers `ok: true`, i.e. after the lead was actually stored —
 // nothing is faked when the services aren't configured.
@@ -84,7 +84,7 @@ export async function POST(request: Request) {
 
   const result = validateLead(body);
   if (!result.ok) return fail(422, result.error, result.field);
-  const { firstName, email, companyName, phone, marketingConsent, language, guideId, tracking } = result.lead;
+  const { firstName, email, companyName, phone, teamSize, marketingConsent, language, guideId, tracking } = result.lead;
   const guide = getEdition(guideId, language).edition;
 
   const client = getResend();
@@ -114,6 +114,7 @@ export async function POST(request: Request) {
           <p><strong>Email:</strong> ${escapeHtml(email)}</p>
           <p><strong>Company:</strong> ${companyName ? escapeHtml(companyName) : '—'}</p>
           <p><strong>Phone:</strong> ${phone ? escapeHtml(phone) : '—'}</p>
+          <p><strong>Team size:</strong> ${teamSize ? escapeHtml(teamSize) : '—'}</p>
           <p><strong>Language:</strong> ${language === 'pt' ? 'Português' : 'English'}</p>
           <p><strong>Marketing consent:</strong> ${marketingConsent ? 'Yes, opted in' : 'No'}</p>
           <p><strong>Submitted:</strong> ${new Date().toISOString()}</p>
@@ -136,7 +137,7 @@ export async function POST(request: Request) {
   // (and the download is unlocked) only if at least one of them actually stored it.
   const [savedToSheet, emailed] = await Promise.all([
     sheetEnabled
-      ? appendLeadToSheet({ leadId, firstName, email, companyName, phone, marketingConsent, language: language === 'pt' ? 'PT' : 'EN', guide: CATALOG[guideId].name, ...tracking })
+      ? appendLeadToSheet({ leadId, firstName, email, companyName, phone, teamSize, marketingConsent, language: language === 'pt' ? 'PT' : 'EN', guide: CATALOG[guideId].name, ...tracking })
       : Promise.resolve(false),
     sendEmail(),
   ]);

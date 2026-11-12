@@ -144,7 +144,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" translate="no" className={`notranslate ${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="pt-PT" translate="no" className={`notranslate ${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
         <script
           type="application/ld+json"

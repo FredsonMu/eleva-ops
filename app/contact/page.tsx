@@ -5,8 +5,8 @@ import { FAQ } from '@/components/FAQ';
 import { ContactNext } from '@/components/ContactNext';
 
 export const metadata: Metadata = {
-  title: 'Contact',
-  description: 'Tell us what you want to build or fix. Free diagnosis, a reply within 24 hours.',
+  title: 'Contacto',
+  description: 'Diga-nos o que quer construir ou resolver. Diagnóstico gratuito e resposta em 24 horas úteis.',
   alternates: { canonical: '/contact' },
 };
 

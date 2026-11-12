@@ -51,6 +51,13 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
   const items = guide.emailItems ?? c.items;
   const helpTitle = guide.emailHelpTitle ?? c.helpTitle;
   const helpBody = guide.emailHelpBody ?? c.helpBody;
+  // Portuguese copy says "guia"; an edition can be called something else (e.g. "manual").
+  const noun = lang === 'pt' ? guide.emailNoun ?? 'guia' : 'guide';
+  const w = (v: string) => (noun === 'manual' ? v.replace(/\bguia\b/g, 'manual').replace(/\bGuia\b/g, 'Manual') : v);
+  const note = guide.emailNote ? escapeHtml(guide.emailNote) : '';
+  const signature = guide.emailSignature ? escapeHtml(guide.emailSignature) : '';
+  // With a signature the next step is a reply to a person, not a booking.
+  const replyStep = Boolean(guide.emailSignature);
   const pdfUrl = `${SITE}${guide.pdf}`;
   const otherPdfUrl = other ? `${SITE}${other.pdf}` : '';
   const diagnosisUrl = `${SITE}/contact`;
@@ -67,7 +74,7 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
 <title>${title}</title>
 </head>
 <body style="margin:0;padding:0;background:#f5f5f7;-webkit-text-size-adjust:100%;">
-<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${c.preheader}</div>
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${w(c.preheader)}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f5f5f7;">
   <tr><td align="center" style="padding:40px 16px;font-family:${FONT};color:#1d1d1f;">
 
@@ -86,18 +93,19 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
           </td></tr>
 
           <tr><td style="padding:36px 36px 8px;">
-            <p style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#0066cc;">${c.label}</p>
-            <h1 style="margin:12px 0 0;font-size:28px;line-height:1.2;font-weight:600;letter-spacing:-0.02em;color:#1d1d1f;">${c.hello(name)}</h1>
+            <p style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#0066cc;">${w(c.label)}</p>
+            <h1 style="margin:12px 0 0;font-size:28px;line-height:1.2;font-weight:600;letter-spacing:-0.02em;color:#1d1d1f;">${w(c.hello(name))}</h1>
             <p style="margin:14px 0 0;font-size:16px;line-height:1.6;color:#5f5f66;">
               ${c.thanks(title)}
-            </p>
+            </p>${note ? `
+            <p style="margin:14px 0 0;font-size:16px;line-height:1.6;color:#5f5f66;">${note}</p>` : ''}
           </td></tr>
 
           <!-- button -->
           <tr><td style="padding:24px 36px 8px;">
             <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
               <td style="background:#007AFF;border-radius:999px;">
-                <a href="${pdfUrl}" style="display:inline-block;padding:15px 28px;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;font-family:${FONT};">${c.button}&nbsp;&nbsp;→</a>
+                <a href="${pdfUrl}" style="display:inline-block;padding:15px 28px;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;font-family:${FONT};">${w(c.button)}&nbsp;&nbsp;→</a>
               </td>
             </tr></table>
             <p style="margin:12px 0 0;font-size:13px;color:#8e8e93;">${guide.pdfInfo}</p>
@@ -105,7 +113,7 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
 
           <!-- what's inside -->
           <tr><td style="padding:28px 36px 8px;">
-            <p style="margin:0 0 10px;font-size:14px;font-weight:600;color:#1d1d1f;">${c.inside}</p>
+            <p style="margin:0 0 10px;font-size:14px;font-weight:600;color:#1d1d1f;">${w(c.inside)}</p>
             ${items
               .map(item => `<p style="margin:0 0 8px;font-size:15px;line-height:1.5;color:#5f5f66;"><span style="color:#007AFF;font-weight:700;">✓</span>&nbsp;&nbsp;${item}</p>`)
               .join('')}
@@ -117,12 +125,14 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f5f5f7;border-radius:18px;">
               <tr><td style="padding:24px;">
                 <p style="margin:0;font-size:17px;line-height:1.35;font-weight:600;color:#1d1d1f;">${helpTitle}</p>
-                <p style="margin:8px 0 16px;font-size:15px;line-height:1.55;color:#5f5f66;">${helpBody}</p>
-                <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                <p style="margin:8px 0 ${replyStep ? '0' : '16px'};font-size:15px;line-height:1.55;color:#5f5f66;">${helpBody}</p>
+                ${replyStep
+                  ? `<p style="margin:14px 0 0;font-size:15px;line-height:1.55;font-weight:600;color:#1d1d1f;">${signature}</p>`
+                  : `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
                   <td style="background:#1d1d1f;border-radius:999px;">
                     <a href="${diagnosisUrl}" style="display:inline-block;padding:11px 20px;font-size:14px;font-weight:600;color:#ffffff;text-decoration:none;font-family:${FONT};">${c.book}</a>
                   </td>
-                </tr></table>
+                </tr></table>`}
               </td></tr>
             </table>
           </td></tr>
@@ -131,7 +141,7 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
 
       <!-- footer -->
       <tr><td style="padding:24px 8px 0;font-size:12px;line-height:1.6;color:#8e8e93;">
-        ${c.footer.replace('{site}', `<a href="${SITE}" style="color:#8e8e93;">elevaops.com</a>`)}
+        ${w(c.footer).replace('{site}', `<a href="${SITE}" style="color:#8e8e93;">elevaops.com</a>`)}
         <a href="${SITE}/privacy-policy" style="color:#8e8e93;">${c.privacy}</a>
       </td></tr>
     </table>
@@ -143,22 +153,23 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
 
   const strip = (v: string) => v.replace(/<[^>]+>/g, '');
   const text = [
-    c.hello(firstName),
+    w(c.hello(firstName)),
     '',
     strip(c.thanks(guide.title)),
+    ...(guide.emailNote ? ['', guide.emailNote] : []),
     pdfUrl,
     '',
-    `${c.inside}:`,
+    `${w(c.inside)}:`,
     ...items.map(i => `- ${i}`),
     '',
     ...(other ? [strip(c.other.replace('{url}', '')) + ' ' + otherPdfUrl, ''] : []),
     `${helpTitle} ${helpBody}`,
-    diagnosisUrl,
+    replyStep ? guide.emailSignature! : diagnosisUrl,
     '',
-    c.footer.replace('{site}', 'elevaops.com'),
+    w(c.footer).replace('{site}', 'elevaops.com'),
   ].join('\n');
 
-  return { subject: c.subject(guide.title), html, text };
+  return { subject: w(c.subject(guide.title)), html, text };
 }
 
 export async function sendGuideToLead(to: string, firstName: string, lang: GuideLang = 'en', guideId: GuideId = 'ai-agents'): Promise<boolean> {

@@ -6,8 +6,8 @@ import { Team } from '@/components/Team';
 import { MethodExtras } from '@/components/MethodExtras';
 
 export const metadata: Metadata = {
-  title: 'How we work',
-  description: 'From first conversation to a system your team actually uses: free diagnosis, a fixed-scope proposal, build and launch.',
+  title: 'Como trabalhamos',
+  description: 'Da primeira conversa a um sistema que a sua equipa usa de facto: diagnóstico gratuito, proposta com âmbito fechado, construção e lançamento.',
   alternates: { canonical: '/method' },
 };
 

@@ -7,6 +7,7 @@ export type SheetLead = {
   email: string;
   companyName?: string;
   phone?: string;
+  teamSize?: string;
   marketingConsent: boolean;
   language?: string;
   guide?: string;

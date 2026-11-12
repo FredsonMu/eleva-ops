@@ -51,7 +51,7 @@ export function MetaPixel() {
     const onLead = (e: Event) => {
       const detail = (e as CustomEvent<{ leadId?: string; guide?: string }>).detail;
       const leadId = detail?.leadId;
-      if (active.current) window.fbq?.('track', 'Lead', { content_name: detail?.guide ?? '7 AI Agents' }, leadId ? { eventID: leadId } : undefined);
+      if (active.current) window.fbq?.('track', 'Lead', { content_name: detail?.guide ?? 'Guide' }, leadId ? { eventID: leadId } : undefined);
     };
     const onContact = () => {
       if (active.current) window.fbq?.('track', 'Contact');

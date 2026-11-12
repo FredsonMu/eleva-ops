@@ -3,7 +3,7 @@
 // To add a guide: add its PDF/cover under /public, an entry in CATALOG and a landing page.
 
 export type GuideLang = 'en' | 'pt';
-export type GuideId = 'ai-agents' | 'ai-lawyers';
+export type GuideId = 'ai-agents' | 'ai-lawyers' | 'manual-prazos';
 
 export type GuideEdition = {
   path: string;
@@ -20,6 +20,12 @@ export type GuideEdition = {
   emailItems?: readonly string[];
   emailHelpTitle?: string;
   emailHelpBody?: string;
+  /** What the delivery email calls it ("guia" by default; e.g. "manual"). Portuguese only. */
+  emailNoun?: 'guia' | 'manual';
+  /** Extra personal paragraph in the delivery email, after the thanks. */
+  emailNote?: string;
+  /** Name signed at the end of the delivery email. */
+  emailSignature?: string;
 };
 
 export const GUIDES = {
@@ -72,12 +78,42 @@ const LAWYERS_PT: GuideEdition = {
   emailHelpBody: 'Responda a este email com uma tarefa que se repete no seu escritório, ou marque um diagnóstico gratuito. Ajudamos a escolher onde a IA ajuda, com que ferramentas e onde a revisão do advogado tem de ficar.',
 };
 
+const MANUAL_PT: GuideEdition = {
+  path: '/manual',
+  title: 'Entre prazos e processos',
+  pdf: '/guides/eleva-ops-entre-prazos-e-processos.pdf',
+  pdfFileName: 'Entre prazos e processos - ElevaOps.pdf',
+  pdfInfo: 'PDF · 16 páginas',
+  cover: '/guides/entre-prazos-e-processos-capa.webp',
+  coverWidth: 1190,
+  coverHeight: 1683,
+  emailCover: '/email/guide-cover-manual.jpg',
+  ogImage: '/guides/entre-prazos-e-processos-og.png',
+  emailNoun: 'manual',
+  emailItems: [
+    'As quatro fontes de tempo perdido num escritório de advogados',
+    'Uma folha para quantificar esse tempo numa semana de observação',
+    'Quatro princípios de organização, aplicáveis com ou sem software',
+  ],
+  emailNote: 'Uma sugestão: comece pela folha de quantificação da página 10. Uma semana de registo chega para ter um número do seu próprio escritório.',
+  emailHelpTitle: 'Qual é hoje a maior dificuldade no controlo de prazos?',
+  emailHelpBody: 'Responda a este email com uma frase. Leio todas as respostas e é com elas que estamos a desenhar o LegalOps, a plataforma de gestão para escritórios de advogados que lançamos em breve.',
+  emailSignature: 'Fredson, ElevaOps',
+};
+
 export const CATALOG: Record<GuideId, { name: string; editions: Partial<Record<GuideLang, GuideEdition>> }> = {
   'ai-agents': { name: '7 AI Agents', editions: GUIDES },
   'ai-lawyers': { name: 'IA para advogados', editions: { pt: LAWYERS_PT } },
+  'manual-prazos': { name: 'Entre prazos e processos', editions: { pt: MANUAL_PT } },
 };
 
-export const asGuideId = (value: unknown): GuideId => (value === 'ai-lawyers' ? 'ai-lawyers' : 'ai-agents');
+export const asGuideId = (value: unknown): GuideId =>
+  value === 'ai-lawyers' || value === 'manual-prazos' ? value : 'ai-agents';
+
+// Size of the firm, asked on the manual's form: the one qualifying question (3 to 10 people is
+// the audience LegalOps is built for).
+export const TEAM_SIZES = ['1-2', '3-5', '6-10', '10+'] as const;
+export type TeamSize = (typeof TEAM_SIZES)[number];
 
 /** The edition in the requested language, or the first one the guide has. */
 export function getEdition(id: GuideId, lang: GuideLang): { edition: GuideEdition; lang: GuideLang } {
@@ -109,6 +145,7 @@ export type LeadInput = {
   email: string;
   companyName: string;
   phone: string;
+  teamSize: TeamSize | '';
   marketingConsent: boolean;
   language: GuideLang;
   guideId: GuideId;
@@ -117,7 +154,7 @@ export type LeadInput = {
 
 export type LeadValidation =
   | { ok: true; lead: LeadInput }
-  | { ok: false; field?: 'firstName' | 'email'; error: string };
+  | { ok: false; field?: 'firstName' | 'email' | 'teamSize'; error: string };
 
 const MESSAGES = {
   en: {
@@ -128,6 +165,7 @@ const MESSAGES = {
     badEmail: 'Please enter a valid email address.',
     longCompany: 'Company name is too long.',
     badPhone: 'Please enter a valid phone number.',
+    noTeamSize: 'Please choose the size of your team.',
   },
   pt: {
     invalid: 'Pedido inválido.',
@@ -137,6 +175,7 @@ const MESSAGES = {
     badEmail: 'Introduza um email válido.',
     longCompany: 'O nome da empresa é demasiado longo.',
     badPhone: 'Introduza um número de telefone válido.',
+    noTeamSize: 'Indique quantas pessoas trabalham no escritório.',
   },
 } as const;
 
@@ -170,6 +209,9 @@ export function validateLead(body: unknown): LeadValidation {
     return { ok: false, error: m.badPhone };
   }
 
+  const teamSize = (TEAM_SIZES as readonly string[]).includes(data.teamSize as string) ? (data.teamSize as TeamSize) : '';
+  if (guideId === 'manual-prazos' && !teamSize) return { ok: false, field: 'teamSize', error: m.noTeamSize };
+
   const tracking: Tracking = {};
   const rawTracking = data.tracking && typeof data.tracking === 'object' ? (data.tracking as Record<string, unknown>) : {};
   for (const key of TRACKING_PARAMS) {
@@ -177,5 +219,5 @@ export function validateLead(body: unknown): LeadValidation {
     if (typeof value === 'string' && value.trim()) tracking[key] = value.trim().slice(0, LIMITS.tracking);
   }
 
-  return { ok: true, lead: { firstName, email, companyName, phone, marketingConsent: data.marketingConsent === true, language, guideId, tracking } };
+  return { ok: true, lead: { firstName, email, companyName, phone, teamSize, marketingConsent: data.marketingConsent === true, language, guideId, tracking } };
 }

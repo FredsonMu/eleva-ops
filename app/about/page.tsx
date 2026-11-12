@@ -5,8 +5,8 @@ import { AboutView } from '@/components/AboutView';
 import { Origin } from '@/components/Origin';
 
 export const metadata: Metadata = {
-  title: 'About',
-  description: 'The people behind Eleva Ops: a small engineering team building websites, internal systems and AI agents, with direct contact from the first call to launch.',
+  title: 'Sobre',
+  description: 'As pessoas por trás da ElevaOps: uma equipa pequena que constrói websites, sistemas internos e agentes de IA, em contacto direto desde a primeira conversa.',
   alternates: { canonical: '/about' },
 };
 

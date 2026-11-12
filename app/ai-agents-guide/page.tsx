@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { GUIDES } from '@/lib/guide';
+import { LanguageProvider } from '@/lib/i18n';
 import { GuideLanding } from '@/components/guide/GuideLanding';
 
 const guide = GUIDES.en;
@@ -22,5 +23,10 @@ export const metadata: Metadata = {
 };
 
 export default function AiAgentsGuidePage() {
-  return <GuideLanding />;
+  // The site starts in Portuguese; this page is the English edition.
+  return (
+    <LanguageProvider initialLanguage="en" scoped>
+      <GuideLanding />
+    </LanguageProvider>
+  );
 }

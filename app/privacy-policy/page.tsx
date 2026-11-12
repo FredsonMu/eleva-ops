@@ -5,8 +5,8 @@ import { AuroraBackground } from '@/components/AuroraBackground';
 import { PrivacyPolicyContent } from '@/components/privacy/PrivacyPolicyContent';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy',
-  description: 'How Eleva Ops collects, uses and protects your personal data, in line with the GDPR.',
+  title: 'Política de Privacidade',
+  description: 'Como a ElevaOps recolhe, usa e protege os seus dados pessoais, de acordo com o RGPD.',
   alternates: { canonical: '/privacy-policy' },
 };
 
