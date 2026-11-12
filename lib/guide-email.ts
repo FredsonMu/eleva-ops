@@ -1,4 +1,4 @@
-import { EMAIL_FROM, TEAM_INBOX, escapeHtml, getResend } from './email';
+import { EMAIL_FROM, TEAM_INBOX, escapeHtml, getResend, withResendRetry } from './email';
 import { getEdition, otherEdition, type GuideId, type GuideLang } from './guide';
 
 // Delivery email for the guide: sent to the person who requested it, right after the lead is
@@ -6,7 +6,7 @@ import { getEdition, otherEdition, type GuideId, type GuideLang } from './guide'
 // go to the team inbox. Table layout + inline styles so it renders the same in Gmail, Outlook
 // and Apple Mail; images are PNG/JPG on our domain (SVG and WebP aren't safe in email).
 
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevaops.com').replace(/\/$/, '');
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://elevaops.com').replace(/\/$/, '');
 const COPY = {
   en: {
     preheader: 'Your copy of the guide is ready to download.',
@@ -172,12 +172,12 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
   return { subject: w(c.subject(guide.title)), html, text };
 }
 
-export async function sendGuideToLead(to: string, firstName: string, lang: GuideLang = 'en', guideId: GuideId = 'ai-agents'): Promise<boolean> {
+export async function sendGuideToLead(to: string, firstName: string, lang: GuideLang = 'en', guideId: GuideId = 'ai-agents', leadId?: string): Promise<boolean> {
   const client = getResend();
   if (!client) return false;
   const { subject, html, text } = buildGuideEmail(firstName, lang, guideId);
   try {
-    const { error } = await client.emails.send({ from: EMAIL_FROM, to, replyTo: TEAM_INBOX, subject, html, text });
+    const { error } = await withResendRetry(() => client.emails.send({ from: EMAIL_FROM, to, replyTo: TEAM_INBOX, subject, html, text }, leadId ? { idempotencyKey: 'guide-delivery/' + leadId } : undefined));
     if (error) {
       console.error('[guide-email] Resend rejected the delivery email:', error);
       return false;

@@ -90,6 +90,7 @@ export function GuidePopup() {
   const [error, setError] = useState('');
   const [download, setDownload] = useState<string>(guide.pdf);
   const [emailed, setEmailed] = useState(false);
+  const [newsletterWarning, setNewsletterWarning] = useState('');
   const startedAt = useRef(0);
   const formRef = useRef<HTMLFormElement>(null);
   const field = STEPS[index];
@@ -145,6 +146,8 @@ export function GuidePopup() {
       }
       setDownload(result.download ?? guide.pdf);
       setEmailed(result.emailed === true);
+      setNewsletterWarning(consent && (!result.newsletter?.subscribed || !result.newsletter?.welcomed)
+        ? 'Your guide request was saved, but newsletter signup or welcome delivery could not be completed. Contact contact@elevaops.com.' : '');
       setStatus('done');
       writeState({ joined: true });
       window.dispatchEvent(new CustomEvent(LEAD_EVENT, { detail: { leadId: result.leadId, guide: result.guide } }));
@@ -243,6 +246,7 @@ export function GuidePopup() {
                 <Download className="h-3.5 w-3.5" aria-hidden="true" />{c.download}
               </a>}
             </div>
+            {newsletterWarning && <p role="alert" className="mt-2 px-1 text-[12px] text-amber-800 dark:text-amber-300">{newsletterWarning}</p>}
             {emailed && <p className="mt-2 px-1 text-[12px] text-black/55 dark:text-white/55">{c.inbox}</p>}
             <Link href="/contact" onClick={close} className="mt-3 flex flex-col gap-1 rounded-xl border border-black/[0.08] dark:border-white/10 px-3 py-2.5 text-[13px] transition-colors hover:bg-black/[0.03] dark:hover:bg-white/[0.05]">
               <span className="text-black/70 dark:text-white/75">{c.nextStep}</span>

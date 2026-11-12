@@ -73,6 +73,7 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
   const [download, setDownload] = useState<string>(guide.pdf);
   const [emailed, setEmailed] = useState(false);
   const [sentTo, setSentTo] = useState('');
+  const [newsletterWarning, setNewsletterWarning] = useState('');
   const startedAt = useRef(0);
   const successHeading = useRef<HTMLHeadingElement>(null);
   const ids = { name: useId(), email: useId(), company: useId(), phone: useId(), team: useId(), consent: useId(), error: useId() };
@@ -154,6 +155,11 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
       setDownload(result.download ?? guide.pdf);
       setEmailed(result.emailed === true);
       setSentTo(email);
+      setNewsletterWarning(data.get('marketingConsent') !== 'on' ? '' : !result.newsletter?.subscribed
+        ? (lang === 'pt' ? 'O seu pedido foi registado, mas não conseguimos confirmar a inscrição na newsletter. Contacte contact@elevaops.com.' : 'Your request was saved, but we could not confirm your newsletter subscription. Contact contact@elevaops.com.')
+        : !result.newsletter.welcomed
+          ? (lang === 'pt' ? 'A inscrição na newsletter foi confirmada, mas o email de boas-vindas não foi enviado. Contacte contact@elevaops.com se precisar de ajuda.' : 'Your newsletter subscription was confirmed, but the welcome email could not be sent. Contact contact@elevaops.com for help.')
+          : '');
       setStatus('success');
       // Single, post-validation signal for analytics (e.g. a future Meta Pixel "Lead" event,
       // using leadId as the event id to deduplicate with the Conversions API).
@@ -204,6 +210,8 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
         )}
           </>
         )}
+
+        {newsletterWarning && <p role="alert" className="mt-6 text-sm leading-relaxed text-amber-800 dark:text-amber-300">{newsletterWarning}</p>}
 
         {/* next step */}
         <div className="mt-10 w-full border-t border-black/[0.08] dark:border-white/10 pt-8">

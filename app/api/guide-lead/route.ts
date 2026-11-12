@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server';
-import { EMAIL_FROM, TEAM_INBOX, escapeHtml, getResend } from '@/lib/email';
+import { EMAIL_FROM, TEAM_INBOX, escapeHtml, getResend, withResendRetry } from '@/lib/email';
 import { CATALOG, getEdition, leadLanguage, validateLead } from '@/lib/guide';
 import { appendLeadToSheet, isSheetConfigured } from '@/lib/leads-sheet';
 import { sendGuideToLead } from '@/lib/guide-email';
+import { subscribeToNewsletter } from '@/lib/newsletter';
+
+export const maxDuration = 60;
 
 // Registers a lead for one of the free guides (or the manual): appends it to the leads Google Sheet and
 // emails a notification to the team inbox through Resend. The client only unlocks the
@@ -103,7 +106,7 @@ export async function POST(request: Request) {
       .map(([k, v]) => `<tr><td style="padding:2px 12px 2px 0;color:#666">${escapeHtml(k)}</td><td>${escapeHtml(v)}</td></tr>`)
       .join('');
     try {
-      const { error } = await client.emails.send({
+      const { error } = await withResendRetry(() => client.emails.send({
         from: EMAIL_FROM,
         to: TEAM_INBOX,
         replyTo: email,
@@ -121,7 +124,7 @@ export async function POST(request: Request) {
           <p><strong>Lead id:</strong> ${leadId}</p>
           ${trackingRows ? `<p><strong>Attribution</strong></p><table>${trackingRows}</table>` : '<p><strong>Attribution:</strong> none (direct visit)</p>'}
         `,
-      });
+      }, { idempotencyKey: 'guide-notification/' + leadId }));
       if (error) {
         console.error('[guide-lead] Resend rejected the email:', error);
         return false;
@@ -148,7 +151,8 @@ export async function POST(request: Request) {
 
   // Copy of the guide in their inbox, so it isn't lost if they close the page. A failure here
   // doesn't block the on-screen download.
-  const delivered = await sendGuideToLead(email, firstName, language, guideId);
+  const delivered = await sendGuideToLead(email, firstName, language, guideId, leadId);
+  const newsletter = await subscribeToNewsletter(result.lead);
 
-  return NextResponse.json({ ok: true, leadId, download: guide.pdf, emailed: delivered, guide: CATALOG[guideId].name });
+  return NextResponse.json({ ok: true, leadId, download: guide.pdf, emailed: delivered, guide: CATALOG[guideId].name, newsletter });
 }

@@ -33,7 +33,7 @@ const FORM_COPY: LeadFormCopy = {
   thanks: 'Não conseguimos enviá-lo por email neste momento. Pode descarregá-lo aqui.',
   download: 'Descarregar o manual',
   helpTitle: 'O LegalOps está quase a chegar.',
-  helpBody: 'É a plataforma que estamos a construir para escritórios de advogados: prazos, documentos e equipa num só sítio. Se aceitou receber a newsletter, é dos primeiros a saber.',
+  helpBody: 'É a plataforma que estamos a construir para escritórios de advogados: prazos, documentos e equipa num só sítio. Com a newsletter, pode acompanhar as novidades do lançamento.',
   helpCta: null,
 };
 

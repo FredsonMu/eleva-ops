@@ -27,14 +27,14 @@ const content: Record<'en' | 'pt', { title: string; intro: string; updated: stri
       {
         title: 'What we collect',
         body: [
-          'The details you send us: your name, email and message, or your first name and email when you request a guide.',
+          'The details you send us: your name, email and message, or your first name, email, optional company and phone details, and team size when you request a guide or manual.',
           'Which ad or link brought you here (campaign parameters), and basic technical data such as your IP address, kept by our hosting provider.',
         ],
       },
       {
         title: 'Why we use it',
         body: [
-          'To reply to you, send you the guide you asked for, see which campaigns work and keep the website secure. We only send marketing emails if you opt in, and getting a guide never depends on it.',
+          'To reply to you, send you the guide you asked for, see which campaigns work and keep the website secure. We only send marketing emails if you opt in, and getting a guide never depends on it. Newsletter subscribers receive a welcome email and can unsubscribe using the link in the email.',
         ],
       },
       {
@@ -47,7 +47,7 @@ const content: Record<'en' | 'pt', { title: string; intro: string; updated: stri
       {
         title: 'Who we share it with',
         body: [
-          'Only Vercel (website hosting), Resend (email delivery) and Google (Google Sheets, where we keep the list of guide requests), which act on our behalf, and, only if you accept cookies, Meta Platforms (ad measurement). When they process data outside the EU, they do so with the safeguards required by the GDPR. We never sell your data.',
+          'Only Vercel (website hosting), Resend (email delivery and newsletter subscriber management) and Google (Google Sheets, where we keep the list of guide requests), which act on our behalf, and, only if you accept cookies, Meta Platforms (ad measurement). When they process data outside the EU, they do so with the safeguards required by the GDPR. We never sell your data.',
         ],
       },
       {
@@ -74,14 +74,14 @@ const content: Record<'en' | 'pt', { title: string; intro: string; updated: stri
       {
         title: 'O que recolhemos',
         body: [
-          'Os dados que nos envia: nome, email e mensagem, ou primeiro nome e email quando pede um guia.',
+          'Os dados que nos envia: nome, email e mensagem, ou primeiro nome, email, dados opcionais da empresa e telefone, e dimensão da equipa quando pede um guia ou manual.',
           'O anúncio ou link que o trouxe até nós (parâmetros de campanha) e dados técnicos básicos, como o endereço IP, guardados pelo nosso alojamento.',
         ],
       },
       {
         title: 'Para que os usamos',
         body: [
-          'Para lhe responder, enviar o guia que pediu, perceber que campanhas funcionam e manter o website seguro. Só enviamos emails de marketing se der o seu consentimento, e o acesso aos guias nunca depende disso.',
+          'Para lhe responder, enviar o guia que pediu, perceber que campanhas funcionam e manter o website seguro. Só enviamos emails de marketing se der o seu consentimento, e o acesso aos guias nunca depende disso. Os subscritores recebem um email de boas-vindas e podem cancelar a subscrição através do link no email.',
         ],
       },
       {
@@ -94,7 +94,7 @@ const content: Record<'en' | 'pt', { title: string; intro: string; updated: stri
       {
         title: 'Com quem partilhamos',
         body: [
-          'Apenas com a Vercel (alojamento do website), a Resend (envio de emails) e a Google (Google Sheets, onde guardamos a lista de pedidos de guias), que atuam em nosso nome, e, apenas se aceitar cookies, a Meta Platforms (medição de anúncios). Quando tratam dados fora da UE, fazem-no com as garantias exigidas pelo RGPD. Nunca vendemos os seus dados.',
+          'Apenas com a Vercel (alojamento do website), a Resend (envio de emails e gestão de subscritores da newsletter) e a Google (Google Sheets, onde guardamos a lista de pedidos de guias), que atuam em nosso nome, e, apenas se aceitar cookies, a Meta Platforms (medição de anúncios). Quando tratam dados fora da UE, fazem-no com as garantias exigidas pelo RGPD. Nunca vendemos os seus dados.',
         ],
       },
       {
