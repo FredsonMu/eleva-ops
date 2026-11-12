@@ -151,8 +151,8 @@ export async function POST(request: Request) {
 
   // Copy of the guide in their inbox, so it isn't lost if they close the page. A failure here
   // doesn't block the on-screen download.
-  const delivered = await sendGuideToLead(email, firstName, language, guideId, leadId);
   const newsletter = await subscribeToNewsletter(result.lead);
+  const delivered = await sendGuideToLead(email, firstName, language, guideId, leadId, newsletter?.unsubscribeUrl);
 
-  return NextResponse.json({ ok: true, leadId, download: guide.pdf, emailed: delivered, guide: CATALOG[guideId].name, newsletter });
+  return NextResponse.json({ ok: true, leadId, download: guide.pdf, emailed: delivered, guide: CATALOG[guideId].name, newsletter: newsletter ? { subscribed: newsletter.subscribed, welcomed: newsletter.welcomed } : null });
 }

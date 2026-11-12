@@ -3,7 +3,7 @@ import { EMAIL_FROM, TEAM_INBOX, escapeHtml, getNewsletterResend, getResend, wit
 import { getEdition, type GuideId, type GuideLang, type LeadInput } from './guide';
 
 const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://elevaops.com').replace(/\/$/, '');
-export type NewsletterResult = { subscribed: boolean; welcomed: boolean };
+export type NewsletterResult = { subscribed: boolean; welcomed: boolean; unsubscribeUrl?: string };
 
 function signingKey() {
   return process.env.NEWSLETTER_UNSUBSCRIBE_SECRET || process.env.RESEND_NEWSLETTER_API_KEY || process.env.RESEND_API_KEY;
@@ -89,6 +89,7 @@ export async function subscribeToNewsletter(lead: Pick<LeadInput, 'firstName' | 
   const contacts = getNewsletterResend(), sender = getResend();
   if (!contacts || !sender) return { subscribed: false, welcomed: false };
   let subscribed = false;
+  let unsubscribeUrl: string | undefined;
   try {
     const existing = await withResendRetry(() => contacts.contacts.get({ email: lead.email }));
     if (existing.error && existing.error.statusCode !== 404 && existing.error.name !== 'not_found') {
@@ -112,7 +113,7 @@ export async function subscribeToNewsletter(lead: Pick<LeadInput, 'firstName' | 
     }
     subscribed = true;
     const token = createUnsubscribeToken(contact.data.id, lead.language);
-    const unsubscribeUrl = SITE + '/newsletter/unsubscribe?token=' + token;
+    unsubscribeUrl = SITE + '/newsletter/unsubscribe?token=' + token;
     const message = buildNewsletterWelcome(lead.firstName, lead.language, lead.guideId, unsubscribeUrl);
     // Resend suppresses retries and identical repeat welcomes for 24 hours.
     const contentKey = createHash('sha256').update(message.html).digest('hex').slice(0, 24);
@@ -122,9 +123,9 @@ export async function subscribeToNewsletter(lead: Pick<LeadInput, 'firstName' | 
       tags: [{ name: 'category', value: 'newsletter-welcome' }],
     }, { idempotencyKey: 'newsletter-welcome/' + contact.data!.id + '/' + contentKey }));
     if (result.error) console.error('[newsletter] Welcome email failed:', result.error);
-    return { subscribed, welcomed: !result.error };
+    return { subscribed, welcomed: !result.error, unsubscribeUrl };
   } catch (error) {
     console.error('[newsletter] Subscription failed:', error);
-    return { subscribed, welcomed: false };
+    return { subscribed, welcomed: false, ...(unsubscribeUrl ? { unsubscribeUrl } : {}) };
   }
 }

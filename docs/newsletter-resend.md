@@ -1,6 +1,6 @@
 # Newsletter and welcome emails
 
-Guide delivery and newsletter signup are separate. Only marketingConsent=true registers a Resend Contact and sends a personalised PT/EN welcome, signed by Fredson, with the requested PDF and an unsubscribe link.
+Guide delivery and newsletter signup are separate. Opted-in subscribers see a visible cancellation link in both the welcome and PDF delivery emails; people who did not opt in are never added to the newsletter. Only marketingConsent=true registers a Resend Contact and sends a personalised PT/EN welcome, signed by Fredson, with the requested PDF and an unsubscribe link.
 
 ## Vercel configuration
 

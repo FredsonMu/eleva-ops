@@ -9,6 +9,7 @@ process.env.NEWSLETTER_UNSUBSCRIBE_SECRET = 'local-test-signing-secret-not-a-rea
 const contactId = '479e3145-dd38-476b-932c-529ceb705947';
 const lead = { firstName: 'Ana', email: 'ana@example.com', language: 'pt', guideId: 'manual-prazos', marketingConsent: true };
 const ok = data => ({ data, error: null });
+const subscriptionStatus = result => result && ({ subscribed: result.subscribed, welcomed: result.welcomed });
 const failed = (statusCode, name = 'validation_error') => ({ data: null, error: { statusCode, name, message: 'Test provider failure' } });
 
 // Transpile the installed TypeScript version in memory; no extra runner or network.
@@ -79,7 +80,7 @@ test('no consent means no provider calls or welcome', async () => {
 
 test('new opt-in creates the contact and sends welcome with working unsubscribe headers', async () => {
   const { newsletter, sent, created } = setup();
-  assert.deepEqual(await newsletter.subscribeToNewsletter(lead), { subscribed: true, welcomed: true });
+  assert.deepEqual(subscriptionStatus(await newsletter.subscribeToNewsletter(lead)), { subscribed: true, welcomed: true });
   assert.deepEqual(created[0], { email: lead.email, firstName: lead.firstName, unsubscribed: false });
   assert.equal(sent[0].message.to, lead.email);
   assert.equal(sent[0].message.replyTo, 'contact@elevaops.com');
@@ -92,7 +93,7 @@ test('new opt-in creates the contact and sends welcome with working unsubscribe 
 
 test('renewed consent updates a previously unsubscribed contact', async () => {
   const { newsletter, created, updated } = setup({ lookup: ok({ id: contactId, unsubscribed: true }) });
-  assert.deepEqual(await newsletter.subscribeToNewsletter(lead), { subscribed: true, welcomed: true });
+  assert.deepEqual(subscriptionStatus(await newsletter.subscribeToNewsletter(lead)), { subscribed: true, welcomed: true });
   assert.equal(created.length, 0);
   assert.deepEqual(updated[0], { id: contactId, firstName: 'Ana', unsubscribed: false });
 });
@@ -105,7 +106,7 @@ test('Contacts permission failure is reported without sending a false confirmati
 
 test('welcome failure preserves and accurately reports the saved subscription', async () => {
   const { newsletter } = setup({ send: failed(400) });
-  assert.deepEqual(await newsletter.subscribeToNewsletter(lead), { subscribed: true, welcomed: false });
+  assert.deepEqual(subscriptionStatus(await newsletter.subscribeToNewsletter(lead)), { subscribed: true, welcomed: false });
 });
 
 test('unsubscribe GET is read-only, POST unsubscribes and forged tokens cannot mutate Contacts', async () => {
@@ -165,11 +166,31 @@ test('guide API delivers the PDF independently and only opted-in requests get ne
   assert.equal(result.download, '/guides/eleva-ops-entre-prazos-e-processos.pdf');
   assert.equal(saved[0].teamSize, '3-5');
   assert.equal(delivered[0][3], 'manual-prazos');
+  assert.ok(delivered[0][5].includes('/newsletter/unsubscribe?token='));
+  assert.equal(Object.hasOwn(result.newsletter, 'unsubscribeUrl'), false);
   assert.equal(sent.length, 2); // Team notification and welcome; delivery is separately mocked.
   assert.equal(created.length, 1);
   const optOut = await route.POST(request(false, '192.0.2.2'));
   assert.equal(optOut.status, 200);
   assert.equal((await optOut.json()).newsletter, null);
+  assert.equal(delivered[1][5], undefined);
   assert.equal(created.length, 1);
   assert.equal(sent.length, 3); // Only a team notification was added.
+});
+
+
+test('PDF email shows cancellation only for subscribers, in HTML, text and mailbox headers', async () => {
+  const { email, sent, newsletter } = setup();
+  const delivery = load('lib/guide-email.ts', { './email': email });
+  const url = 'https://elevaops.com/newsletter/unsubscribe?token=' + newsletter.createUnsubscribeToken(contactId, 'pt');
+  const subscribed = delivery.buildGuideEmail('Ana', 'pt', 'manual-prazos', url);
+  assert.ok(subscribed.html.includes('Cancelar subscri\u00e7\u00e3o'));
+  assert.ok(subscribed.html.includes(url));
+  assert.ok(subscribed.text.includes(url));
+  const plain = delivery.buildGuideEmail('Ana', 'pt', 'manual-prazos');
+  assert.ok(!plain.html.includes('/newsletter/unsubscribe'));
+  await delivery.sendGuideToLead(lead.email, lead.firstName, 'pt', 'manual-prazos', 'lead-123', url);
+  assert.equal(sent[0].message.headers['List-Unsubscribe'], '<' + url + '>');
+  await delivery.sendGuideToLead(lead.email, lead.firstName, 'pt', 'manual-prazos', 'lead-124');
+  assert.equal(sent[1].message.headers, undefined);
 });
