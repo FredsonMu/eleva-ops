@@ -88,7 +88,7 @@ const MANUAL_PT: GuideEdition = {
   coverWidth: 1190,
   coverHeight: 1683,
   emailCover: '/email/guide-cover-manual.jpg',
-  ogImage: '/guides/entre-prazos-e-processos-og.png',
+  ogImage: '/guides/entre-prazos-e-processos-og-v2.png',
   emailNoun: 'manual',
   emailItems: [
     'As quatro fontes de tempo perdido num escritório de advogados',

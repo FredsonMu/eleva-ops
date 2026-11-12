@@ -8,7 +8,7 @@ import { Wordmark } from './Wordmark';
 import { Reveal } from './Reveal';
 import { openConsentSettings } from '@/lib/consent';
 
-export function Footer() {
+export function Footer({ cta = true }: { cta?: boolean } = {}) {
   const { t } = useLanguage();
   const links = [
     { href: '/solutions', label: t('nav.expertise') },
@@ -16,13 +16,14 @@ export function Footer() {
     { href: '/about', label: t('nav.about') },
     { href: '/guides', label: t('nav.guides') },
     { href: '/contact', label: t('nav.contactPage') },
-    { href: '/privacy-policy', label: 'Privacy Policy' },
+    { href: '/privacy-policy', label: t('footer.privacy') },
   ];
 
   return (
     <footer className="relative bg-transparent pt-10 pb-10 md:pt-16">
       <div className="mx-auto max-w-6xl px-5 md:px-6">
         {/* closing call to action */}
+        {cta && (
         <Reveal y={30} duration={0.8} className="relative overflow-hidden rounded-3xl bg-black/[0.03] dark:bg-white/[0.04] px-6 py-16 text-center md:py-24">
           <div className="relative">
             <span className="text-[13px] font-semibold text-black/45 dark:text-white/50">{t('footer.label')}</span>
@@ -41,6 +42,7 @@ export function Footer() {
             </div>
           </div>
         </Reveal>
+        )}
 
         {/* bottom bar */}
         <div className="mt-12 flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
