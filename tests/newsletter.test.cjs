@@ -67,6 +67,8 @@ test('welcome is personalised, escaped, in the requested language and links to t
   assert.ok(message.text.includes('Fredson, ElevaOps'));
   assert.ok(message.html.includes('newsletter/unsubscribe?token=valid'));
   assert.ok(message.html.includes('LegalOps'));
+  assert.ok(message.html.includes('/email/newsletter-welcome.jpg'));
+  assert.ok(!message.html.includes('data:image/'));
   const english = newsletter.buildNewsletterWelcome('Ana', 'en', 'ai-agents', 'https://elevaops.com/unsubscribe');
   assert.equal(english.subject, 'Welcome to the ElevaOps newsletter');
   assert.ok(english.html.includes('lang="en"'));
