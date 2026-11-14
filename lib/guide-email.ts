@@ -86,7 +86,7 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">
       <!-- logo -->
       <tr><td style="padding:0 8px 24px;">
-        <a href="${SITE}" style="text-decoration:none;"><img src="${SITE}/email/wordmark.png" width="150" height="16" alt="ELEVAOPS" style="display:block;border:0;width:150px;height:auto;"></a>
+        <a href="${SITE}" style="text-decoration:none;"><img src="${SITE}/email/elevaops-logo.png" width="180" height="52" alt="ElevaOps" style="display:block;border:0;width:180px;height:auto;"></a>
       </td></tr>
 
       <!-- card -->
@@ -133,7 +133,7 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
                 <p style="margin:0;font-size:17px;line-height:1.35;font-weight:600;color:#1d1d1f;">${helpTitle}</p>
                 <p style="margin:8px 0 ${replyStep ? '0' : '16px'};font-size:15px;line-height:1.55;color:#5f5f66;">${helpBody}</p>
                 ${replyStep
-                  ? `<p style="margin:14px 0 0;font-size:15px;line-height:1.55;font-weight:600;color:#1d1d1f;">${signature}</p>`
+                  ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:16px;"><tr><td width="44" valign="middle" style="width:44px;"><img src="${SITE}/email/fredson.jpg" width="44" height="44" alt="Fredson" style="display:block;width:44px;height:44px;border:0;border-radius:44px;"></td><td valign="middle" style="padding-left:12px;font-size:15px;line-height:1.4;font-weight:600;color:#1d1d1f;">${signature}</td></tr></table>`
                   : `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
                   <td style="background:#1d1d1f;border-radius:999px;">
                     <a href="${diagnosisUrl}" style="display:inline-block;padding:11px 20px;font-size:14px;font-weight:600;color:#ffffff;text-decoration:none;font-family:${FONT};">${c.book}</a>

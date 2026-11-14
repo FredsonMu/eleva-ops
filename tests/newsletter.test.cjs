@@ -234,7 +234,7 @@ test('waitlist emails: A without and B with the newsletter paragraph, logo, sign
   assert.ok(b.html.includes('Como também escolheu a newsletter'));
   assert.ok(!b.text.includes('O primeiro chega'));
   for (const message of [a, b]) {
-    assert.ok(message.html.includes('/email/legalops-logo.png'));
+    assert.ok(message.html.includes('/email/legalops-logo-chip.png'));
     assert.ok(message.html.includes('/email/fredson.jpg'));
     assert.ok(message.html.includes(url) && message.text.includes(url));
     assert.ok(!/intelig[eê]ncia artificial|\bIA\b/.test(message.text));

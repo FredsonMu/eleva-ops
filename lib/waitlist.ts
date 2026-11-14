@@ -174,7 +174,7 @@ export function buildWaitlistEmail(name: string, newsletter: boolean, unsubscrib
     `<tr><td bgcolor="#ffffff" style="background:#ffffff;border-radius:20px;border:1px solid #ECE8DF;overflow:hidden;">`,
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">',
     `<tr><td class="wl-head" style="padding:30px 40px 26px;border-bottom:1px solid #EEF0F5;">`,
-    `<img src="${SITE}/email/legalops-logo.png" width="160" height="42" alt="LegalOps" style="display:block;width:160px;height:auto;border:0;">`,
+    `<img src="${SITE}/email/legalops-logo-chip.png" width="138" height="52" alt="LegalOps" style="display:block;width:138px;height:auto;border:0;">`,
     '</td></tr>',
     `<tr><td class="wl-body" style="padding:34px 40px 36px;">`,
     `<h1 style="margin:0 0 18px;font-size:26px;line-height:1.25;letter-spacing:-0.5px;font-weight:600;color:${NAVY};">Olá ${escapeHtml(first)},</h1>`,
@@ -195,7 +195,8 @@ export function buildWaitlistEmail(name: string, newsletter: boolean, unsubscrib
     `<tr><td align="center" style="padding:24px 16px 0;font-size:12px;line-height:1.75;color:#7A8194;">`,
     `<p style="margin:0;">Recebe este e-mail porque se inscreveu na waitlist do LegalOps em elevaops.com.</p>`,
     `<p style="margin:12px 0 0;"><a href="${escapeHtml(cancelUrl)}" style="color:${BLUE};font-size:14px;font-weight:600;text-decoration:underline;">Cancelar subscrição</a></p>`,
-    `<p style="margin:12px 0 0;">LegalOps é um produto ElevaOps · <a href="${SITE}/privacy-policy" style="color:#7A8194;text-decoration:underline;">Política de Privacidade</a></p>`,
+    `<p style="margin:16px 0 0;"><a href="${SITE}" style="text-decoration:none;"><img src="${SITE}/email/elevaops-logo-small.png" width="98" height="28" alt="ElevaOps" style="display:inline-block;width:98px;height:auto;border:0;"></a></p>`,
+    `<p style="margin:8px 0 0;">LegalOps é um produto ElevaOps · <a href="${SITE}/privacy-policy" style="color:#7A8194;text-decoration:underline;">Política de Privacidade</a></p>`,
     '</td></tr></table><!--[if mso]></td></tr></table><![endif]-->',
     '</td></tr></table></body></html>',
   ].join('\n');
