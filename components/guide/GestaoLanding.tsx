@@ -41,6 +41,7 @@ function CoverStack() {
           width={GUIDE.coverWidth}
           height={GUIDE.coverHeight}
           sizes="(min-width: 640px) 230px, 40vw"
+          quality={90}
           priority
           className={'relative ' + page + ' shadow-[0_30px_60px_-25px_rgba(0,30,90,0.6)]'}
         />
