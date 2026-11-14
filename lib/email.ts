@@ -30,7 +30,9 @@ export async function withResendRetry<T extends { error: unknown }>(request: () 
   }
 }
 
-export const EMAIL_FROM = 'ElevaOps <onboarding@elevaops.com>';
+// Sender of every email. Set EMAIL_FROM in Vercel to an address on the domain verified in the
+// Resend account whose key is in RESEND_API_KEY (e.g. "ElevaOps <ola@mail.elevaops.com>").
+export const EMAIL_FROM = process.env.EMAIL_FROM || 'ElevaOps <onboarding@elevaops.com>';
 export const TEAM_INBOX = 'contact@elevaops.com';
 
 export function escapeHtml(value: string) {
