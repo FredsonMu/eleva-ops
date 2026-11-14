@@ -9,7 +9,7 @@ import { HeroCopy, HeroSection, rise, stagePanel } from './HeroKit';
 // /guides, as one large panel: the copy on the left; on the right the real covers rising from
 // the bottom edge (each opens its guide) with the delivery email, PDF attached, laid over them.
 
-const ORDER: GuideId[] = ['ai-lawyers', 'ai-agents'];
+const ORDER: GuideId[] = ['ai-lawyers'];
 const COPY = {
   pt: { label: 'Guias gratuitos', title: 'Guias práticos sobre IA e automação, para usar já.', lead: 'Exemplos concretos, explicados sem jargão. Pede o guia e recebe o PDF no email.', cta: 'Receber o guia gratuito', secondary: 'Pedir diagnóstico', inbox: 'Caixa de entrada', now: 'agora', subject: 'O seu guia: ' },
   en: { label: 'Free guides', title: 'Practical guides on AI and automation, ready to use.', lead: 'Concrete examples, explained without jargon. Request a guide and get the PDF by email.', cta: 'Get the free guide', secondary: 'Request a diagnosis', inbox: 'Inbox', now: 'now', subject: 'Your guide: ' },

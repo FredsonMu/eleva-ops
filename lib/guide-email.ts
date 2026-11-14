@@ -44,7 +44,7 @@ const COPY = {
 
 const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Helvetica,Arial,sans-serif";
 
-export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', guideId: GuideId = 'ai-agents', unsubscribeUrl?: string) {
+export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', guideId: GuideId = 'ai-lawyers', unsubscribeUrl?: string) {
   const { edition: guide, lang } = getEdition(guideId, requested);
   const c = COPY[lang];
   const other = otherEdition(guideId, lang);
@@ -175,7 +175,7 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
   return { subject: w(c.subject(guide.title)), html, text };
 }
 
-export async function sendGuideToLead(to: string, firstName: string, lang: GuideLang = 'en', guideId: GuideId = 'ai-agents', leadId?: string, unsubscribeUrl?: string): Promise<boolean> {
+export async function sendGuideToLead(to: string, firstName: string, lang: GuideLang = 'en', guideId: GuideId = 'ai-lawyers', leadId?: string, unsubscribeUrl?: string): Promise<boolean> {
   const client = getResend();
   if (!client) return false;
   const { subject, html, text } = buildGuideEmail(firstName, lang, guideId, unsubscribeUrl);

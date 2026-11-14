@@ -12,6 +12,14 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
+  // Guides that were removed: old links (ads, emails, posts) land on the closest page.
+  async redirects() {
+    return [
+      { source: '/manual', destination: '/legalops', permanent: false },
+      { source: '/guia-agentes-ia', destination: '/guides', permanent: false },
+      { source: '/ai-agents-guide', destination: '/guides', permanent: false },
+    ];
+  },
   async headers() {
     return [
       {

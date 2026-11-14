@@ -8,20 +8,11 @@ import { Reveal } from './Reveal';
 
 // Free guides available in the current language, newest first. Used on the homepage and on
 // /guides. Each card leads to the guide's own landing page.
-const ORDER: GuideId[] = ['manual-prazos', 'ai-lawyers', 'ai-agents'];
+const ORDER: GuideId[] = ['ai-lawyers'];
 const BLURB: Record<GuideId, { en?: string; pt?: string; tag: { en?: string; pt?: string } }> = {
-  'manual-prazos': {
-    pt: 'Quanto tempo perde o seu escritório entre tarefas? Um método para o medir e quatro princípios para o reduzir.',
-    tag: { pt: 'Para escritórios de advogados' },
-  },
   'ai-lawyers': {
     pt: '10 exemplos práticos para usar IA no trabalho à volta do processo, sempre com a revisão do advogado.',
     tag: { pt: 'Para escritórios de advogados' },
-  },
-  'ai-agents': {
-    en: 'Seven practical AI agents, three complete workflows and a simple score to choose your first process.',
-    pt: 'Sete agentes de IA práticos, três fluxos completos e uma pontuação simples para escolher o primeiro processo.',
-    tag: { en: 'For any business', pt: 'Para qualquer empresa' },
   },
 };
 
@@ -33,6 +24,8 @@ export function GuidesSection({ heading = true, layout = 'cards' }: { heading?: 
     const edition = CATALOG[id].editions[lang];
     return edition ? [{ id, edition }] : [];
   });
+  // English has no guide left; the section disappears instead of showing an empty grid.
+  if (!guides.length) return null;
 
   return (
     <section id="guides" className="py-16 md:py-24">

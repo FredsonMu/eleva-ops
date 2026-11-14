@@ -2,21 +2,20 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Check, Download, Loader2, Mail } from 'lucide-react';
-import { getEdition, LIMITS, otherEdition, TEAM_SIZES, type GuideId, type GuideLang } from '@/lib/guide';
+import { getEdition, LIMITS, otherEdition, type GuideId, type GuideLang } from '@/lib/guide';
 import { useLanguage } from '@/lib/i18n';
 import { captureTracking, getTracking } from './tracking';
 import { Brand } from '../Brand';
 import { PhoneInput } from '../PhoneInput';
 
 type Status = 'idle' | 'submitting' | 'success';
-type FieldErrors = Partial<Record<'firstName' | 'email' | 'teamSize', string>>;
+type FieldErrors = Partial<Record<'firstName' | 'email', string>>;
 
 /** Texts a landing page can replace (the defaults talk about the AI agents guide). */
 export type LeadFormCopy = {
   submit?: string;
   consent?: string;
   privacyIntro?: string;
-  teamSizeLabel?: string;
   sentTo?: string;
   fallbackTitle?: string;
   thanks?: string;
@@ -26,8 +25,6 @@ export type LeadFormCopy = {
   /** `null` hides the button under the help text. */
   helpCta?: { label: string; href: string } | null;
 };
-
-const TEAM_SIZE_LABEL: Record<(typeof TEAM_SIZES)[number], string> = { '1-2': '1 a 2', '3-5': '3 a 5', '6-10': '6 a 10', '10+': 'Mais de 10' };
 
 export const LEAD_EVENT = 'eleva:guide-lead';
 
@@ -41,7 +38,6 @@ const COPY = {
     company: 'Company name', optional: '(optional)', companyPh: 'Your company', name: 'First name', namePh: 'Your first name', email: 'Email', emailPh: 'you@example.com',
     phone: 'Phone', country: 'Country code',
     consent: ['Optional: also send me occasional emails from ', ' about automation and AI. You can opt out at any time.'],
-    teamSize: 'People in your team', noTeamSize: 'Please choose the size of your team.',
     sending: 'Sending…', submit: 'Get Instant Access', privacyA: 'We use your details to give you access to the guide. Read our', privacy: 'Privacy Policy',
   },
   pt: {
@@ -53,25 +49,17 @@ const COPY = {
     company: 'Nome da empresa', optional: '(opcional)', companyPh: 'A sua empresa', name: 'Primeiro nome', namePh: 'O seu primeiro nome', email: 'Email', emailPh: 'nome@empresa.pt',
     phone: 'Telefone', country: 'Indicativo do país',
     consent: ['Opcional: enviem-me também emails ocasionais da ', ' sobre automação e IA. Pode cancelar a qualquer momento.'],
-    teamSize: 'Quantas pessoas trabalham no escritório?', noTeamSize: 'Escolha uma opção.',
     sending: 'A enviar…', submit: 'Receber acesso imediato', privacyA: 'Usamos os seus dados para lhe dar acesso ao guia. Leia a nossa', privacy: 'Política de Privacidade',
   },
 } as const;
 
-// Main button looks: the guides keep the blue call to action; the manual (short form) uses the
-// site's dark pill so it matches the rest of its page.
 const BUTTON_BASE = 'inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full px-5 sm:px-8 whitespace-nowrap transition-[background-color,transform,opacity] duration-200 active:scale-[0.98]';
 const BRAND_BUTTON = 'bg-[#007AFF] text-[13px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.14em] text-white shadow-[0_14px_34px_-10px_rgba(0,122,255,0.65)] hover:bg-[#0066dd]';
-const NEUTRAL_BUTTON = 'bg-[#1d1d1f] dark:bg-white text-[16px] font-semibold text-white dark:text-[#020617] hover:bg-black dark:hover:bg-white/90';
 
-// `variant="short"`: first name, email and team size only (three required fields, nothing
-// optional), for pages where every extra field costs sign-ups. Errors show as soon as a field
-// is left, not only on submit.
-export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, companyPlaceholder, variant = 'full', copy }: { guideId?: GuideId; forceLang?: GuideLang; companyLabel?: string; companyPlaceholder?: string; variant?: 'full' | 'short'; copy?: LeadFormCopy } = {}) {
+export function GuideLeadForm({ guideId = 'ai-lawyers', forceLang, companyLabel, companyPlaceholder, copy }: { guideId?: GuideId; forceLang?: GuideLang; companyLabel?: string; companyPlaceholder?: string; copy?: LeadFormCopy } = {}) {
   const { language } = useLanguage();
   const { edition: guide, lang } = getEdition(guideId, forceLang ?? (language === 'pt' ? 'pt' : 'en'));
   const c = COPY[lang];
-  const short = variant === 'short';
   const other = otherEdition(guideId, lang);
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState('');
@@ -115,18 +103,15 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
     const data = new FormData(form);
     const firstName = String(data.get('firstName') ?? '').trim();
     const email = String(data.get('email') ?? '').trim();
-    const teamSize = String(data.get('teamSize') ?? '');
 
     const errors: FieldErrors = {};
     if (!firstName) errors.firstName = c.noName;
     if (!email) errors.email = c.noEmail;
     else if (!(form.elements.namedItem('email') as HTMLInputElement).validity.valid) errors.email = c.badEmail;
-    if (short && !teamSize) errors.teamSize = c.noTeamSize;
     setFieldErrors(errors);
     setError('');
     if (Object.keys(errors).length) {
-      if (errors.firstName || errors.email) (form.elements.namedItem(errors.firstName ? 'firstName' : 'email') as HTMLInputElement).focus();
-      else form.querySelector<HTMLInputElement>('input[name="teamSize"]')?.focus();
+      (form.elements.namedItem(errors.firstName ? 'firstName' : 'email') as HTMLInputElement).focus();
       return;
     }
 
@@ -143,7 +128,6 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
           guideId,
           companyName: String(data.get('companyName') ?? '').trim(),
           phone: String(data.get('phone') ?? ''),
-          teamSize,
           website: String(data.get('website') ?? ''), // honeypot
           startedAt: startedAt.current,
           tracking: getTracking(),
@@ -203,7 +187,7 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
         <a
           href={download}
           download={guide.pdfFileName}
-          className={`mt-8 ${BUTTON_BASE} sm:w-auto ${short ? NEUTRAL_BUTTON : BRAND_BUTTON}`}
+          className={`mt-8 ${BUTTON_BASE} sm:w-auto ${BRAND_BUTTON}`}
         >
           <Download className="h-5 w-5" aria-hidden="true" />
           {copy?.download ?? c.download}
@@ -242,7 +226,6 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
 
   return (
     <form onSubmit={handleSubmit} noValidate aria-describedby={error ? ids.error : undefined} className="flex flex-col gap-5">
-      {!short && (
       <div className="flex flex-col gap-2">
         <label htmlFor={ids.company} className="text-sm font-semibold text-[#1d1d1f] dark:text-white">
           {companyLabel ?? c.company} <span className="font-normal text-black/45 dark:text-white/45">{c.optional}</span>
@@ -257,7 +240,6 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
           className={`${inputClass} border-black/10 dark:border-white/15`}
         />
       </div>
-      )}
 
       <div className="flex flex-col gap-2">
         <label htmlFor={ids.name} className="text-sm font-semibold text-[#1d1d1f] dark:text-white">
@@ -306,34 +288,6 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
         )}
       </div>
 
-      {short && (
-        <fieldset aria-describedby={fieldErrors.teamSize ? `${ids.team}-error` : undefined} className="@container flex flex-col gap-2">
-          <legend className="mb-2 text-sm font-semibold text-[#1d1d1f] dark:text-white">{copy?.teamSizeLabel ?? c.teamSize}</legend>
-          {/* Four in a row only when the card itself is wide enough (container query), not the screen. */}
-          <div className="grid grid-cols-2 @md:grid-cols-4 gap-2">
-            {TEAM_SIZES.map(size => (
-              <label key={size} className="relative cursor-pointer">
-                <input
-                  type="radio"
-                  name="teamSize"
-                  value={size}
-                  required
-                  onChange={() => setFieldErrors(prev => { const next = { ...prev }; delete next.teamSize; return next; })}
-                  className="peer sr-only"
-                />
-                <span className="flex h-12 items-center justify-center rounded-2xl border border-black/10 dark:border-white/15 bg-white/90 dark:bg-white/[0.04] text-[15px] font-semibold text-[#1d1d1f] dark:text-white transition-[border-color,background-color,box-shadow] duration-200 hover:border-black/25 dark:hover:border-white/30 peer-checked:border-[#007AFF] peer-checked:bg-[#007AFF]/[0.08] peer-checked:text-[#0062cc] dark:peer-checked:text-[#6cb4ff] peer-focus-visible:ring-4 peer-focus-visible:ring-[#007AFF]/20">
-                  {lang === 'pt' ? TEAM_SIZE_LABEL[size] : size}
-                </span>
-              </label>
-            ))}
-          </div>
-          {fieldErrors.teamSize && (
-            <p id={`${ids.team}-error`} className="text-sm font-medium text-red-700 dark:text-red-400">{fieldErrors.teamSize}</p>
-          )}
-        </fieldset>
-      )}
-
-      {!short && (
       <div className="flex flex-col gap-2">
         <label htmlFor={ids.phone} className="text-sm font-semibold text-[#1d1d1f] dark:text-white">
           {c.phone} <span className="font-normal text-black/45 dark:text-white/45">{c.optional}</span>
@@ -345,7 +299,6 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
           inputClassName="px-4 text-base text-[#1d1d1f] dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40"
         />
       </div>
-      )}
 
       {/* Honeypot: invisible to people, tempting to bots. */}
       <div className="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
@@ -374,7 +327,7 @@ export function GuideLeadForm({ guideId = 'ai-agents', forceLang, companyLabel, 
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className={`group mt-1 ${BUTTON_BASE} ${short ? NEUTRAL_BUTTON : BRAND_BUTTON} disabled:opacity-80 disabled:cursor-wait`}
+        className={`group mt-1 ${BUTTON_BASE} ${BRAND_BUTTON} disabled:opacity-80 disabled:cursor-wait`}
       >
         {status === 'submitting' ? (
           <>
