@@ -54,7 +54,7 @@ export function GuidePopup() {
   };
 
   return (
-    <aside aria-label="Lista de espera do LegalOps" className="guide-card-in fixed inset-x-3 bottom-3 z-[80] sm:inset-x-auto sm:bottom-5 sm:right-5 sm:w-[360px]">
+    <aside aria-label="Waitlist do LegalOps" className="guide-card-in fixed inset-x-3 bottom-3 z-[80] sm:inset-x-auto sm:bottom-5 sm:right-5 sm:w-[360px]">
       <div className="relative rounded-2xl border border-black/[0.08] dark:border-white/10 bg-white dark:bg-[#0f1729] p-4 shadow-[0_24px_60px_-20px_rgba(0,30,90,0.35)]">
         <button
           type="button"
@@ -72,16 +72,16 @@ export function GuidePopup() {
             <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest text-brand">
               <span className="h-1.5 w-1.5 rounded-full bg-[#28c840]"></span>LegalOps · Em breve
             </span>
-            <p className="mt-1 text-[14px] font-semibold leading-snug text-[#1d1d1f] dark:text-white">Prazos, documentos e equipa num só sítio.</p>
+            <p className="mt-1 text-[14px] font-semibold leading-snug text-[#1d1d1f] dark:text-white">Saiba o que cada pessoa da sua equipa está a fazer.</p>
           </div>
         </div>
-        <p className="mt-3 text-[13px] leading-relaxed text-black/60 dark:text-white/60">A plataforma que estamos a construir para escritórios de advogados. Entre na lista e experimente primeiro.</p>
+        <p className="mt-3 text-[13px] leading-relaxed text-black/60 dark:text-white/60">Uma plataforma de gestão para escritórios de advogados: processos, tarefas, prazos e documentos num só sítio.</p>
         <Link
           href="/legalops"
           onClick={() => close(true)}
           className="mt-3 flex h-10 items-center justify-center gap-1.5 rounded-full bg-[#007AFF] text-[13px] font-semibold text-white transition-colors hover:bg-[#0066dd]"
         >
-          Entrar na lista de espera<ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          Entrar na waitlist<ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
         </Link>
       </div>
     </aside>

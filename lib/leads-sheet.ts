@@ -1,4 +1,4 @@
-// Appends guide leads to a Google Sheet through a Google Apps Script web app.
+// Appends guide leads and LegalOps waitlist sign-ups to a Google Sheet through a Google Apps Script web app.
 // Setup (sheet, script and environment variables): docs/leads-google-sheets.md
 
 export type SheetLead = {
@@ -11,6 +11,11 @@ export type SheetLead = {
   marketingConsent: boolean;
   language?: string;
   guide?: string;
+  /** LegalOps waitlist only. */
+  role?: string;
+  /** ISO date-time of each consent (empty when not given). */
+  waitlistConsentAt?: string;
+  newsletterConsentAt?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;

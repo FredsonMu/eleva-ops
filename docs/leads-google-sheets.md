@@ -34,7 +34,7 @@ The site only shows "Your guide is ready." after the lead was actually stored (s
 // Eleva Ops — receives guide leads from elevaops.com and appends them to the "Leads" tab.
 const SECRET = 'PASTE_THE_SECRET_HERE';
 const SHEET_NAME = 'Leads';
-const HEADERS = ['Data', 'Nome', 'Email', 'Aceita marketing', 'Origem', 'Meio', 'Campanha', 'Anúncio', 'Conjunto de anúncios', 'ID da lead', 'Empresa', 'Telefone', 'Idioma', 'Guia', 'Pessoas'];
+const HEADERS = ['Data', 'Nome', 'Email', 'Aceita marketing', 'Origem', 'Meio', 'Campanha', 'Anúncio', 'Conjunto de anúncios', 'ID da lead', 'Empresa', 'Telefone', 'Idioma', 'Guia', 'Pessoas', 'Função', 'Consentimento waitlist', 'Consentimento newsletter'];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -60,6 +60,9 @@ function doPost(e) {
       clean(data.language),
       clean(data.guide),
       clean(data.teamSize),
+      clean(data.role),
+      clean(data.waitlistConsentAt),
+      clean(data.newsletterConsentAt),
     ]);
     return json({ ok: true });
   } catch (err) {
@@ -128,6 +131,14 @@ before this change: paste the new code above over the old one, then *Deploy → 
 Edit → Version: New version → Deploy* (the web app URL stays the same). In an existing sheet, type
 `Empresa` and `Telefone` in the first two empty header cells after `ID da lead`. Until the script is
 updated, leads still arrive by email with all fields; the sheet just won't store the two new ones.
+
+### Updating an existing script (LegalOps waitlist columns)
+
+The LegalOps waitlist (/legalops) writes rows with `Guia` = `Waitlist LegalOps`, the office in
+`Empresa`, the team size in `Pessoas` and three more values. Paste the script above again (Deploy →
+Manage deployments → edit → New version) and add `Função`, `Consentimento waitlist` and
+`Consentimento newsletter` in the first empty header cells after `Pessoas`. `Aceita marketing` says
+whether the person also chose the newsletter; the consent columns hold the date and time of each one.
 
 ### Updating an existing script (team size column)
 

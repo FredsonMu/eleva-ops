@@ -1,232 +1,141 @@
-'use client';
-import { ArrowUp, CalendarClock, Check, FileText, FolderOpen, Scale, Users } from 'lucide-react';
-import { PageShell } from '@/components/PageShell';
-import { Reveal } from '@/components/Reveal';
-import { Avatars, heroLead, heroTitle, rise, stagePanel } from '@/components/hero/HeroKit';
-import { tileBar, tileWindow } from '@/components/FeatureTile';
-import { StickyGuideCTA } from '@/components/guide/StickyGuideCTA';
+import Image from 'next/image';
+import Link from 'next/link';
+import { CalendarCheck, ChevronDown, FileSpreadsheet, FolderOpen, GitBranch, ListChecks, ShieldCheck } from 'lucide-react';
 import { WaitlistForm } from './WaitlistForm';
 
-// /legalops: waitlist for LegalOps, the platform for law firms ElevaOps is building. Visitors
-// come from the Instagram bio, so it is built phone first: promise and form above the fold, then
-// one product moment, what it will do, and what they get by email while they wait.
-// The loops reuse the services tiles' language (`.svc-*`) plus the `.wl-*` ones in globals.css.
+// /legalops: LegalOps waitlist. Short, one column, LegalOps brand (navy #182848, blue #3355FF,
+// sky #88B8F0, ivory background). Its own header and footer instead of the ElevaOps ones.
+// Linked from the "Gestão Jurídica Digital" manual and Instagram ads, so phone first.
 
-const FORM_ID = 'entrar';
-const muted = 'text-black/60 dark:text-white/60';
+const FORM_ID = 'waitlist';
 
-const BUILDING = [
-  { icon: CalendarClock, title: 'Prazos que não escapam.', text: 'Cada prazo com o processo, o responsável e o aviso a tempo. Sem depender da memória de ninguém.' },
-  { icon: FolderOpen, title: 'Documentos onde devem estar.', text: 'Peças, procurações e pedidos ao cliente ligados ao processo, prontos a encontrar.' },
-  { icon: Users, title: 'A equipa sem perguntas.', text: 'Quem faz o quê e em que ponto está, à vista de todos. Menos “já trataste disto?”.' },
+const FEATURES = [
+  { icon: GitBranch, title: 'Processos e fases', text: 'veja em que ponto está cada processo e qual é a próxima ação.' },
+  { icon: ListChecks, title: 'Tarefas com responsável', text: 'atribua trabalho e acompanhe o que está por fazer, em curso ou concluído.' },
+  { icon: CalendarCheck, title: 'Prazos com confirmação', text: 'registe os prazos e confirme-os com uma segunda pessoa da equipa.' },
+  { icon: FolderOpen, title: 'Clientes e documentos centralizados', text: 'a informação de cada processo num só lugar.' },
+  { icon: ShieldCheck, title: 'Acessos por função', text: 'sócio, advogado e assistente veem o que precisam para trabalhar.' },
+  { icon: FileSpreadsheet, title: 'Importação de Excel', text: 'traga os dados que já tem, sem começar do zero.' },
 ];
 
-const DEADLINES = [
-  { task: 'Contestação', proc: 'Proc. 1043/25', due: 'em 3 dias' },
-  { task: 'Requerimento de prova', proc: 'Proc. 877/25', due: 'em 6 dias' },
-  { task: 'Alegações', proc: 'Proc. 512/24', due: 'em 12 dias' },
+const FAQ = [
+  { q: 'Quando fica disponível?', a: 'Estamos em desenvolvimento. Quem está na waitlist é avisado primeiro.' },
+  { q: 'Quanto vai custar?', a: 'Os preços serão anunciados antes do lançamento.' },
+  { q: 'Os dados do escritório ficam seguros?', a: 'O LegalOps está a ser desenvolvido de acordo com o RGPD, com acessos definidos por função para proteger a informação de cada processo.' },
+  { q: 'Funciona para quem trabalha sozinho?', a: 'O LegalOps foi pensado para equipas a partir de 2 pessoas, onde é preciso coordenar trabalho.' },
 ];
 
-const INBOX = [
-  { from: 'LegalOps', subject: 'Está na lista de espera', preview: 'O seu lugar está guardado. Para começar já…', when: 'agora' },
-  { from: 'ElevaOps', subject: '10 tarefas onde a IA poupa tempo ao advogado', preview: 'Da consulta à pesquisa, com a revisão no sítio certo.', when: 'semana 1' },
-  { from: 'ElevaOps', subject: 'Automatizar o pedido de documentos ao cliente', preview: 'Um fluxo simples que pode montar esta semana.', when: 'semana 2' },
-  { from: 'LegalOps', subject: 'Primeiras imagens e acesso antecipado', preview: 'Quem está na lista experimenta primeiro.', when: 'em breve' },
-];
-
-export function LegalOpsMark({ className = '' }: { className?: string }) {
-  return (
-    <span className={'inline-flex items-center gap-2 ' + className}>
-      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#007AFF] text-white shadow-[0_6px_16px_-6px_rgba(0,122,255,0.7)]">
-        <Scale className="h-4 w-4" strokeWidth={2.2} aria-hidden="true" />
-      </span>
-      <span className="text-[17px] font-semibold tracking-tight text-[#1d1d1f] dark:text-white">LegalOps</span>
-    </span>
-  );
-}
-
-// The product moment: this week's deadlines. A row lights up, its step completes, the chip turns
-// to "Feito", a document drops in and the team gets the reminder. Loops while on screen.
-function DeadlinesWindow() {
-  return (
-    <Reveal y={24} duration={0.8} className={`relative flex h-[340px] items-center justify-center overflow-hidden sm:h-[380px] ${stagePanel}`}>
-      <span className="svc-file absolute inset-x-0 top-6 mx-auto w-fit rounded-lg border border-black/[0.08] bg-white px-2.5 py-1 text-[11px] font-semibold text-black/60 shadow-sm dark:border-white/10 dark:bg-[#16203a] dark:text-white/60" style={{ animationDelay: '0.4s' }} aria-hidden="true">
-        <FileText className="mr-1 inline h-3 w-3 -translate-y-px" aria-hidden="true" />procuracao.pdf
-      </span>
-
-      <div className={`${tileWindow} relative w-[88%] max-w-[380px] overflow-visible`} aria-hidden="true">
-        <div className="flex items-center justify-between border-b border-black/[0.06] px-4 py-2.5 dark:border-white/10">
-          <span className="flex items-center gap-2">
-            <span className="flex h-5 w-5 items-center justify-center rounded-md bg-[#007AFF] text-white"><Scale className="h-3 w-3" strokeWidth={2.4} /></span>
-            <span className="text-[12px] font-semibold text-[#1d1d1f] dark:text-white">Prazos desta semana</span>
-          </span>
-          <span className={`${tileBar} h-2 w-12`}></span>
-        </div>
-        <div className="px-3 py-2">
-          {DEADLINES.map((d, i) => (
-            <div key={d.task} className={`${i === 0 ? 'svc-step wl-sweep loop' : ''} relative flex items-center gap-3 rounded-lg px-2 py-2.5`}>
-              {i === 0 ? (
-                <span className="svc-step-dot flex h-[17px] w-[17px] shrink-0 items-center justify-center rounded-full border-2">
-                  <Check className="h-2.5 w-2.5 text-white" strokeWidth={4} />
-                </span>
-              ) : (
-                <span className="h-[17px] w-[17px] shrink-0 rounded-full border-2 border-black/15 dark:border-white/20"></span>
-              )}
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-[12px] font-semibold text-[#1d1d1f] dark:text-white">{d.task}</span>
-                <span className="block text-[10px] text-black/45 dark:text-white/45">{d.proc}</span>
-              </span>
-              {i === 0 ? (
-                <span className="grid justify-items-end">
-                  <span className="wl-chip-due loop [grid-area:1/1] rounded-full bg-[#ff9f0a]/15 px-2 py-0.5 text-[10px] font-semibold text-[#b25f00] dark:text-[#ffb340]">{d.due}</span>
-                  <span className="wl-chip-done loop [grid-area:1/1] flex items-center gap-1 rounded-full bg-[#28c840]/15 px-2 py-0.5 text-[10px] font-semibold text-[#1a9e33] dark:text-[#5fe07a]"><Check className="h-2.5 w-2.5" strokeWidth={3.5} />Feito</span>
-                </span>
-              ) : (
-                <span className="rounded-full bg-black/[0.05] px-2 py-0.5 text-[10px] font-semibold text-black/50 dark:bg-white/10 dark:text-white/55">{d.due}</span>
-              )}
-            </div>
-          ))}
-        </div>
-        <div className="svc-toast absolute -bottom-5 right-3 flex items-center gap-2 rounded-xl border border-black/[0.08] bg-white px-3 py-2 shadow-[0_10px_24px_-12px_rgba(0,0,0,0.3)] dark:border-white/10 dark:bg-[#16203a] sm:-right-5">
-          <span className="h-2 w-2 rounded-full bg-[#28c840]"></span>
-          <span className="whitespace-nowrap text-[11px] font-semibold text-[#1d1d1f] dark:text-white">Equipa avisada</span>
-        </div>
-      </div>
-    </Reveal>
-  );
-}
-
-// What arrives while they wait: the inbox fills, one email at a time.
-function InboxWindow() {
-  return (
-    <Reveal y={24} duration={0.8} className={`flex items-center justify-center px-4 py-10 sm:py-12 ${stagePanel}`}>
-      <div className={`${tileWindow} w-full max-w-[400px] overflow-hidden`} aria-hidden="true">
-        <div className="flex items-center justify-between border-b border-black/[0.06] px-4 py-2.5 dark:border-white/10">
-          <span className="text-[12px] font-semibold text-[#1d1d1f] dark:text-white">Caixa de entrada</span>
-          <span className="text-[11px] text-black/45 dark:text-white/45">4 novos</span>
-        </div>
-        <ul>
-          {INBOX.map((m, i) => (
-            <li key={m.subject} className="wl-mail loop flex gap-3 border-b border-black/[0.05] px-4 py-3 last:border-b-0 dark:border-white/[0.07]" style={{ animationDelay: `${i * 0.45}s` }}>
-              <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-bold ${m.from === 'LegalOps' ? 'bg-[#007AFF] text-white' : 'bg-[#1d1d1f] text-white dark:bg-white dark:text-[#020617]'}`}>
-                {m.from === 'LegalOps' ? <Scale className="h-3.5 w-3.5" strokeWidth={2.4} /> : 'E'}
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="flex items-center justify-between gap-2">
-                  <span className="flex items-center gap-1.5 text-[12px] font-semibold text-[#1d1d1f] dark:text-white">
-                    {m.from}
-                    <span className="wl-unread loop h-1.5 w-1.5 rounded-full bg-[#007AFF]" style={{ animationDelay: `${i * 0.45}s` }}></span>
-                  </span>
-                  <span className="shrink-0 text-[10px] text-black/40 dark:text-white/40">{m.when}</span>
-                </span>
-                <span className="mt-0.5 block truncate text-[12px] font-medium text-[#1d1d1f] dark:text-white/90">{m.subject}</span>
-                <span className="block truncate text-[11px] text-black/50 dark:text-white/50">{m.preview}</span>
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </Reveal>
-  );
-}
+const section = 'mx-auto w-full max-w-2xl px-5';
+const h2 = 'lo-display text-[clamp(1.6rem,6vw,2.1rem)] font-semibold leading-[1.15] tracking-tight text-[#182848]';
+const body = 'text-[17px] leading-[1.7] text-[#182848]/75';
 
 export function WaitlistLanding() {
   return (
-    <PageShell footerCta={false} after={<StickyGuideCTA heroCtaId={FORM_ID} formId="fim" label="Entrar na lista de espera" neutral />}>
-      {/* Hero: promise and form first (on a phone, both fit above the fold). */}
-      <section className="pt-24 pb-14 md:pt-36 md:pb-20 lg:pt-32">
-        <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)] items-center gap-12 px-5 md:px-6 lg:grid-cols-[1fr_1fr] lg:gap-16">
-          <div className="mx-auto w-full max-w-md lg:mx-0 lg:max-w-lg">
-            <span className="hero-rise inline-flex items-center gap-2 rounded-full border border-black/[0.08] bg-white/70 py-1 pl-1 pr-3 text-[12px] font-semibold text-black/60 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/65">
-              <LegalOpsMark className="[&>span:first-child]:h-6 [&>span:first-child]:w-6 [&>span:last-child]:text-[13px]" />
-              <span className="h-3 w-px bg-black/10 dark:bg-white/15"></span>
-              <span className="flex items-center gap-1.5"><span className="wl-pulse h-1.5 w-1.5 rounded-full bg-[#28c840]"></span>Lista de espera aberta</span>
-            </span>
-            <h1 className={'hero-rise mt-5 text-[clamp(2.3rem,9vw,4rem)] ' + heroTitle} style={rise(80)}>
-              O seu escritório, todo num só sítio.
-            </h1>
-            <p className={'hero-rise mt-5 ' + heroLead} style={rise(150)}>
-              Estamos a construir o LegalOps: prazos, documentos e equipa numa só plataforma, feita para escritórios de advogados em Portugal.
-            </p>
-            <p className={'hero-rise mt-3 text-[16px] leading-relaxed ' + muted} style={rise(190)}>
-              Entre na lista e experimente primeiro. Até lá, recebe ideias práticas de IA e automação para o seu escritório.
-            </p>
-            <div className="hero-rise mt-7" style={rise(240)}>
-              <WaitlistForm id={FORM_ID} />
-            </div>
-          </div>
+    <div className="min-h-screen bg-[#FAF8F3] font-sans text-[#182848] selection:bg-[#3355FF] selection:text-white">
+      <header className={section + ' flex items-center pt-6 sm:pt-8'}>
+        <Link href="/legalops" aria-label="LegalOps">
+          <Image src="/legalops/logo.png" alt="LegalOps" width={570} height={140} priority className="h-8 w-auto sm:h-9" />
+        </Link>
+      </header>
 
-          <div className="hero-rise" style={rise(320)}>
-            <DeadlinesWindow />
-          </div>
-        </div>
-      </section>
-
-      {/* What it will do: three lines, no cards. */}
-      <section aria-labelledby="building" className="pb-16 md:pb-24">
-        <div className="mx-auto max-w-6xl px-5 md:px-6">
-          <Reveal y={20}>
-            <div className="border-t border-black/10 pt-12 dark:border-white/15 md:pt-16">
-              <span className="text-[13px] font-semibold text-black/45 dark:text-white/45">O que estamos a construir</span>
-              <h2 id="building" className="mt-3 max-w-2xl text-[clamp(1.7rem,5vw,2.6rem)] font-semibold leading-[1.12] tracking-tight text-balance">
-                Menos tempo a procurar. Mais tempo para o processo.
-              </h2>
-            </div>
-          </Reveal>
-          <ul className="mt-8 grid gap-8 md:mt-12 md:grid-cols-3 md:gap-10">
-            {BUILDING.map(({ icon: Icon, title, text }, i) => (
-              <li key={title}>
-                <Reveal y={20} delay={i * 0.08}>
-                  <Icon className="h-6 w-6 text-[#007AFF]" strokeWidth={1.8} aria-hidden="true" />
-                  <h3 className="mt-4 text-[18px] font-semibold tracking-tight text-[#1d1d1f] dark:text-white">{title}</h3>
-                  <p className={'mt-2 text-[15px] leading-relaxed ' + muted}>{text}</p>
-                </Reveal>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* While they wait: the relationship, made visible. */}
-      <section aria-labelledby="waiting" className="pb-16 md:pb-24">
-        <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)] items-center gap-10 px-5 md:px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
-          <Reveal y={20}>
-            <span className="text-[13px] font-semibold text-black/45 dark:text-white/45">Enquanto espera</span>
-            <h2 id="waiting" className="mt-3 text-[clamp(1.7rem,5vw,2.6rem)] font-semibold leading-[1.12] tracking-tight text-balance">
-              Não fica só à espera.
-            </h2>
-            <p className={'mt-4 max-w-md text-[17px] leading-relaxed ' + muted}>
-              Desde o primeiro dia, enviamos-lhe o que já pode usar no escritório: onde a IA poupa tempo, como automatizar o que se repete e como organizar melhor o trabalho.
-            </p>
-            <ul className="mt-6 grid gap-3">
-              {['Poucos emails, só com o que vale a pena.', 'Exemplos reais, sem jargão.', 'Sai com um clique, quando quiser.'].map(item => (
-                <li key={item} className="flex items-center gap-3 text-[15px] text-[#1d1d1f] dark:text-white/90">
-                  <Check className="h-4 w-4 shrink-0 text-[#007AFF]" strokeWidth={3} aria-hidden="true" />{item}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-          <InboxWindow />
-        </div>
-      </section>
-
-      {/* Closing: who builds it, and back to the form. */}
-      <section id="fim" className="pb-20 md:pb-28">
-        <Reveal y={20} className="mx-auto flex max-w-xl flex-col items-center px-5 text-center md:px-6">
-          <Avatars size={36} ring="ring-[#fdfdfd] dark:ring-[#020617]" />
-          <h2 className="mt-5 text-[clamp(1.7rem,5vw,2.4rem)] font-semibold leading-[1.12] tracking-tight">Guarde o seu lugar.</h2>
-          <p className={'mt-3 text-[16px] leading-relaxed ' + muted}>
-            Feito pela equipa da ElevaOps, a partir de conversas com escritórios de advogados em Portugal. Quem está na lista experimenta primeiro.
+      <main>
+        {/* 1. Topo */}
+        <section className={section + ' pt-14 pb-16 sm:pt-20 sm:pb-20'}>
+          <span className="hero-rise inline-flex items-center gap-2 rounded-full bg-[#88B8F0]/25 px-3 py-1 text-[12px] font-semibold tracking-[0.14em] text-[#182848]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#3355FF]"></span>LEGALOPS · EM BREVE
+          </span>
+          <h1 className="lo-display hero-rise mt-5 text-[clamp(2.1rem,8.5vw,3.4rem)] font-semibold leading-[1.08] tracking-[-0.025em] text-[#182848] text-balance" style={{ animationDelay: '80ms' }}>
+            Saiba o que cada pessoa da sua equipa está a fazer — sem ter de perguntar.
+          </h1>
+          <p className={'hero-rise mt-6 ' + body + ' sm:text-[19px]'} style={{ animationDelay: '160ms' }}>
+            O LegalOps é uma plataforma de gestão para escritórios de advogados. Processos, tarefas, prazos e documentos num só sítio, para o sócio atribuir o trabalho e acompanhar cada processo.
           </p>
           <a
             href={'#' + FORM_ID}
-            className="group mt-7 inline-flex min-h-14 w-full max-w-sm items-center justify-center gap-2 rounded-full bg-[#1d1d1f] px-7 text-[16px] font-semibold text-white transition-colors hover:bg-black dark:bg-white dark:text-[#020617] dark:hover:bg-white/90 sm:w-auto"
+            className="hero-rise mt-8 inline-flex min-h-14 w-full items-center justify-center rounded-full bg-[#3355FF] px-8 text-[16px] font-semibold text-white transition-colors hover:bg-[#2443e6] sm:w-auto"
+            style={{ animationDelay: '240ms' }}
           >
-            Entrar na lista de espera
-            <ArrowUp className="h-4 w-4 transition-transform group-hover:-translate-y-0.5" aria-hidden="true" />
+            Entrar na waitlist
           </a>
-        </Reveal>
-      </section>
-    </PageShell>
+        </section>
+
+        {/* 2. Porque estamos a criar o LegalOps */}
+        <section aria-labelledby="porque" className="border-y border-[#182848]/10 bg-white/60">
+          <div className={section + ' py-14 sm:py-16'}>
+            <h2 id="porque" className={h2}>Porque estamos a criar o LegalOps</h2>
+            <div className={'mt-6 grid gap-4 ' + body}>
+              <p>O LegalOps nasceu de uma pergunta que se ouve em muitos escritórios: <span className="font-semibold text-[#182848]">«Isto está com quem?»</span></p>
+              <p>A informação do escritório costuma estar espalhada por e-mails, folhas de Excel, agendas pessoais e conversas de corredor. Quem coordena a equipa passa demasiado tempo a perguntar em que ponto estão as coisas.</p>
+              <p>Estamos a criar uma plataforma simples, em que toda a equipa trabalha sobre a mesma informação e o sócio tem a visão de conjunto. Estamos a construí-la com escritórios reais — por isso, a sua opinião conta.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. O que pode fazer */}
+        <section aria-labelledby="funcionalidades" className={section + ' py-14 sm:py-16'}>
+          <h2 id="funcionalidades" className={h2}>O que pode fazer</h2>
+          <ul className="mt-6 divide-y divide-[#182848]/10 border-y border-[#182848]/10">
+            {FEATURES.map(({ icon: Icon, title, text }) => (
+              <li key={title} className="flex gap-4 py-4">
+                  <Icon className="mt-0.5 h-5 w-5 shrink-0 text-[#3355FF]" strokeWidth={1.75} aria-hidden="true" />
+                  <p className="text-[16px] leading-relaxed text-[#182848]/75">
+                    <span className="font-semibold text-[#182848]">{title}</span> — {text}
+                  </p>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-[14px] text-[#182848]/55">Para escritórios com equipas a partir de 2 pessoas.</p>
+        </section>
+
+        {/* 4. O que vai receber + formulário */}
+        <section aria-labelledby="entrar" className={section + ' pb-14 sm:pb-16'}>
+          <h2 id="entrar" className={h2}>Entrar na waitlist</h2>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-2xl border border-[#182848]/10 bg-white p-5">
+              <p className="text-[15px] font-semibold text-[#182848]">Waitlist do LegalOps</p>
+              <p className="mt-1.5 text-[15px] leading-relaxed text-[#182848]/70">Novidades sobre o desenvolvimento, aviso quando o LegalOps abrir e, de vez em quando, ideias práticas para organizar o escritório.</p>
+            </div>
+            <div className="rounded-2xl border border-[#88B8F0]/60 bg-[#88B8F0]/10 p-5">
+              <p className="text-[15px] font-semibold text-[#182848]">Newsletter ElevaOps <span className="font-normal text-[#182848]/55">(opcional)</span></p>
+              <p className="mt-1.5 text-[15px] leading-relaxed text-[#182848]/70">Todas as semanas, conteúdos práticos sobre automação e soluções digitais para escritórios e negócios. Sem spam, sem jargão.</p>
+            </div>
+          </div>
+          <div className="mt-6">
+            <WaitlistForm id={FORM_ID} />
+          </div>
+        </section>
+
+        {/* 5. Perguntas frequentes */}
+        <section aria-labelledby="faq" className={section + ' pb-16 sm:pb-20'}>
+          <h2 id="faq" className={h2}>Perguntas frequentes</h2>
+          <div className="mt-6 divide-y divide-[#182848]/10 border-y border-[#182848]/10">
+            {FAQ.map(({ q, a }) => (
+              <details key={q} className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[16px] font-semibold text-[#182848] [&::-webkit-details-marker]:hidden">
+                  {q}
+                  <ChevronDown className="h-5 w-5 shrink-0 text-[#182848]/50 transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
+                </summary>
+                <p className="pb-5 pr-9 text-[16px] leading-relaxed text-[#182848]/70">{a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-[#182848]/10">
+        <div className={section + ' flex flex-wrap items-center gap-x-3 gap-y-2 py-8 text-[13px] text-[#182848]/60'}>
+          <span className="flex items-center gap-2">
+            <Image src="/logo-mark.png" alt="" width={265} height={210} className="h-4 w-auto opacity-80" />
+            LegalOps é um produto ElevaOps
+          </span>
+          <span aria-hidden="true">·</span>
+          <Link href="/" className="hover:text-[#182848]">elevaops.com</Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/privacy-policy" className="hover:text-[#182848]">Política de Privacidade</Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/contact" className="hover:text-[#182848]">Contacto</Link>
+        </div>
+      </footer>
+    </div>
   );
 }

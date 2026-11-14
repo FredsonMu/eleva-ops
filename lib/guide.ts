@@ -78,7 +78,7 @@ export type Tracking = Partial<Record<(typeof TRACKING_PARAMS)[number], string>>
 export const LIMITS = { firstName: 80, email: 254, companyName: 120, phone: 40, tracking: 200 } as const;
 
 // Pragmatic check (the browser's type="email" does the same on the client).
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export type LeadInput = {
   firstName: string;

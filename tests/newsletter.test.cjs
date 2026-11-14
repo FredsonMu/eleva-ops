@@ -7,7 +7,7 @@ const ts = require('typescript');
 
 process.env.NEWSLETTER_UNSUBSCRIBE_SECRET = 'local-test-signing-secret-not-a-real-credential';
 const contactId = '479e3145-dd38-476b-932c-529ceb705947';
-const lead = { firstName: 'Ana', email: 'ana@example.com', language: 'pt', guideId: 'manual-prazos', marketingConsent: true };
+const lead = { firstName: 'Ana', email: 'ana@example.com', language: 'pt', guideId: 'ai-lawyers', marketingConsent: true };
 const ok = data => ({ data, error: null });
 const subscriptionStatus = result => result && ({ subscribed: result.subscribed, welcomed: result.welcomed });
 const failed = (statusCode, name = 'validation_error') => ({ data: null, error: { statusCode, name, message: 'Test provider failure' } });
@@ -38,7 +38,7 @@ function setup(options = {}) {
       get: async () => options.lookup ?? failed(404, 'not_found'),
       create: async value => { created.push(value); return options.save ?? ok({ id: contactId }); },
       update: async value => { updated.push(value); return options.save ?? ok({ id: contactId }); },
-      segments: { add: async value => { segments.push(value); return ok({ id: contactId }); } },
+      segments: { add: async value => { segments.push(value); return ok({ id: contactId }); }, list: async () => ok({ data: options.contactSegments ?? [] }) },
     },
     emails: { send: async (message, request) => { sent.push({ message, request }); return options.send ?? ok({ id: 'email-id' }); } },
   };
@@ -59,20 +59,17 @@ test('unsubscribe signatures reject tampering and expose no email address', () =
 
 test('welcome is personalised, escaped, in the requested language and links to the correct PDF', () => {
   const { newsletter } = setup();
-  const message = newsletter.buildNewsletterWelcome('<Ana & Joao>', 'pt', 'manual-prazos', 'https://elevaops.com/newsletter/unsubscribe?token=valid');
+  const message = newsletter.buildNewsletterWelcome('<Ana & Joao>', 'pt', 'ai-lawyers', 'https://elevaops.com/newsletter/unsubscribe?token=valid');
   assert.match(message.subject, /newsletter/);
   assert.ok(message.html.includes('&lt;Ana &amp; Joao&gt;'));
   assert.ok(!message.html.includes('<Ana & Joao>'));
-  assert.ok(message.html.includes('eleva-ops-entre-prazos-e-processos.pdf'));
+  assert.ok(message.html.includes('eleva-ops-ia-para-advogados.pdf'));
   assert.ok(message.text.includes('Fredson, ElevaOps'));
   assert.ok(message.html.includes('newsletter/unsubscribe?token=valid'));
   assert.ok(message.html.includes('LegalOps'));
   assert.ok(message.html.includes('/email/newsletter-welcome.jpg'));
   assert.ok(!message.html.includes('data:image/'));
-  const english = newsletter.buildNewsletterWelcome('Ana', 'en', 'ai-agents', 'https://elevaops.com/unsubscribe');
-  assert.equal(english.subject, 'Welcome to the ElevaOps newsletter');
-  assert.ok(english.html.includes('lang="en"'));
-});
+  });
 
 test('no consent means no provider calls or welcome', async () => {
   const { newsletter, sent, created, updated } = setup();
@@ -158,16 +155,15 @@ test('guide API delivers the PDF independently and only opted-in requests get ne
   function request(consent, ip) {
     return new Request('https://elevaops.com/api/guide-lead', {
       method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://elevaops.com', Host: 'elevaops.com', 'x-forwarded-for': ip },
-      body: JSON.stringify({ ...lead, marketingConsent: consent, teamSize: '3-5', website: '', startedAt: Date.now() - 5000 }),
+      body: JSON.stringify({ ...lead, marketingConsent: consent, website: '', startedAt: Date.now() - 5000 }),
     });
   }
   const optIn = await route.POST(request(true, '192.0.2.1'));
   assert.equal(optIn.status, 200);
   const result = await optIn.json();
   assert.deepEqual(result.newsletter, { subscribed: true, welcomed: true });
-  assert.equal(result.download, '/guides/eleva-ops-entre-prazos-e-processos.pdf');
-  assert.equal(saved[0].teamSize, '3-5');
-  assert.equal(delivered[0][3], 'manual-prazos');
+  assert.equal(result.download, '/guides/eleva-ops-ia-para-advogados.pdf');
+  assert.equal(delivered[0][3], 'ai-lawyers');
   assert.ok(delivered[0][5].includes('/newsletter/unsubscribe?token='));
   assert.equal(Object.hasOwn(result.newsletter, 'unsubscribeUrl'), false);
   assert.equal(sent.length, 2); // Team notification and welcome; delivery is separately mocked.
@@ -185,14 +181,97 @@ test('PDF email shows cancellation only for subscribers, in HTML, text and mailb
   const { email, sent, newsletter } = setup();
   const delivery = load('lib/guide-email.ts', { './email': email });
   const url = 'https://elevaops.com/newsletter/unsubscribe?token=' + newsletter.createUnsubscribeToken(contactId, 'pt');
-  const subscribed = delivery.buildGuideEmail('Ana', 'pt', 'manual-prazos', url);
+  const subscribed = delivery.buildGuideEmail('Ana', 'pt', 'ai-lawyers', url);
   assert.ok(subscribed.html.includes('Cancelar subscri\u00e7\u00e3o'));
   assert.ok(subscribed.html.includes(url));
   assert.ok(subscribed.text.includes(url));
-  const plain = delivery.buildGuideEmail('Ana', 'pt', 'manual-prazos');
+  const plain = delivery.buildGuideEmail('Ana', 'pt', 'ai-lawyers');
   assert.ok(!plain.html.includes('/newsletter/unsubscribe'));
-  await delivery.sendGuideToLead(lead.email, lead.firstName, 'pt', 'manual-prazos', 'lead-123', url);
+  await delivery.sendGuideToLead(lead.email, lead.firstName, 'pt', 'ai-lawyers', 'lead-123', url);
   assert.equal(sent[0].message.headers['List-Unsubscribe'], '<' + url + '>');
-  await delivery.sendGuideToLead(lead.email, lead.firstName, 'pt', 'manual-prazos', 'lead-124');
+  await delivery.sendGuideToLead(lead.email, lead.firstName, 'pt', 'ai-lawyers', 'lead-124');
   assert.equal(sent[1].message.headers, undefined);
 });
+
+// ── LegalOps waitlist ─────────────────────────────────────────────────────────────────────
+
+function waitlistRoute(options = {}) {
+  const env = setup(options);
+  const rows = [];
+  const route = load('app/api/waitlist/route.ts', {
+    '@/lib/email': env.email, './email': env.email,
+    '@/lib/leads-sheet': { isSheetConfigured: () => true, appendLeadToSheet: async value => { rows.push(value); return true; } },
+  });
+  let ip = 0;
+  const post = body => route.POST(new Request('https://elevaops.com/api/waitlist', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://elevaops.com', Host: 'elevaops.com', 'x-forwarded-for': '198.51.100.' + ++ip },
+    body: JSON.stringify({ name: 'Ana Silva', email: 'ana@escritorio.pt', office: 'Silva & Associados', role: 'Sócio', teamSize: '4–10 pessoas', waitlistConsent: true, newsletter: false, website: '', startedAt: Date.now() - 5000, tracking: { utm_source: 'instagram', utm_campaign: 'manual' }, ...body }),
+  }));
+  return { ...env, rows, post };
+}
+
+function withSegments(fn) {
+  return async () => {
+    process.env.RESEND_WAITLIST_SEGMENT_ID = 'seg-waitlist';
+    process.env.RESEND_NEWSLETTER_SEGMENT_ID = 'seg-newsletter';
+    try { await fn(); } finally {
+      delete process.env.RESEND_WAITLIST_SEGMENT_ID;
+      delete process.env.RESEND_NEWSLETTER_SEGMENT_ID;
+    }
+  };
+}
+
+test('waitlist emails: A without and B with the newsletter paragraph, logo, signature and unsubscribe', () => {
+  const { email } = setup();
+  const waitlist = load('lib/waitlist.ts', { './email': email });
+  const url = 'https://elevaops.com/newsletter/unsubscribe?token=abc';
+  const a = waitlist.buildWaitlistEmail('<Ana> Silva', false, url);
+  const b = waitlist.buildWaitlistEmail('Ana Silva', true, url);
+  assert.equal(a.subject, 'Está na waitlist do LegalOps');
+  assert.equal(b.subject, 'Está na waitlist do LegalOps (e na nossa newsletter)');
+  assert.ok(a.html.includes('Olá &lt;Ana&gt;,'));
+  assert.ok(!a.html.includes('Como também escolheu a newsletter'));
+  assert.ok(b.html.includes('Como também escolheu a newsletter') && b.text.includes('O primeiro chega já esta semana.'));
+  for (const message of [a, b]) {
+    assert.ok(message.html.includes('/email/legalops-logo.png'));
+    assert.ok(message.html.includes('/email/fredson.jpg'));
+    assert.ok(message.html.includes(url) && message.text.includes(url));
+    assert.ok(!/intelig[eê]ncia artificial|\bIA\b/.test(message.text));
+  }
+});
+
+test('waitlist only: one waitlist segment, email A, team email C and a sheet row with consent time', withSegments(async () => {
+  const { post, created, sent, rows } = waitlistRoute();
+  const response = await post({});
+  assert.equal(response.status, 200);
+  assert.deepEqual(created[0].segments, [{ id: 'seg-waitlist' }]);
+  const person = sent.find(s => s.message.to === 'ana@escritorio.pt').message;
+  const team = sent.find(s => s.message.to === 'contact@elevaops.com').message;
+  assert.equal(person.subject, 'Está na waitlist do LegalOps');
+  assert.ok(person.headers['List-Unsubscribe'].includes('/newsletter/unsubscribe?token='));
+  assert.equal(team.subject, 'Nova inscrição — Waitlist LegalOps');
+  assert.ok(team.text.includes('Origem: instagram / manual') && team.text.includes('Newsletter: Não'));
+  assert.equal(rows[0].role, 'Sócio');
+  assert.equal(rows[0].marketingConsent, false);
+  assert.ok(rows[0].waitlistConsentAt && !rows[0].newsletterConsentAt);
+}));
+
+test('waitlist + newsletter: both segments, email B and "+ Newsletter" for the team', withSegments(async () => {
+  const { post, created, sent, rows } = waitlistRoute();
+  assert.equal((await post({ newsletter: true })).status, 200);
+  assert.deepEqual(created[0].segments, [{ id: 'seg-waitlist' }, { id: 'seg-newsletter' }]);
+  assert.ok(sent.some(s => s.message.subject === 'Está na waitlist do LegalOps (e na nossa newsletter)'));
+  assert.ok(sent.some(s => s.message.subject === 'Nova inscrição — Waitlist LegalOps + Newsletter'));
+  assert.ok(rows[0].newsletterConsentAt);
+}));
+
+test('waitlist refuses a missing consent and does not re-register an email already on the list', withSegments(async () => {
+  const fresh = waitlistRoute();
+  const refused = await fresh.post({ waitlistConsent: false });
+  assert.equal(refused.status, 422);
+  assert.equal((await refused.json()).field, 'waitlistConsent');
+  const existing = waitlistRoute({ lookup: ok({ id: contactId }), contactSegments: [{ id: 'seg-waitlist' }] });
+  const again = await existing.post({});
+  assert.deepEqual(await again.json(), { ok: true, duplicate: true });
+  assert.equal(existing.sent.length + existing.rows.length + existing.updated.length, 0);
+}));

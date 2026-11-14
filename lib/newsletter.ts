@@ -2,9 +2,7 @@ import { createHash, createHmac, timingSafeEqual } from 'node:crypto';
 import { EMAIL_FROM, TEAM_INBOX, escapeHtml, getNewsletterResend, getResend, withResendRetry } from './email';
 import { getEdition, type GuideId, type GuideLang, type LeadInput } from './guide';
 
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://elevaops.com').replace(/\/$/, '');
-// Where the subscriber came from: a guide request or the LegalOps waitlist.
-export type NewsletterSource = GuideId | 'legalops';
+export const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://elevaops.com').replace(/\/$/, '');
 export type NewsletterResult = { subscribed: boolean; welcomed: boolean; unsubscribeUrl?: string };
 
 function signingKey() {
@@ -30,11 +28,9 @@ export function verifyUnsubscribeToken(token: string): { contactId: string; lang
     ? { contactId, language: language as GuideLang } : null;
 }
 
-export function buildNewsletterWelcome(firstName: string, language: GuideLang, source: NewsletterSource, unsubscribeUrl: string) {
-  const waitlist = source === 'legalops';
-  // The waitlist welcome also offers the lawyers guide, so there is something to read right away.
-  const { edition, lang } = getEdition(waitlist ? 'ai-lawyers' : source, waitlist ? 'pt' : language);
-  const base = lang === 'pt' ? {
+export function buildNewsletterWelcome(firstName: string, language: GuideLang, guideId: GuideId, unsubscribeUrl: string) {
+  const { edition, lang } = getEdition(guideId, language);
+  const c = lang === 'pt' ? {
     subject: 'Bem-vindo à newsletter da ElevaOps',
     hello: 'Olá, ' + firstName + '.',
     title: 'A sua inscrição está confirmada.',
@@ -77,25 +73,6 @@ export function buildNewsletterWelcome(firstName: string, language: GuideLang, s
     unsubscribe: 'Unsubscribe', privacy: 'Privacy Policy',
     bannerAlt: 'Welcome to the ElevaOps newsletter. Ideas, news and practical content about technology, product and automation.',
   };
-  const c = waitlist ? {
-    ...base,
-    subject: 'Está na lista de espera do LegalOps',
-    title: 'O seu lugar na lista de espera do LegalOps está guardado.',
-    confirmed: 'Lugar na lista confirmado',
-    thanks: 'O seu lugar está guardado.',
-    intro: 'Quando o LegalOps abrir, é dos primeiros a saber e a experimentar. Até lá, não fica só à espera: vamos enviar-lhe ideias práticas para usar IA e automação no seu escritório desde já.',
-    inside: 'O que vai receber enquanto espera.',
-    topics: [
-      ['IA no trabalho jurídico.', 'Exemplos concretos de onde a IA poupa tempo, e de onde a revisão do advogado tem de ficar.'],
-      ['Automação do que se repete.', 'Prazos, documentos e pedidos de clientes: formas simples de tirar trabalho manual do dia a dia.'],
-      ['Os bastidores do LegalOps.', 'O que estamos a construir, as primeiras imagens e o convite para o acesso antecipado.'],
-    ],
-    note: 'Uma pergunta, antes de começarmos.',
-    question: 'Qual é a tarefa que mais tempo lhe rouba no escritório?',
-    reply: 'Responda a este email com uma frase. Leio todas as respostas, e são elas que decidem o que o LegalOps faz primeiro.',
-    resource: 'Para começar já, um guia gratuito.',
-    reason: 'Recebe este email porque se inscreveu na lista de espera do LegalOps em elevaops.com.',
-  } : base;
   const pdfUrl = SITE + edition.pdf;
   const font = "-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Helvetica,Arial,sans-serif";
   const topics = c.topics.map(([title, description], index) =>
@@ -167,7 +144,7 @@ export function buildNewsletterWelcome(firstName: string, language: GuideLang, s
 }
 
 // Delivery of the requested PDF stays independent from newsletter registration.
-export async function subscribeToNewsletter(lead: Pick<LeadInput, 'firstName' | 'email' | 'language' | 'marketingConsent'> & { source: NewsletterSource }): Promise<NewsletterResult | null> {
+export async function subscribeToNewsletter(lead: Pick<LeadInput, 'firstName' | 'email' | 'language' | 'guideId' | 'marketingConsent'>): Promise<NewsletterResult | null> {
   if (!lead.marketingConsent) return null;
   const contacts = getNewsletterResend(), sender = getResend();
   if (!contacts || !sender) return { subscribed: false, welcomed: false };
@@ -197,13 +174,13 @@ export async function subscribeToNewsletter(lead: Pick<LeadInput, 'firstName' | 
     subscribed = true;
     const token = createUnsubscribeToken(contact.data.id, lead.language);
     unsubscribeUrl = SITE + '/newsletter/unsubscribe?token=' + token;
-    const message = buildNewsletterWelcome(lead.firstName, lead.language, lead.source, unsubscribeUrl);
+    const message = buildNewsletterWelcome(lead.firstName, lead.language, lead.guideId, unsubscribeUrl);
     // Resend suppresses retries and identical repeat welcomes for 24 hours.
     const contentKey = createHash('sha256').update(message.html).digest('hex').slice(0, 24);
     const result = await withResendRetry(() => sender.emails.send({
       from: EMAIL_FROM, to: lead.email, replyTo: TEAM_INBOX, ...message,
       headers: { 'List-Unsubscribe': '<' + unsubscribeUrl + '>', 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' },
-      tags: [{ name: 'category', value: lead.source === 'legalops' ? 'legalops-waitlist' : 'newsletter-welcome' }],
+      tags: [{ name: 'category', value: 'newsletter-welcome' }],
     }, { idempotencyKey: 'newsletter-welcome/' + contact.data!.id + '/' + contentKey }));
     if (result.error) console.error('[newsletter] Welcome email failed:', result.error);
     return { subscribed, welcomed: !result.error, unsubscribeUrl };
