@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { EMAIL_FROM, TEAM_INBOX, getResend, withResendRetry } from '@/lib/email';
 import { appendLeadToSheet, isSheetConfigured } from '@/lib/leads-sheet';
 import { isForeignOrigin, isHoneypotFilled, isRateLimited, isTooFast } from '@/lib/lead-guard';
-import { buildTeamEmail, buildWaitlistEmail, saveWaitlistContact, validateWaitlist } from '@/lib/waitlist';
+import { buildTeamEmail, saveWaitlistContact, sendWaitlistEmail, validateWaitlist } from '@/lib/waitlist';
 
 export const maxDuration = 60;
 
@@ -73,21 +73,14 @@ export async function POST(request: Request) {
   const leadId = crypto.randomUUID();
   const emailKey = createHash('sha256').update(signup.email).digest('hex').slice(0, 24);
 
-  async function send(kind: 'team' | 'person') {
+  async function notifyTeam() {
     if (!sender) return false;
     try {
-      const message = kind === 'team'
-        ? { ...buildTeamEmail(signup, now), to: TEAM_INBOX, replyTo: signup.email }
-        : {
-          ...buildWaitlistEmail(signup.name, signup.newsletter, contact.unsubscribeUrl), to: signup.email, replyTo: TEAM_INBOX,
-          ...(contact.unsubscribeUrl ? { headers: { 'List-Unsubscribe': '<' + contact.unsubscribeUrl + '>', 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } } : {}),
-          tags: [{ name: 'category', value: 'legalops-waitlist' }],
-        };
-      const { error } = await withResendRetry(() => sender.emails.send({ from: EMAIL_FROM, ...message }, { idempotencyKey: `waitlist-${kind}/${emailKey}` }));
-      if (error) console.error(`[waitlist] Resend rejected the ${kind} email:`, error);
+      const { error } = await withResendRetry(() => sender.emails.send({ from: EMAIL_FROM, ...buildTeamEmail(signup, now), to: TEAM_INBOX, replyTo: signup.email }, { idempotencyKey: 'waitlist-team/' + emailKey }));
+      if (error) console.error('[waitlist] Resend rejected the team email:', error);
       return !error;
     } catch (err) {
-      console.error(`[waitlist] Failed to send the ${kind} email:`, err);
+      console.error('[waitlist] Failed to send the team email:', err);
       return false;
     }
   }
@@ -100,8 +93,8 @@ export async function POST(request: Request) {
         language: 'PT', guide: 'Waitlist LegalOps', ...signup.tracking,
       })
       : Promise.resolve(false),
-    send('team'),
-    send('person'),
+    notifyTeam(),
+    sendWaitlistEmail(signup.email, signup.name, signup.newsletter, contact.unsubscribeUrl),
   ]);
 
   if (!savedToSheet && !notified && !contact.saved) return fail(502, E.failed);

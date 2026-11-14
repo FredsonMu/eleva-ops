@@ -1,4 +1,5 @@
-import { escapeHtml, getNewsletterResend, TEAM_INBOX, withResendRetry } from './email';
+import { createHash } from 'node:crypto';
+import { EMAIL_FROM, escapeHtml, getNewsletterResend, getResend, TEAM_INBOX, withResendRetry } from './email';
 import { EMAIL_RE, isValidPhone, LIMITS, TRACKING_PARAMS, type Tracking } from './guide';
 import { createUnsubscribeToken, SITE } from './newsletter';
 
@@ -212,6 +213,25 @@ export function buildWaitlistEmail(name: string, newsletter: boolean, unsubscrib
   ].join('\n');
 
   return { subject, html, text };
+}
+
+/** Sends email A or B to the person (from /legalops, or the waitlist box on a guide form). */
+export async function sendWaitlistEmail(to: string, name: string, newsletter: boolean, unsubscribeUrl?: string): Promise<boolean> {
+  const sender = getResend();
+  if (!sender) return false;
+  try {
+    const key = createHash('sha256').update(to).digest('hex').slice(0, 24);
+    const { error } = await withResendRetry(() => sender.emails.send({
+      from: EMAIL_FROM, to, replyTo: TEAM_INBOX, ...buildWaitlistEmail(name, newsletter, unsubscribeUrl),
+      ...(unsubscribeUrl ? { headers: { 'List-Unsubscribe': '<' + unsubscribeUrl + '>', 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } } : {}),
+      tags: [{ name: 'category', value: 'legalops-waitlist' }],
+    }, { idempotencyKey: 'waitlist-person/' + key }));
+    if (error) console.error('[waitlist] Resend rejected the waitlist email:', error);
+    return !error;
+  } catch (err) {
+    console.error('[waitlist] Failed to send the waitlist email:', err);
+    return false;
+  }
 }
 
 /** Email C, to the team inbox. */

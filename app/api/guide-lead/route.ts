@@ -4,7 +4,7 @@ import { CATALOG, getEdition, leadLanguage, validateLead } from '@/lib/guide';
 import { appendLeadToSheet, isSheetConfigured } from '@/lib/leads-sheet';
 import { sendGuideToLead } from '@/lib/guide-email';
 import { subscribeToNewsletter } from '@/lib/newsletter';
-import { saveWaitlistContact } from '@/lib/waitlist';
+import { saveWaitlistContact, sendWaitlistEmail } from '@/lib/waitlist';
 import { isForeignOrigin, isHoneypotFilled, isRateLimited, isTooFast } from '@/lib/lead-guard';
 
 export const maxDuration = 60;
@@ -133,9 +133,12 @@ export async function POST(request: Request) {
   const waitlist = joinWaitlist
     ? await saveWaitlistContact({ name: firstName, email, phone, office: companyName, role: '', teamSize: '', newsletter: false, tracking })
     : null;
-  const newsletter = await subscribeToNewsletter(result.lead);
+  // With the waitlist box, the waitlist email (A, or B when the newsletter box is ticked too)
+  // replaces the newsletter welcome, so nobody gets three emails at once.
+  const newsletter = await subscribeToNewsletter(result.lead, { welcome: !joinWaitlist });
   const unsubscribeUrl = newsletter?.unsubscribeUrl ?? waitlist?.unsubscribeUrl;
-  const delivered = await sendGuideToLead(email, firstName, language, guideId, leadId, unsubscribeUrl, { waitlist: joinWaitlist });
+  const delivered = await sendGuideToLead(email, firstName, language, guideId, leadId, unsubscribeUrl);
+  if (joinWaitlist) await sendWaitlistEmail(email, firstName, marketingConsent, unsubscribeUrl);
 
   return NextResponse.json({ ok: true, leadId, download: guide.pdf, emailed: delivered, guide: CATALOG[guideId].name, newsletter: newsletter ? { subscribed: newsletter.subscribed, welcomed: newsletter.welcomed } : null });
 }

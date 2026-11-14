@@ -46,7 +46,7 @@ export function buildNewsletterWelcome(firstName: string, language: GuideLang, g
     note: 'Uma conversa, também.',
     question: 'Qual é hoje a maior dificuldade no controlo de prazos do seu escritório?',
     reply: 'Responda a este email com uma frase. Leio todas as respostas.',
-    resource: 'O seu guia continua aqui.',
+    resource: edition.emailNoun === 'manual' ? 'O seu manual continua aqui.' : 'O seu guia continua aqui.',
     download: 'Descarregar',
     reason: 'Recebe este email porque aceitou receber a newsletter ao pedir um conteúdo gratuito da ElevaOps.',
     unsubscribe: 'Cancelar subscrição', privacy: 'Política de Privacidade',
@@ -111,7 +111,7 @@ export function buildNewsletterWelcome(firstName: string, language: GuideLang, g
     '<p style="margin:10px 0 0;font-size:18px;line-height:1.45;letter-spacing:-0.2px;font-weight:600;color:#1d1d1f;">' + c.question + '</p>',
     '<p style="margin:12px 0 0;font-size:15px;line-height:1.65;color:#5f5f66;">' + c.reply + '</p>',
     '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:22px;"><tr>',
-    '<td width="38" height="38" align="center" valign="middle" bgcolor="#007AFF" style="width:38px;height:38px;border-radius:999px;color:#ffffff;font-size:17px;font-weight:600;">F</td>',
+    '<td width="38" height="38" valign="middle" style="width:38px;height:38px;"><img src="' + SITE + '/email/fredson.jpg" width="38" height="38" alt="Fredson" style="display:block;width:38px;height:38px;border:0;border-radius:999px;"></td>',
     '<td style="padding-left:12px;"><p style="margin:0;font-size:14px;line-height:1.5;font-weight:600;color:#1d1d1f;">Fredson</p>',
     '<p style="margin:0;font-size:12px;line-height:1.5;color:#5f5f66;">ElevaOps</p></td>',
     '</tr></table></td></tr></table>',
@@ -144,7 +144,7 @@ export function buildNewsletterWelcome(firstName: string, language: GuideLang, g
 }
 
 // Delivery of the requested PDF stays independent from newsletter registration.
-export async function subscribeToNewsletter(lead: Pick<LeadInput, 'firstName' | 'email' | 'language' | 'guideId' | 'marketingConsent'>): Promise<NewsletterResult | null> {
+export async function subscribeToNewsletter(lead: Pick<LeadInput, 'firstName' | 'email' | 'language' | 'guideId' | 'marketingConsent'>, options: { welcome?: boolean } = {}): Promise<NewsletterResult | null> {
   if (!lead.marketingConsent) return null;
   const contacts = getNewsletterResend(), sender = getResend();
   if (!contacts || !sender) return { subscribed: false, welcomed: false };
@@ -174,6 +174,8 @@ export async function subscribeToNewsletter(lead: Pick<LeadInput, 'firstName' | 
     subscribed = true;
     const token = createUnsubscribeToken(contact.data.id, lead.language);
     unsubscribeUrl = SITE + '/newsletter/unsubscribe?token=' + token;
+    // The LegalOps waitlist email (B) already welcomes them to the newsletter: no second welcome.
+    if (options.welcome === false) return { subscribed, welcomed: false, unsubscribeUrl };
     const message = buildNewsletterWelcome(lead.firstName, lead.language, lead.guideId, unsubscribeUrl);
     // Resend suppresses retries and identical repeat welcomes for 24 hours.
     const contentKey = createHash('sha256').update(message.html).digest('hex').slice(0, 24);

@@ -308,11 +308,16 @@ test('manual: phone required, PDF by email, and the optional waitlist box adds t
   assert.equal((await ok.json()).download, '/guides/eleva-ops-gestao-juridica-digital.pdf');
   assert.deepEqual(created[0].segments, [{ id: 'seg-waitlist' }]);
   assert.equal(delivered[0][3], 'gestao-juridica');
-  assert.deepEqual(delivered[0][6], { waitlist: true });
+  assert.ok(sent.some(s => s.message.to === 'rui@escritorio.pt' && s.message.subject === 'Está na waitlist do LegalOps'));
   assert.ok(delivered[0][5].includes('/newsletter/unsubscribe?token='));
   assert.equal(rows[0].guide, 'Gestão Jurídica Digital + Waitlist LegalOps');
   assert.ok(rows[0].waitlistConsentAt && !rows[0].newsletterConsentAt);
   assert.ok(sent.some(s => s.message.to === 'contact@elevaops.com' && s.message.html.includes('LegalOps waitlist:</strong> Yes')));
+  // Both boxes: email B, and no separate newsletter welcome.
+  sent.length = 0;
+  assert.equal((await post({ email: 'ana@escritorio.pt', waitlist: true, marketingConsent: true })).status, 200);
+  const toAna = sent.filter(s => s.message.to === 'ana@escritorio.pt').map(s => s.message.subject);
+  assert.deepEqual(toAna, ['Está na waitlist do LegalOps (e na nossa newsletter)']);
 }));
 
 test('manual delivery email mentions the waitlist only when it was ticked', () => {
