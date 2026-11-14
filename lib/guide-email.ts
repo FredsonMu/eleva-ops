@@ -44,7 +44,7 @@ const COPY = {
 
 const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Helvetica,Arial,sans-serif";
 
-export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', guideId: GuideId = 'ai-lawyers', unsubscribeUrl?: string) {
+export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', guideId: GuideId = 'ai-lawyers', unsubscribeUrl?: string, options: { waitlist?: boolean } = {}) {
   const { edition: guide, lang } = getEdition(guideId, requested);
   const c = COPY[lang];
   const other = otherEdition(guideId, lang);
@@ -55,6 +55,10 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
   const noun = lang === 'pt' ? guide.emailNoun ?? 'guia' : 'guide';
   const w = (v: string) => (noun === 'manual' ? v.replace(/\bguia\b/g, 'manual').replace(/\bGuia\b/g, 'Manual') : v);
   const note = guide.emailNote ? escapeHtml(guide.emailNote) : '';
+  // With a newsletter or waitlist subscription it is no longer a one-off delivery.
+  const footer = unsubscribeUrl ? w(c.footer).replace(/ (É um envio único, não uma newsletter|It’s a one-time delivery, not a newsletter)./, '') : w(c.footer);
+  // Ticked the optional LegalOps waitlist box on the guide's form.
+  const waitlistNote = options.waitlist ? 'Ficou também na waitlist do LegalOps: vamos avisá-lo quando abrirmos e partilhar novidades do desenvolvimento.' : '';
   const signature = guide.emailSignature ? escapeHtml(guide.emailSignature) : '';
   // With a signature the next step is a reply to a person, not a booking.
   const replyStep = Boolean(guide.emailSignature);
@@ -99,7 +103,8 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
             <p style="margin:14px 0 0;font-size:16px;line-height:1.6;color:#5f5f66;">
               ${c.thanks(title)}
             </p>${note ? `
-            <p style="margin:14px 0 0;font-size:16px;line-height:1.6;color:#5f5f66;">${note}</p>` : ''}
+            <p style="margin:14px 0 0;font-size:16px;line-height:1.6;color:#5f5f66;">${note}</p>` : ''}${waitlistNote ? `
+            <p style="margin:14px 0 0;font-size:16px;line-height:1.6;color:#5f5f66;">${waitlistNote}</p>` : ''}
           </td></tr>
 
           <!-- button -->
@@ -142,7 +147,7 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
 
       <!-- footer -->
       <tr><td style="padding:24px 8px 0;font-size:12px;line-height:1.6;color:#8e8e93;">
-        ${w(c.footer).replace('{site}', `<a href="${SITE}" style="color:#8e8e93;">elevaops.com</a>`)}
+        ${footer.replace('{site}', `<a href="${SITE}" style="color:#8e8e93;">elevaops.com</a>`)}
         <a href="${SITE}/privacy-policy" style="color:#8e8e93;">${c.privacy}</a>
         ${unsubscribeUrl ? `<p style="margin:12px 0 0;font-size:13px;"><a href="${escapeHtml(unsubscribeUrl)}" style="color:#0066cc;text-decoration:underline;">${unsubscribeLabel}</a></p>` : ''}
       </td></tr>
@@ -159,6 +164,7 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
     '',
     strip(c.thanks(guide.title)),
     ...(guide.emailNote ? ['', guide.emailNote] : []),
+    ...(waitlistNote ? ['', waitlistNote] : []),
     pdfUrl,
     '',
     `${w(c.inside)}:`,
@@ -168,17 +174,17 @@ export function buildGuideEmail(firstName: string, requested: GuideLang = 'en', 
     `${helpTitle} ${helpBody}`,
     replyStep ? guide.emailSignature! : diagnosisUrl,
     '',
-    w(c.footer).replace('{site}', 'elevaops.com'),
+    footer.replace('{site}', 'elevaops.com'),
     ...(unsubscribeUrl ? ['', `${unsubscribeLabel}: ${unsubscribeUrl}`] : []),
   ].join('\n');
 
   return { subject: w(c.subject(guide.title)), html, text };
 }
 
-export async function sendGuideToLead(to: string, firstName: string, lang: GuideLang = 'en', guideId: GuideId = 'ai-lawyers', leadId?: string, unsubscribeUrl?: string): Promise<boolean> {
+export async function sendGuideToLead(to: string, firstName: string, lang: GuideLang = 'en', guideId: GuideId = 'ai-lawyers', leadId?: string, unsubscribeUrl?: string, options: { waitlist?: boolean } = {}): Promise<boolean> {
   const client = getResend();
   if (!client) return false;
-  const { subject, html, text } = buildGuideEmail(firstName, lang, guideId, unsubscribeUrl);
+  const { subject, html, text } = buildGuideEmail(firstName, lang, guideId, unsubscribeUrl, options);
   try {
     const { error } = await withResendRetry(() => client.emails.send({ from: EMAIL_FROM, to, replyTo: TEAM_INBOX, subject, html, text, ...(unsubscribeUrl ? { headers: { 'List-Unsubscribe': '<' + unsubscribeUrl + '>', 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } } : {}) }, leadId ? { idempotencyKey: 'guide-delivery/' + leadId } : undefined));
     if (error) {

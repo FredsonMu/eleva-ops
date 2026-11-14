@@ -4,6 +4,7 @@ import { CATALOG, getEdition, leadLanguage, validateLead } from '@/lib/guide';
 import { appendLeadToSheet, isSheetConfigured } from '@/lib/leads-sheet';
 import { sendGuideToLead } from '@/lib/guide-email';
 import { subscribeToNewsletter } from '@/lib/newsletter';
+import { saveWaitlistContact } from '@/lib/waitlist';
 import { isForeignOrigin, isHoneypotFilled, isRateLimited, isTooFast } from '@/lib/lead-guard';
 
 export const maxDuration = 60;
@@ -63,6 +64,9 @@ export async function POST(request: Request) {
   if (!result.ok) return fail(422, result.error, result.field);
   const { firstName, email, companyName, phone, marketingConsent, language, guideId, tracking } = result.lead;
   const guide = getEdition(guideId, language).edition;
+  // Optional box on some guide forms: also join the LegalOps waitlist.
+  const joinWaitlist = body.waitlist === true;
+  const consentAt = new Date().toISOString();
 
   const client = getResend();
   const sheetEnabled = isSheetConfigured();
@@ -93,6 +97,7 @@ export async function POST(request: Request) {
           <p><strong>Phone:</strong> ${phone ? escapeHtml(phone) : '—'}</p>
           <p><strong>Language:</strong> ${language === 'pt' ? 'Português' : 'English'}</p>
           <p><strong>Marketing consent:</strong> ${marketingConsent ? 'Yes, opted in' : 'No'}</p>
+          <p><strong>LegalOps waitlist:</strong> ${joinWaitlist ? 'Yes' : 'No'}</p>
           <p><strong>Submitted:</strong> ${new Date().toISOString()}</p>
           <p><strong>Lead id:</strong> ${leadId}</p>
           ${trackingRows ? `<p><strong>Attribution</strong></p><table>${trackingRows}</table>` : '<p><strong>Attribution:</strong> none (direct visit)</p>'}
@@ -113,7 +118,7 @@ export async function POST(request: Request) {
   // (and the download is unlocked) only if at least one of them actually stored it.
   const [savedToSheet, emailed] = await Promise.all([
     sheetEnabled
-      ? appendLeadToSheet({ leadId, firstName, email, companyName, phone, marketingConsent, language: language === 'pt' ? 'PT' : 'EN', guide: CATALOG[guideId].name, ...tracking })
+      ? appendLeadToSheet({ leadId, firstName, email, companyName, phone, marketingConsent, language: language === 'pt' ? 'PT' : 'EN', guide: CATALOG[guideId].name + (joinWaitlist ? ' + Waitlist LegalOps' : ''), waitlistConsentAt: joinWaitlist ? consentAt : '', newsletterConsentAt: marketingConsent ? consentAt : '', ...tracking })
       : Promise.resolve(false),
     sendEmail(),
   ]);
@@ -124,8 +129,13 @@ export async function POST(request: Request) {
 
   // Copy of the guide in their inbox, so it isn't lost if they close the page. A failure here
   // doesn't block the on-screen download.
+  // Waitlist first (waitlist segment only); the newsletter keeps its own flow and welcome email.
+  const waitlist = joinWaitlist
+    ? await saveWaitlistContact({ name: firstName, email, phone, office: companyName, role: '', teamSize: '', newsletter: false, tracking })
+    : null;
   const newsletter = await subscribeToNewsletter(result.lead);
-  const delivered = await sendGuideToLead(email, firstName, language, guideId, leadId, newsletter?.unsubscribeUrl);
+  const unsubscribeUrl = newsletter?.unsubscribeUrl ?? waitlist?.unsubscribeUrl;
+  const delivered = await sendGuideToLead(email, firstName, language, guideId, leadId, unsubscribeUrl, { waitlist: joinWaitlist });
 
   return NextResponse.json({ ok: true, leadId, download: guide.pdf, emailed: delivered, guide: CATALOG[guideId].name, newsletter: newsletter ? { subscribed: newsletter.subscribed, welcomed: newsletter.welcomed } : null });
 }

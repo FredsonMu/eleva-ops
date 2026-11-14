@@ -8,8 +8,12 @@ import { Reveal } from './Reveal';
 
 // Free guides available in the current language, newest first. Used on the homepage and on
 // /guides. Each card leads to the guide's own landing page.
-const ORDER: GuideId[] = ['ai-lawyers'];
+const ORDER: GuideId[] = ['gestao-juridica', 'ai-lawyers'];
 const BLURB: Record<GuideId, { en?: string; pt?: string; tag: { en?: string; pt?: string } }> = {
+  'gestao-juridica': {
+    pt: 'Cinco pilares para organizar equipa, processos e prazos, com um plano de quatro semanas e modelos prontos a usar.',
+    tag: { pt: 'Para sócios e gestores' },
+  },
   'ai-lawyers': {
     pt: '10 exemplos práticos para usar IA no trabalho à volta do processo, sempre com a revisão do advogado.',
     tag: { pt: 'Para escritórios de advogados' },

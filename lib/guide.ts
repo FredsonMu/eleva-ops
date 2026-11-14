@@ -3,7 +3,7 @@
 // To add a guide: add its PDF/cover under /public, an entry in CATALOG and a landing page.
 
 export type GuideLang = 'en' | 'pt';
-export type GuideId = 'ai-lawyers';
+export type GuideId = 'ai-lawyers' | 'gestao-juridica';
 
 export type GuideEdition = {
   path: string;
@@ -48,12 +48,45 @@ const LAWYERS_PT: GuideEdition = {
   emailHelpBody: 'Responda a este email com uma tarefa que se repete no seu escritório, ou marque um diagnóstico gratuito. Ajudamos a escolher onde a IA ajuda, com que ferramentas e onde a revisão do advogado tem de ficar.',
 };
 
-export const CATALOG: Record<GuideId, { name: string; editions: Partial<Record<GuideLang, GuideEdition>> }> = {
-  'ai-lawyers': { name: 'IA para advogados', editions: { pt: LAWYERS_PT } },
+const GESTAO_PT: GuideEdition = {
+  path: '/gestao-juridica-digital',
+  title: 'Gestão Jurídica Digital',
+  pdf: '/guides/eleva-ops-gestao-juridica-digital.pdf',
+  pdfFileName: 'Gestão Jurídica Digital - ElevaOps.pdf',
+  pdfInfo: 'PDF · 15 páginas',
+  cover: '/guides/gestao-juridica-digital-capa.webp',
+  coverWidth: 1189,
+  coverHeight: 1683,
+  emailCover: '/email/guide-cover-gestao.jpg',
+  ogImage: '/guides/gestao-juridica-digital-og.png',
+  emailNoun: 'manual',
+  emailItems: [
+    'Cinco pilares para organizar equipa, processos e prazos',
+    'Um plano de quatro semanas e o Índice de Maturidade Digital',
+    'Modelos prontos a usar no escritório',
+  ],
+  emailNote: 'Uma sugestão: comece pelo Índice de Maturidade Digital da página 11. Dez minutos chegam para saber por onde começar.',
+  emailHelpTitle: 'Por que pilar vai começar?',
+  emailHelpBody: 'Responda a este e-mail com uma frase. Lemos todas as respostas.',
+  emailSignature: 'Fredson, ElevaOps',
 };
 
-// Only one guide is left; requests naming an older one get this one.
-export const asGuideId = (_value: unknown): GuideId => 'ai-lawyers';
+export const CATALOG: Record<GuideId, { name: string; editions: Partial<Record<GuideLang, GuideEdition>> }> = {
+  'ai-lawyers': { name: 'IA para advogados', editions: { pt: LAWYERS_PT } },
+  'gestao-juridica': { name: 'Gestão Jurídica Digital', editions: { pt: GESTAO_PT } },
+};
+
+/** Guides whose form asks for the phone number as a required field. */
+export const PHONE_REQUIRED: readonly GuideId[] = ['gestao-juridica'];
+
+// Unknown or removed guide ids fall back to the lawyers guide.
+export const asGuideId = (value: unknown): GuideId => (value === 'gestao-juridica' ? value : 'ai-lawyers');
+
+/** "+351 912 345 678" style number: 8–20 digits, digits/spaces/()/- only. */
+export function isValidPhone(phone: string) {
+  const digits = phone.replace(/\D/g, '').length;
+  return phone.length <= LIMITS.phone && /^\+?[0-9 ()-]{6,}$/.test(phone) && digits >= 8 && digits <= 20;
+}
 
 /** The edition in the requested language, or the first one the guide has. */
 export function getEdition(id: GuideId, lang: GuideLang): { edition: GuideEdition; lang: GuideLang } {
@@ -93,7 +126,7 @@ export type LeadInput = {
 
 export type LeadValidation =
   | { ok: true; lead: LeadInput }
-  | { ok: false; field?: 'firstName' | 'email'; error: string };
+  | { ok: false; field?: 'firstName' | 'email' | 'phone'; error: string };
 
 const MESSAGES = {
   en: {
@@ -104,6 +137,7 @@ const MESSAGES = {
     badEmail: 'Please enter a valid email address.',
     longCompany: 'Company name is too long.',
     badPhone: 'Please enter a valid phone number.',
+    noPhone: 'Please enter your phone number.',
   },
   pt: {
     invalid: 'Pedido inválido.',
@@ -112,7 +146,8 @@ const MESSAGES = {
     noEmail: 'Introduza o seu email.',
     badEmail: 'Introduza um email válido.',
     longCompany: 'O nome da empresa é demasiado longo.',
-    badPhone: 'Introduza um número de telefone válido.',
+    badPhone: 'Introduza um número de telemóvel válido.',
+    noPhone: 'Introduza o seu número de telemóvel.',
   },
 } as const;
 
@@ -140,11 +175,10 @@ export function validateLead(body: unknown): LeadValidation {
   const companyName = typeof data.companyName === 'string' ? data.companyName.trim().replace(/\s+/g, ' ') : '';
   if (companyName.length > LIMITS.companyName) return { ok: false, error: m.longCompany };
 
-  // Optional; when present: "+<code> <number>" with 6–20 digits overall.
+  // Required for some guides (PHONE_REQUIRED), optional for the others.
   const phone = typeof data.phone === 'string' ? data.phone.trim().replace(/\s+/g, ' ') : '';
-  if (phone && (phone.length > LIMITS.phone || !/^\+?[0-9 ()-]{6,}$/.test(phone) || phone.replace(/\D/g, '').length > 20)) {
-    return { ok: false, error: m.badPhone };
-  }
+  if (!phone && PHONE_REQUIRED.includes(guideId)) return { ok: false, field: 'phone', error: m.noPhone };
+  if (phone && !isValidPhone(phone)) return { ok: false, field: 'phone', error: m.badPhone };
 
   const tracking: Tracking = {};
   const rawTracking = data.tracking && typeof data.tracking === 'object' ? (data.tracking as Record<string, unknown>) : {};

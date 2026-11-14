@@ -205,7 +205,7 @@ function waitlistRoute(options = {}) {
   let ip = 0;
   const post = body => route.POST(new Request('https://elevaops.com/api/waitlist', {
     method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://elevaops.com', Host: 'elevaops.com', 'x-forwarded-for': '198.51.100.' + ++ip },
-    body: JSON.stringify({ name: 'Ana Silva', email: 'ana@escritorio.pt', office: 'Silva & Associados', role: 'Sócio', teamSize: '4–10 pessoas', waitlistConsent: true, newsletter: false, website: '', startedAt: Date.now() - 5000, tracking: { utm_source: 'instagram', utm_campaign: 'manual' }, ...body }),
+    body: JSON.stringify({ name: 'Ana Silva', email: 'ana@escritorio.pt', phone: '+351 912 345 678', office: 'Silva & Associados', role: 'Sócio', teamSize: '4–10 pessoas', waitlistConsent: true, newsletter: false, website: '', startedAt: Date.now() - 5000, tracking: { utm_source: 'instagram', utm_campaign: 'manual' }, ...body }),
   }));
   return { ...env, rows, post };
 }
@@ -231,7 +231,8 @@ test('waitlist emails: A without and B with the newsletter paragraph, logo, sign
   assert.equal(b.subject, 'Está na waitlist do LegalOps (e na nossa newsletter)');
   assert.ok(a.html.includes('Olá &lt;Ana&gt;,'));
   assert.ok(!a.html.includes('Como também escolheu a newsletter'));
-  assert.ok(b.html.includes('Como também escolheu a newsletter') && b.text.includes('O primeiro chega já esta semana.'));
+  assert.ok(b.html.includes('Como também escolheu a newsletter'));
+  assert.ok(!b.text.includes('O primeiro chega'));
   for (const message of [a, b]) {
     assert.ok(message.html.includes('/email/legalops-logo.png'));
     assert.ok(message.html.includes('/email/fredson.jpg'));
@@ -250,7 +251,8 @@ test('waitlist only: one waitlist segment, email A, team email C and a sheet row
   assert.equal(person.subject, 'Está na waitlist do LegalOps');
   assert.ok(person.headers['List-Unsubscribe'].includes('/newsletter/unsubscribe?token='));
   assert.equal(team.subject, 'Nova inscrição — Waitlist LegalOps');
-  assert.ok(team.text.includes('Origem: instagram / manual') && team.text.includes('Newsletter: Não'));
+  assert.ok(team.text.includes('Origem: instagram / manual') && team.text.includes('Newsletter: Não') && team.text.includes('Telefone: +351 912 345 678'));
+  assert.equal(rows[0].phone, '+351 912 345 678');
   assert.equal(rows[0].role, 'Sócio');
   assert.equal(rows[0].marketingConsent, false);
   assert.ok(rows[0].waitlistConsentAt && !rows[0].newsletterConsentAt);
@@ -275,3 +277,49 @@ test('waitlist refuses a missing consent and does not re-register an email alrea
   assert.deepEqual(await again.json(), { ok: true, duplicate: true });
   assert.equal(existing.sent.length + existing.rows.length + existing.updated.length, 0);
 }));
+
+test('waitlist requires a valid phone number', withSegments(async () => {
+  const { post, sent } = waitlistRoute();
+  const missing = await post({ phone: '' });
+  assert.equal(missing.status, 422);
+  assert.equal((await missing.json()).field, 'phone');
+  assert.equal((await post({ phone: '+351 12' })).status, 422);
+  assert.equal(sent.length, 0);
+}));
+
+test('manual: phone required, PDF by email, and the optional waitlist box adds the waitlist segment only', withSegments(async () => {
+  const { email, newsletter, sent, created } = setup();
+  const rows = [], delivered = [];
+  const route = load('app/api/guide-lead/route.ts', {
+    '@/lib/email': email, './email': email, '@/lib/newsletter': newsletter,
+    '@/lib/leads-sheet': { isSheetConfigured: () => true, appendLeadToSheet: async value => { rows.push(value); return true; } },
+    '@/lib/guide-email': { sendGuideToLead: async (...args) => { delivered.push(args); return true; } },
+  });
+  let ip = 10;
+  const post = body => route.POST(new Request('https://elevaops.com/api/guide-lead', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://elevaops.com', Host: 'elevaops.com', 'x-forwarded-for': '203.0.113.' + ++ip },
+    body: JSON.stringify({ firstName: 'Rui', email: 'rui@escritorio.pt', phone: '+351 912 345 678', language: 'pt', guideId: 'gestao-juridica', marketingConsent: false, website: '', startedAt: Date.now() - 5000, ...body }),
+  }));
+  const noPhone = await post({ phone: '' });
+  assert.equal(noPhone.status, 422);
+  assert.equal((await noPhone.json()).field, 'phone');
+  const ok = await post({ waitlist: true });
+  assert.equal(ok.status, 200);
+  assert.equal((await ok.json()).download, '/guides/eleva-ops-gestao-juridica-digital.pdf');
+  assert.deepEqual(created[0].segments, [{ id: 'seg-waitlist' }]);
+  assert.equal(delivered[0][3], 'gestao-juridica');
+  assert.deepEqual(delivered[0][6], { waitlist: true });
+  assert.ok(delivered[0][5].includes('/newsletter/unsubscribe?token='));
+  assert.equal(rows[0].guide, 'Gestão Jurídica Digital + Waitlist LegalOps');
+  assert.ok(rows[0].waitlistConsentAt && !rows[0].newsletterConsentAt);
+  assert.ok(sent.some(s => s.message.to === 'contact@elevaops.com' && s.message.html.includes('LegalOps waitlist:</strong> Yes')));
+}));
+
+test('manual delivery email mentions the waitlist only when it was ticked', () => {
+  const { email } = setup();
+  const delivery = load('lib/guide-email.ts', { './email': email });
+  assert.ok(delivery.buildGuideEmail('Rui', 'pt', 'gestao-juridica', undefined, { waitlist: true }).text.includes('waitlist do LegalOps'));
+  const plain = delivery.buildGuideEmail('Rui', 'pt', 'gestao-juridica');
+  assert.ok(!plain.text.includes('waitlist'));
+  assert.match(plain.subject, /manual/);
+});

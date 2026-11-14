@@ -1,5 +1,5 @@
 import { escapeHtml, getNewsletterResend, TEAM_INBOX, withResendRetry } from './email';
-import { EMAIL_RE, LIMITS, TRACKING_PARAMS, type Tracking } from './guide';
+import { EMAIL_RE, isValidPhone, LIMITS, TRACKING_PARAMS, type Tracking } from './guide';
 import { createUnsubscribeToken, SITE } from './newsletter';
 
 // LegalOps waitlist (/legalops). Two separate consents:
@@ -13,6 +13,7 @@ import { ROLES, TEAM_SIZES } from './waitlist-options';
 export type WaitlistSignup = {
   name: string;
   email: string;
+  phone: string;
   office: string;
   role: string;
   teamSize: string;
@@ -22,7 +23,7 @@ export type WaitlistSignup = {
 
 export type WaitlistValidation =
   | { ok: true; signup: WaitlistSignup }
-  | { ok: false; field?: 'name' | 'email' | 'waitlistConsent'; error: string };
+  | { ok: false; field?: 'name' | 'email' | 'phone' | 'waitlistConsent'; error: string };
 
 const oneLine = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().replace(/\s+/g, ' ').slice(0, max) : '');
 
@@ -37,6 +38,10 @@ export function validateWaitlist(body: unknown): WaitlistValidation {
   const email = typeof data.email === 'string' ? data.email.trim().toLowerCase() : '';
   if (!email) return { ok: false, field: 'email', error: 'Introduza o seu e-mail.' };
   if (email.length > LIMITS.email || !EMAIL_RE.test(email)) return { ok: false, field: 'email', error: 'Introduza um e-mail válido.' };
+
+  const phone = typeof data.phone === 'string' ? data.phone.trim().replace(/\s+/g, ' ') : '';
+  if (!phone) return { ok: false, field: 'phone', error: 'Introduza o seu número de telemóvel.' };
+  if (!isValidPhone(phone)) return { ok: false, field: 'phone', error: 'Introduza um número de telemóvel válido.' };
 
   if (data.waitlistConsent !== true) {
     return { ok: false, field: 'waitlistConsent', error: 'Para entrar na waitlist, marque a caixa de consentimento.' };
@@ -54,7 +59,7 @@ export function validateWaitlist(body: unknown): WaitlistValidation {
 
   return {
     ok: true,
-    signup: { name, email, office: oneLine(data.office, LIMITS.companyName), role, teamSize, newsletter: data.newsletter === true, tracking },
+    signup: { name, email, phone, office: oneLine(data.office, LIMITS.companyName), role, teamSize, newsletter: data.newsletter === true, tracking },
   };
 }
 
@@ -144,7 +149,7 @@ export function buildWaitlistEmail(name: string, newsletter: boolean, unsubscrib
     'De vez em quando, ideias práticas para organizar o escritório',
   ];
   const intro = 'Estamos a criar uma plataforma para ajudar os escritórios de advogados a organizar o trabalho da equipa: processos, tarefas, prazos e documentos num só sítio, para que todos saibam o que está com quem.';
-  const newsletterNote = 'Como também escolheu a newsletter da ElevaOps, vai receber todas as semanas conteúdos práticos sobre automação e soluções digitais para escritórios e negócios: ferramentas, exemplos e ideias que pode aplicar no dia a dia. O primeiro chega já esta semana.';
+  const newsletterNote = 'Como também escolheu a newsletter da ElevaOps, vai receber todas as semanas conteúdos práticos sobre automação e soluções digitais para escritórios e negócios: ferramentas, exemplos e ideias que pode aplicar no dia a dia.';
   const question = 'Uma pergunta rápida: qual é hoje a maior dificuldade na gestão do seu escritório? Responda a este e-mail — lemos todas as respostas e estão a ajudar-nos a construir o LegalOps.';
   // Without a stored contact there is no list to leave; replying works instead.
   const cancelUrl = unsubscribeUrl ?? 'mailto:' + TEAM_INBOX + '?subject=' + encodeURIComponent('Cancelar subscrição LegalOps');
@@ -216,6 +221,7 @@ export function buildTeamEmail(signup: WaitlistSignup, at: Date) {
   const rows: [string, string][] = [
     ['Nome', signup.name],
     ['E-mail', signup.email],
+    ['Telefone', signup.phone || '—'],
     ['Escritório', signup.office || '—'],
     ['Função', signup.role || '—'],
     ['Equipa', signup.teamSize || '—'],

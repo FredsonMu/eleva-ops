@@ -486,3 +486,13 @@ html {
 @keyframes lo-s3 { 0%, 56% { opacity: 0; transform: scale(0.9); } 60%, 92% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; } }
 .lo-a { animation-name: lo-a; }
 @keyframes lo-a { 0%, 40% { opacity: 0; transform: translateY(8px); } 46%, 90% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
+
+/* "Gestão Jurídica Digital" hero (components/guide/GestaoLanding.tsx): two inner pages fan out
+   from behind the cover, then everything sways gently. Plays on phones too. */
+.gj-fan-l { animation: gj-fan-l 1.1s 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.gj-fan-r { animation: gj-fan-r 1.1s 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes gj-fan-l { from { opacity: 0; transform: translateX(0) rotate(0deg); } to { opacity: 1; transform: translateX(-52%) rotate(-9deg); } }
+@keyframes gj-fan-r { from { opacity: 0; transform: translateX(0) rotate(0deg); } to { opacity: 1; transform: translateX(52%) rotate(8deg); } }
+.gj-sway { animation: gj-sway 6s ease-in-out infinite; }
+@keyframes gj-sway { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@media (prefers-reduced-motion: reduce) { .gj-fan-l, .gj-fan-r, .gj-sway { animation: none; } .gj-fan-l { transform: translateX(-52%) rotate(-9deg); } .gj-fan-r { transform: translateX(52%) rotate(8deg); } }

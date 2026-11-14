@@ -95,7 +95,7 @@ export async function POST(request: Request) {
   const [savedToSheet, notified, confirmed] = await Promise.all([
     sheetEnabled
       ? appendLeadToSheet({
-        leadId, firstName: signup.name, email: signup.email, companyName: signup.office, role: signup.role, teamSize: signup.teamSize,
+        leadId, firstName: signup.name, email: signup.email, phone: signup.phone, companyName: signup.office, role: signup.role, teamSize: signup.teamSize,
         marketingConsent: signup.newsletter, waitlistConsentAt: at, newsletterConsentAt: signup.newsletter ? at : '',
         language: 'PT', guide: 'Waitlist LegalOps', ...signup.tracking,
       })
