@@ -14,16 +14,16 @@ type Field = 'name' | 'email' | 'waitlistConsent';
 type Errors = Partial<Record<Field, string>>;
 
 const control =
-  'w-full rounded-xl border border-[#182848]/15 bg-white px-4 text-[16px] text-[#182848] placeholder:text-[#182848]/40 outline-none transition-[border-color,box-shadow] duration-200 focus:border-[#3355FF] focus:ring-4 focus:ring-[#3355FF]/15 aria-[invalid=true]:border-red-600';
-const labelClass = 'mb-1.5 block text-[14px] font-semibold text-[#182848]';
-const optional = <span className="font-normal text-[#182848]/50">(opcional)</span>;
+  'w-full rounded-2xl border border-black/10 dark:border-white/15 bg-white/90 dark:bg-white/[0.04] px-4 text-[16px] text-[#1d1d1f] dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 outline-none transition-[border-color,box-shadow] duration-200 focus:border-[#007AFF] focus:ring-4 focus:ring-[#007AFF]/15 aria-[invalid=true]:border-red-500 [&>option]:text-[#1d1d1f]';
+const labelClass = 'mb-2 block text-[14px] font-semibold text-[#1d1d1f] dark:text-white';
+const optional = <span className="font-normal text-black/45 dark:text-white/45">(opcional)</span>;
 
 function Row({ id, label, error, children }: { id: string; label: ReactNode; error?: string; children: ReactNode }) {
   return (
     <div>
       <label htmlFor={id} className={labelClass}>{label}</label>
       {children}
-      {error && <p id={id + '-e'} className="mt-1.5 text-[14px] font-medium text-red-700">{error}</p>}
+      {error && <p id={id + '-e'} className="mt-1.5 text-[14px] font-medium text-red-700 dark:text-red-400">{error}</p>}
     </div>
   );
 }
@@ -103,15 +103,15 @@ export function WaitlistForm({ id }: { id?: string }) {
 
   if (status === 'done') {
     return (
-      <div id={id} className="guide-pop scroll-mt-24 rounded-2xl border border-[#182848]/10 bg-white p-6 text-center sm:p-10" role="status">
-        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#3355FF] text-white">
+      <div id={id} className="guide-pop scroll-mt-24 rounded-[28px] border border-black/[0.06] bg-white p-6 text-center shadow-[0_24px_60px_-30px_rgba(0,0,0,0.25)] dark:border-white/10 dark:bg-[#0f1729] sm:p-10" role="status">
+        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#28c840] text-white">
           <Check className="h-6 w-6" strokeWidth={3} aria-hidden="true" />
         </span>
-        <h3 ref={doneHeading} tabIndex={-1} className="lo-display mt-5 text-[26px] font-semibold tracking-tight text-[#182848] outline-none">
+        <h3 ref={doneHeading} tabIndex={-1} className="mt-5 text-[26px] font-semibold tracking-tight text-[#1d1d1f] outline-none dark:text-white">
           {duplicate ? 'Este e-mail já está na lista. Obrigado!' : 'Está na lista. Obrigado!'}
         </h3>
         {!duplicate && (
-          <p className="mx-auto mt-3 max-w-md text-[16px] leading-relaxed text-[#182848]/70">
+          <p className="mx-auto mt-3 max-w-md text-[16px] leading-relaxed text-black/60 dark:text-white/60">
             Enviámos-lhe um e-mail de confirmação. Se não o encontrar, veja na pasta de spam ou promoções.
           </p>
         )}
@@ -122,7 +122,7 @@ export function WaitlistForm({ id }: { id?: string }) {
   const invalid = (f: Field) => ({ 'aria-invalid': !!errors[f], 'aria-describedby': errors[f] ? ids[f === 'name' ? 'name' : f === 'email' ? 'email' : 'waitlist'] + '-e' : undefined });
 
   return (
-    <form id={id} onSubmit={submit} noValidate className="scroll-mt-24 rounded-2xl border border-[#182848]/10 bg-white p-5 sm:p-8">
+    <form id={id} onSubmit={submit} noValidate className="scroll-mt-24 rounded-[28px] border border-black/[0.06] bg-white p-5 shadow-[0_24px_60px_-30px_rgba(0,0,0,0.25)] dark:border-white/10 dark:bg-[#0f1729] sm:p-8">
       <div className="grid gap-5 sm:grid-cols-2">
         <Row id={ids.name} label="Nome *" error={errors.name}>
           <input id={ids.name} name="name" type="text" autoComplete="name" maxLength={LIMITS.firstName} className={control + ' h-12'} {...invalid('name')} />
@@ -136,13 +136,13 @@ export function WaitlistForm({ id }: { id?: string }) {
           </Row>
         </div>
         <Row id={ids.role} label="Função">
-          <select id={ids.role} name="role" defaultValue="" className={control + ' h-12 appearance-none bg-[url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20fill%3D%22none%22%20stroke%3D%22%23182848%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M2%204l4%204%204-4%22/%3E%3C/svg%3E")] bg-[length:12px] bg-[position:right_16px_center] bg-no-repeat pr-10'}>
+          <select id={ids.role} name="role" defaultValue="" className={control + ' h-12 appearance-none bg-[url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20fill%3D%22none%22%20stroke%3D%22%238a8f98%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M2%204l4%204%204-4%22/%3E%3C/svg%3E")] bg-[length:12px] bg-[position:right_16px_center] bg-no-repeat pr-10'}>
             <option value="">Selecione</option>
             {ROLES.map(role => <option key={role} value={role}>{role}</option>)}
           </select>
         </Row>
         <Row id={ids.team} label="Tamanho da equipa">
-          <select id={ids.team} name="teamSize" defaultValue="" className={control + ' h-12 appearance-none bg-[url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20fill%3D%22none%22%20stroke%3D%22%23182848%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M2%204l4%204%204-4%22/%3E%3C/svg%3E")] bg-[length:12px] bg-[position:right_16px_center] bg-no-repeat pr-10'}>
+          <select id={ids.team} name="teamSize" defaultValue="" className={control + ' h-12 appearance-none bg-[url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20fill%3D%22none%22%20stroke%3D%22%238a8f98%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M2%204l4%204%204-4%22/%3E%3C/svg%3E")] bg-[length:12px] bg-[position:right_16px_center] bg-no-repeat pr-10'}>
             <option value="">Selecione</option>
             {TEAM_SIZES.map(size => <option key={size} value={size}>{size}</option>)}
           </select>
@@ -157,30 +157,30 @@ export function WaitlistForm({ id }: { id?: string }) {
       <div className="mt-6 grid gap-4">
         <div>
           <label htmlFor={ids.waitlist} className="flex cursor-pointer items-start gap-3">
-            <input id={ids.waitlist} name="waitlistConsent" type="checkbox" className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[#3355FF]" {...invalid('waitlistConsent')} />
-            <span className="text-[15px] leading-relaxed text-[#182848]">Quero entrar na waitlist do LegalOps e receber novidades sobre o produto.&nbsp;*</span>
+            <input id={ids.waitlist} name="waitlistConsent" type="checkbox" className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[#007AFF]" {...invalid('waitlistConsent')} />
+            <span className="text-[15px] leading-relaxed text-black/70 dark:text-white/75">Quero entrar na waitlist do LegalOps e receber novidades sobre o produto.&nbsp;*</span>
           </label>
-          {errors.waitlistConsent && <p id={ids.waitlist + '-e'} className="mt-1.5 pl-8 text-[14px] font-medium text-red-700">{errors.waitlistConsent}</p>}
+          {errors.waitlistConsent && <p id={ids.waitlist + '-e'} className="mt-1.5 pl-8 text-[14px] font-medium text-red-700 dark:text-red-400">{errors.waitlistConsent}</p>}
         </div>
         <label htmlFor={ids.news} className="flex cursor-pointer items-start gap-3">
-          <input id={ids.news} name="newsletter" type="checkbox" className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[#3355FF]" />
-          <span className="text-[15px] leading-relaxed text-[#182848]">Quero também receber a newsletter semanal da ElevaOps sobre automação e soluções digitais.</span>
+          <input id={ids.news} name="newsletter" type="checkbox" className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[#007AFF]" />
+          <span className="text-[15px] leading-relaxed text-black/70 dark:text-white/75">Quero também receber a newsletter semanal da ElevaOps sobre automação e soluções digitais.</span>
         </label>
       </div>
 
-      {error && <p role="alert" className="mt-5 rounded-xl bg-red-600/[0.06] px-4 py-3 text-[14px] font-medium text-red-700">{error}</p>}
+      {error && <p role="alert" className="mt-5 rounded-2xl bg-red-500/[0.06] px-4 py-3 text-[14px] font-medium text-red-700 dark:text-red-400">{error}</p>}
 
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="mt-6 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-[#3355FF] px-8 text-[16px] font-semibold text-white transition-[background-color,transform] hover:bg-[#2443e6] active:scale-[0.98] disabled:cursor-wait disabled:opacity-80"
+        className="mt-6 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-[#1d1d1f] px-8 text-[16px] font-semibold text-white transition-[background-color,transform] hover:bg-black dark:bg-white dark:text-[#020617] dark:hover:bg-white/90 active:scale-[0.98] disabled:cursor-wait disabled:opacity-80"
       >
         {status === 'sending' ? <><Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />A enviar…</> : 'Entrar na waitlist'}
       </button>
 
-      <p className="mt-4 text-[13px] leading-relaxed text-[#182848]/60">
+      <p className="mt-4 text-[13px] leading-relaxed text-black/55 dark:text-white/55">
         Pode cancelar a qualquer momento. Os seus dados são tratados de acordo com a nossa{' '}
-        <Link href="/privacy-policy" className="font-medium text-[#3355FF] underline underline-offset-2 hover:no-underline">Política de Privacidade</Link>.
+        <Link href="/privacy-policy" className="font-medium text-brand underline underline-offset-2 hover:no-underline">Política de Privacidade</Link>.
       </p>
     </form>
   );

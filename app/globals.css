@@ -469,5 +469,20 @@ html {
 }
 @media (prefers-reduced-motion: reduce) { .team-photo { transition: none; } }
 
-/* LegalOps waitlist (app/legalops): Inter at its display optical size for headings. */
-.lo-display { font-family: var(--font-display), var(--font-sans), sans-serif; font-variation-settings: "opsz" 32; }
+/* LegalOps hero card (components/waitlist/LegalOpsScene.tsx), 6s loop: someone asks "Isto está
+   com quem?", the task row lights up, its status moves on, the deadline gets its second check
+   and the answer appears. Uses `.loop`, so it runs on phones too and stops for reduced motion. */
+.lo-q { animation-name: lo-q; }
+@keyframes lo-q { 0% { opacity: 0; transform: translateY(8px); } 6%, 88% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; } }
+.lo-type { animation-name: lo-type; animation-timing-function: steps(18, end); }
+@keyframes lo-type { 0%, 6% { clip-path: inset(0 100% 0 0); } 24%, 100% { clip-path: inset(0 0 0 0); } }
+.lo-hl { animation-name: lo-hl; }
+@keyframes lo-hl { 0%, 24% { background-color: transparent; } 30%, 70% { background-color: rgb(0 122 255 / 0.08); } 80%, 100% { background-color: transparent; } }
+.lo-s1 { animation-name: lo-s1; }
+.lo-s2 { animation-name: lo-s2; }
+.lo-s3 { animation-name: lo-s3; }
+@keyframes lo-s1 { 0%, 32% { opacity: 1; } 36%, 96% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes lo-s2 { 0%, 32% { opacity: 0; transform: scale(0.9); } 36%, 56% { opacity: 1; transform: none; } 60%, 100% { opacity: 0; } }
+@keyframes lo-s3 { 0%, 56% { opacity: 0; transform: scale(0.9); } 60%, 92% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; } }
+.lo-a { animation-name: lo-a; }
+@keyframes lo-a { 0%, 40% { opacity: 0; transform: translateY(8px); } 46%, 90% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
