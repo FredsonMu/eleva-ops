@@ -1,14 +1,18 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Scale, X } from 'lucide-react';
+import { ArrowRight, X } from 'lucide-react';
+import { CATALOG } from '@/lib/guide';
 import { useLanguage } from '@/lib/i18n';
 import { CONSENT_EVENT, getConsent } from '@/lib/consent';
 
-// Small corner card on the homepage, Portuguese only: invites law firms to the LegalOps waitlist
-// (/legalops, where the form is). It slides in after 45% scroll or 40s and stays away for 14 days
-// once closed (for good once someone follows it).
+// Small corner card on the homepage, Portuguese only: offers the free manual "Gestão Jurídica
+// Digital" (the cover peeks out of the top edge) and leads to its page, where the form is. It
+// slides in after 45% scroll or 40s and stays away for 14 days once closed (for good once
+// someone follows the link).
 
+const MANUAL = CATALOG['gestao-juridica'].editions.pt!;
 const KEY = 'eleva-guide-popup';
 const SNOOZE_MS = 14 * 24 * 60 * 60 * 1000;
 const DELAY_MS = 40_000;
@@ -54,34 +58,32 @@ export function GuidePopup() {
   };
 
   return (
-    <aside aria-label="Waitlist do LegalOps" className="guide-card-in fixed inset-x-3 bottom-3 z-[80] sm:inset-x-auto sm:bottom-5 sm:right-5 sm:w-[360px]">
-      <div className="relative rounded-2xl border border-black/[0.08] dark:border-white/10 bg-white dark:bg-[#0f1729] p-4 shadow-[0_24px_60px_-20px_rgba(0,30,90,0.35)]">
+    <aside aria-label="Manual gratuito" className="guide-card-in fixed inset-x-3 bottom-3 z-[80] sm:inset-x-auto sm:bottom-5 sm:right-5 sm:w-[360px]">
+      <div className="relative rounded-2xl border border-black/[0.08] bg-white p-4 pt-5 shadow-[0_24px_60px_-20px_rgba(0,30,90,0.35)] dark:border-white/10 dark:bg-[#0f1729]">
+        <div className="guide-peek absolute -top-9 left-4 w-14 rotate-[-8deg]" aria-hidden="true">
+          <Image src={MANUAL.cover} alt="" width={MANUAL.coverWidth} height={MANUAL.coverHeight} sizes="56px" className="rounded-[4px] shadow-[0_10px_20px_-8px_rgba(0,0,0,0.45)]" />
+        </div>
         <button
           type="button"
           onClick={() => close()}
           aria-label="Fechar"
-          className="absolute right-2.5 top-2.5 flex h-7 w-7 items-center justify-center rounded-full text-black/45 dark:text-white/50 transition-colors hover:bg-black/[0.05] dark:hover:bg-white/10"
+          className="absolute right-2.5 top-2.5 flex h-7 w-7 items-center justify-center rounded-full text-black/45 transition-colors hover:bg-black/[0.05] dark:text-white/50 dark:hover:bg-white/10"
         >
           <X className="h-3.5 w-3.5" aria-hidden="true" />
         </button>
-        <div className="flex items-start gap-3 pr-6">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#007AFF] text-white">
-            <Scale className="h-4.5 w-4.5" strokeWidth={2.2} aria-hidden="true" />
-          </span>
-          <div>
-            <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest text-brand">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#28c840]"></span>LegalOps · Em breve
-            </span>
-            <p className="mt-1 text-[14px] font-semibold leading-snug text-[#1d1d1f] dark:text-white">Saiba o que cada pessoa da sua equipa está a fazer.</p>
-          </div>
+        <div className="pl-[68px] pr-6">
+          <span className="block text-[11px] font-semibold uppercase tracking-widest text-brand">Manual gratuito</span>
+          <p className="mt-1 text-[14px] font-semibold leading-snug text-[#1d1d1f] dark:text-white">Gestão Jurídica Digital</p>
         </div>
-        <p className="mt-3 text-[13px] leading-relaxed text-black/60 dark:text-white/60">Uma plataforma de gestão para escritórios de advogados: processos, tarefas, prazos e documentos num só sítio.</p>
+        <p className="mt-3 text-[13px] leading-relaxed text-black/60 dark:text-white/60">
+          Para sócios e gestores de escritórios de advogados: cinco pilares, um plano de quatro semanas e modelos prontos a usar.
+        </p>
         <Link
-          href="/legalops"
+          href={MANUAL.path}
           onClick={() => close(true)}
           className="mt-3 flex h-10 items-center justify-center gap-1.5 rounded-full bg-[#007AFF] text-[13px] font-semibold text-white transition-colors hover:bg-[#0066dd]"
         >
-          Entrar na waitlist<ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          Receber o manual<ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
         </Link>
       </div>
     </aside>
